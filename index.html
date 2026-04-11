@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard de Inscrição do Treinamento - Produtos Químicos [Limpeza] & Segurança [Cozinha]</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
     <script>
         tailwind.config = {
             darkMode: 'class',
@@ -41,100 +42,113 @@
 </head>
 <body class="text-slate-100 font-sans min-h-screen">
 
-    <div class="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        
-        <header class="mb-10 animate-fade-in-up flex flex-col gap-2">
-            <h2 class="text-3xl md:text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-300 to-blue-500 max-w-4xl">
-                Dashboard de Inscrição no Treinamento
-            </h2>
-            <h4 class="text-2xl md:text-3xl font-bold text-slate-300 mt-1">
-                Produtos Químicos (Limpeza) & Segurança (Cozinha)
-            </h4>
-            <p class="text-brand-300 mt-3 font-semibold text-sm">Atualizado em: <span class="text-blue-300">10/04/2026 22:01:40</span></p>
-        </header>
-
-        <!-- Navegação de Abas -->
-        <div class="mb-8 flex space-x-6 border-b border-brand-700 animate-fade-in-up" style="animation-delay: 50ms;">
-            <button id="tab-resumo" class="pb-3 text-blue-400 border-b-2 border-blue-500 font-semibold focus:outline-none transition-colors text-lg" onclick="switchTab('resumo')">Visão Geral</button>
-            <button id="tab-detalhes" class="pb-3 text-slate-400 border-b-2 border-transparent hover:text-slate-200 hover:border-slate-500 font-semibold focus:outline-none transition-colors text-lg" onclick="switchTab('detalhes')">Lista por Congregação</button>
+    <div id="login-screen" class="min-h-screen flex items-center justify-center px-4">
+        <div class="bg-brand-800 p-8 rounded-2xl shadow-2xl max-w-md w-full border border-brand-700">
+            <h2 class="text-2xl font-bold mb-6 text-center text-blue-300">Acesso Restrito</h2>
+            <p class="text-slate-400 text-sm mb-6 text-center">Digite a senha para visualizar o Dashboard</p>
+            <input type="password" id="passInput" placeholder="senha" 
+                   class="w-full p-3 rounded-lg bg-brand-900 text-white border border-brand-700 focus:outline-none focus:border-blue-500 mb-4 transition-all text-center tracking-widest">
+            <button onclick="checkPass()" 
+                    class="w-full bg-blue-800 hover:bg-blue-700 text-white font-normal py-3 rounded-lg transition-colors shadow-lg">
+                Visualizar
+            </button>
+            <p id="errorMsg" class="text-red-400 text-sm mt-4 hidden text-center italic">Senha incorreta, tente novamente.</p>
         </div>
+    </div>
 
-        <!-- CONTEÚDO DA ABA DE RESUMO -->
-        <div id="view-resumo">
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
-                
-                <div class="bg-brand-800 rounded-2xl p-6 border border-brand-700 shadow-[0_10px_15px_-3px_rgba(0,0,0,0.5)] transform transition-transform duration-300 hover:-translate-y-1 hover:border-blue-500 hover:shadow-xl animate-fade-in-up" style="animation-delay: 100ms;">
-                    <div class="flex justify-between items-start">
-                        <div>
-                            <p class="text-sm font-semibold text-slate-400 mb-1">Total Previstos</p>
-                            <h2 class="text-4xl font-extrabold text-white">503</h2>
-                        </div>
-                        <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-blue-500 to-blue-700 flex items-center justify-center shadow-lg">
-                            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
-                        </div>
-                    </div>
-                </div>
+    <div id="main-content" style="display: none;">
+        <div class="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 py-8">
 
-                <div class="bg-brand-800 rounded-2xl p-6 border border-brand-700 shadow-[0_10px_15px_-3px_rgba(0,0,0,0.5)] transform transition-transform duration-300 hover:-translate-y-1 hover:border-emerald-500 hover:shadow-xl animate-fade-in-up" style="animation-delay: 200ms;">
-                    <div class="flex justify-between items-start">
-                        <div>
-                            <p class="text-sm font-semibold text-slate-400 mb-1">Total Inscritos</p>
-                            <h2 class="text-4xl font-extrabold text-white">204</h2>
-                        </div>
-                        <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-emerald-500 to-emerald-700 flex items-center justify-center shadow-lg">
-                            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="bg-brand-800 rounded-2xl p-6 border border-brand-700 shadow-[0_10px_15px_-3px_rgba(0,0,0,0.5)] transform transition-transform duration-300 hover:-translate-y-1 hover:border-rose-500 hover:shadow-xl animate-fade-in-up" style="animation-delay: 300ms;">
-                    <div class="flex justify-between items-start">
-                        <div>
-                            <p class="text-sm font-semibold text-slate-400 mb-1">Faltam Inscrever</p>
-                            <h2 class="text-4xl font-extrabold text-white">317</h2>
-                        </div>
-                        <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-yellow-500 to-yellow-700 flex items-center justify-center shadow-lg">
-                            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="bg-brand-800 rounded-2xl p-6 border border-brand-700 shadow-[0_10px_15px_-3px_rgba(0,0,0,0.5)] transform transition-transform duration-300 hover:-translate-y-1 hover:border-purple-500 hover:shadow-xl animate-fade-in-up" style="animation-delay: 400ms;">
-                    <div class="flex justify-between items-start">
-                        <div>
-                            <p class="text-sm font-semibold text-slate-400 mb-1">% de Inscrições</p>
-                            <h2 class="text-4xl font-extrabold text-white">40.6%</h2>
-                        </div>
-                        <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-purple-500 to-purple-700 flex items-center justify-center shadow-lg">
-                            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path></svg>
-                        </div>
-                    </div>
-                    <div class="w-full bg-brand-900 rounded-full h-1.5 mt-4">
-                        <div class="bg-purple-500 h-1.5 rounded-full" style="width: 40.55666003976143%"></div>
-                    </div>
-                </div>
-
-            </div>
-
-            <div class="mb-6 mt-12 animate-fade-in-up" style="animation-delay: 500ms;">
-                <h2 class="text-2xl font-bold text-slate-200">
-                    Detalhamento por Congregação
+            <header class="mb-10 animate-fade-in-up flex flex-col gap-2">
+                <h2 class="text-3xl md:text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-300 to-blue-500 max-w-4xl">
+                    Dashboard de Inscrição no Treinamento
                 </h2>
-                <div class="h-1 w-20 bg-blue-500 rounded mt-2"></div>
+                <h4 class="text-2xl md:text-3xl font-bold text-slate-300 mt-1">
+                    Produtos Químicos (Limpeza) & Segurança (Cozinha)
+                </h4>
+                <p class="text-brand-300 mt-3 font-semibold text-sm">Atualizado em: <span class="text-blue-300">10/04/2026 22:58:37</span></p>
+            </header>
+
+            <div class="mb-8 flex space-x-6 border-b border-brand-700 animate-fade-in-up" style="animation-delay: 50ms;">
+                <button id="tab-resumo" class="pb-3 text-blue-400 border-b-2 border-blue-500 font-semibold focus:outline-none transition-colors text-lg" onclick="switchTab('resumo')">Visão Geral</button>
+                <button id="tab-detalhes" class="pb-3 text-slate-400 border-b-2 border-transparent hover:text-slate-200 hover:border-slate-500 font-semibold focus:outline-none transition-colors text-lg" onclick="switchTab('detalhes')">Lista por Congregação</button>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 pb-12">
-                
+            <div id="view-resumo">
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
+
+                    <div class="bg-brand-800 rounded-2xl p-6 border border-brand-700 shadow-[0_10px_15px_-3px_rgba(0,0,0,0.5)] transform transition-transform duration-300 hover:-translate-y-1 hover:border-blue-500 hover:shadow-xl animate-fade-in-up" style="animation-delay: 100ms;">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <p class="text-sm font-semibold text-slate-400 mb-1">Total Previstos</p>
+                                <h2 class="text-4xl font-extrabold text-white">503</h2>
+                            </div>
+                            <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-blue-500 to-blue-700 flex items-center justify-center shadow-lg">
+                                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-brand-800 rounded-2xl p-6 border border-brand-700 shadow-[0_10px_15px_-3px_rgba(0,0,0,0.5)] transform transition-transform duration-300 hover:-translate-y-1 hover:border-emerald-500 hover:shadow-xl animate-fade-in-up" style="animation-delay: 200ms;">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <p class="text-sm font-semibold text-slate-400 mb-1">Total Inscritos</p>
+                                <h2 class="text-4xl font-extrabold text-white">204</h2>
+                            </div>
+                            <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-emerald-500 to-emerald-700 flex items-center justify-center shadow-lg">
+                                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-brand-800 rounded-2xl p-6 border border-brand-700 shadow-[0_10px_15px_-3px_rgba(0,0,0,0.5)] transform transition-transform duration-300 hover:-translate-y-1 hover:border-rose-500 hover:shadow-xl animate-fade-in-up" style="animation-delay: 300ms;">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <p class="text-sm font-semibold text-slate-400 mb-1">Faltam Inscrever</p>
+                                <h2 class="text-4xl font-extrabold text-white">317</h2>
+                            </div>
+                            <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-yellow-500 to-yellow-700 flex items-center justify-center shadow-lg">
+                                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-brand-800 rounded-2xl p-6 border border-brand-700 shadow-[0_10px_15px_-3px_rgba(0,0,0,0.5)] transform transition-transform duration-300 hover:-translate-y-1 hover:border-purple-500 hover:shadow-xl animate-fade-in-up" style="animation-delay: 400ms;">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <p class="text-sm font-semibold text-slate-400 mb-1">% de Inscrições</p>
+                                <h2 class="text-4xl font-extrabold text-white">40.6%</h2>
+                            </div>
+                            <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-purple-500 to-purple-700 flex items-center justify-center shadow-lg">
+                                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path></svg>
+                            </div>
+                        </div>
+                        <div class="w-full bg-brand-900 rounded-full h-1.5 mt-4">
+                            <div class="bg-purple-500 h-1.5 rounded-full" style="width: 40.55666003976143%"></div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="mb-6 mt-12 animate-fade-in-up" style="animation-delay: 500ms;">
+                    <h2 class="text-2xl font-bold text-slate-200">
+                        Detalhamento por Congregação
+                    </h2>
+                    <div class="h-1 w-20 bg-blue-500 rounded mt-2"></div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 pb-12">
+                    
         <div class="bg-brand-800 rounded-2xl p-6 border border-brand-700 shadow-[0_10px_15px_-3px_rgba(0,0,0,0.5)] transform transition-transform duration-300 hover:-translate-y-1 hover:border-blue-500 hover:shadow-xl animate-fade-in-up flex flex-col justify-between" style="animation-delay: 0ms;">
             <div>
                 <h3 class="text-lg font-bold text-slate-100 mb-4">Cidade Ipava</h3>
-                
+
                 <div class="flex flex-col gap-2">
                     <div class="flex justify-between items-center bg-brand-900/60 p-3 rounded-lg border border-brand-700/50">
                         <span class="text-xs font-semibold text-slate-400 tracking-wide">Previstos</span>
                         <span class="text-lg font-bold text-slate-300">16</span>
                     </div>
-                    
+
                     <div class="flex justify-between items-center bg-emerald-900/20 p-3 rounded-lg border border-emerald-900/30">
                         <span class="text-xs font-semibold text-emerald-400 tracking-wide">Inscritos</span>
                         <span class="text-xl font-extrabold text-emerald-400">8</span>
@@ -146,8 +160,7 @@
                     </div>
                 </div>
             </div>
-            
-            <!-- Barra de Progresso do Aproveitamento -->
+
             <div class="mt-5">
                 <div class="flex justify-between mb-2">
                     <span class="text-xs font-bold text-slate-400 tracking-wide">% Inscrições</span>
@@ -162,13 +175,13 @@
         <div class="bg-brand-800 rounded-2xl p-6 border border-brand-700 shadow-[0_10px_15px_-3px_rgba(0,0,0,0.5)] transform transition-transform duration-300 hover:-translate-y-1 hover:border-blue-500 hover:shadow-xl animate-fade-in-up flex flex-col justify-between" style="animation-delay: 50ms;">
             <div>
                 <h3 class="text-lg font-bold text-slate-100 mb-4">Jd. Amália</h3>
-                
+
                 <div class="flex flex-col gap-2">
                     <div class="flex justify-between items-center bg-brand-900/60 p-3 rounded-lg border border-brand-700/50">
                         <span class="text-xs font-semibold text-slate-400 tracking-wide">Previstos</span>
                         <span class="text-lg font-bold text-slate-300">23</span>
                     </div>
-                    
+
                     <div class="flex justify-between items-center bg-emerald-900/20 p-3 rounded-lg border border-emerald-900/30">
                         <span class="text-xs font-semibold text-emerald-400 tracking-wide">Inscritos</span>
                         <span class="text-xl font-extrabold text-emerald-400">4</span>
@@ -180,8 +193,7 @@
                     </div>
                 </div>
             </div>
-            
-            <!-- Barra de Progresso do Aproveitamento -->
+
             <div class="mt-5">
                 <div class="flex justify-between mb-2">
                     <span class="text-xs font-bold text-slate-400 tracking-wide">% Inscrições</span>
@@ -196,13 +208,13 @@
         <div class="bg-brand-800 rounded-2xl p-6 border border-brand-700 shadow-[0_10px_15px_-3px_rgba(0,0,0,0.5)] transform transition-transform duration-300 hover:-translate-y-1 hover:border-blue-500 hover:shadow-xl animate-fade-in-up flex flex-col justify-between" style="animation-delay: 100ms;">
             <div>
                 <h3 class="text-lg font-bold text-slate-100 mb-4">Jd. Aracati</h3>
-                
+
                 <div class="flex flex-col gap-2">
                     <div class="flex justify-between items-center bg-brand-900/60 p-3 rounded-lg border border-brand-700/50">
                         <span class="text-xs font-semibold text-slate-400 tracking-wide">Previstos</span>
                         <span class="text-lg font-bold text-slate-300">12</span>
                     </div>
-                    
+
                     <div class="flex justify-between items-center bg-emerald-900/20 p-3 rounded-lg border border-emerald-900/30">
                         <span class="text-xs font-semibold text-emerald-400 tracking-wide">Inscritos</span>
                         <span class="text-xl font-extrabold text-emerald-400">1</span>
@@ -214,8 +226,7 @@
                     </div>
                 </div>
             </div>
-            
-            <!-- Barra de Progresso do Aproveitamento -->
+
             <div class="mt-5">
                 <div class="flex justify-between mb-2">
                     <span class="text-xs font-bold text-slate-400 tracking-wide">% Inscrições</span>
@@ -230,13 +241,13 @@
         <div class="bg-brand-800 rounded-2xl p-6 border border-brand-700 shadow-[0_10px_15px_-3px_rgba(0,0,0,0.5)] transform transition-transform duration-300 hover:-translate-y-1 hover:border-blue-500 hover:shadow-xl animate-fade-in-up flex flex-col justify-between" style="animation-delay: 150ms;">
             <div>
                 <h3 class="text-lg font-bold text-slate-100 mb-4">Jd. Capão Redondo</h3>
-                
+
                 <div class="flex flex-col gap-2">
                     <div class="flex justify-between items-center bg-brand-900/60 p-3 rounded-lg border border-brand-700/50">
                         <span class="text-xs font-semibold text-slate-400 tracking-wide">Previstos</span>
                         <span class="text-lg font-bold text-slate-300">21</span>
                     </div>
-                    
+
                     <div class="flex justify-between items-center bg-emerald-900/20 p-3 rounded-lg border border-emerald-900/30">
                         <span class="text-xs font-semibold text-emerald-400 tracking-wide">Inscritos</span>
                         <span class="text-xl font-extrabold text-emerald-400">15</span>
@@ -248,8 +259,7 @@
                     </div>
                 </div>
             </div>
-            
-            <!-- Barra de Progresso do Aproveitamento -->
+
             <div class="mt-5">
                 <div class="flex justify-between mb-2">
                     <span class="text-xs font-bold text-slate-400 tracking-wide">% Inscrições</span>
@@ -264,13 +274,13 @@
         <div class="bg-brand-800 rounded-2xl p-6 border border-brand-700 shadow-[0_10px_15px_-3px_rgba(0,0,0,0.5)] transform transition-transform duration-300 hover:-translate-y-1 hover:border-blue-500 hover:shadow-xl animate-fade-in-up flex flex-col justify-between" style="animation-delay: 200ms;">
             <div>
                 <h3 class="text-lg font-bold text-slate-100 mb-4">Jd. Célia</h3>
-                
+
                 <div class="flex flex-col gap-2">
                     <div class="flex justify-between items-center bg-brand-900/60 p-3 rounded-lg border border-brand-700/50">
                         <span class="text-xs font-semibold text-slate-400 tracking-wide">Previstos</span>
                         <span class="text-lg font-bold text-slate-300">17</span>
                     </div>
-                    
+
                     <div class="flex justify-between items-center bg-emerald-900/20 p-3 rounded-lg border border-emerald-900/30">
                         <span class="text-xs font-semibold text-emerald-400 tracking-wide">Inscritos</span>
                         <span class="text-xl font-extrabold text-emerald-400">7</span>
@@ -282,8 +292,7 @@
                     </div>
                 </div>
             </div>
-            
-            <!-- Barra de Progresso do Aproveitamento -->
+
             <div class="mt-5">
                 <div class="flex justify-between mb-2">
                     <span class="text-xs font-bold text-slate-400 tracking-wide">% Inscrições</span>
@@ -298,13 +307,13 @@
         <div class="bg-brand-800 rounded-2xl p-6 border border-brand-700 shadow-[0_10px_15px_-3px_rgba(0,0,0,0.5)] transform transition-transform duration-300 hover:-translate-y-1 hover:border-blue-500 hover:shadow-xl animate-fade-in-up flex flex-col justify-between" style="animation-delay: 250ms;">
             <div>
                 <h3 class="text-lg font-bold text-slate-100 mb-4">Jd. Das Flores</h3>
-                
+
                 <div class="flex flex-col gap-2">
                     <div class="flex justify-between items-center bg-brand-900/60 p-3 rounded-lg border border-brand-700/50">
                         <span class="text-xs font-semibold text-slate-400 tracking-wide">Previstos</span>
                         <span class="text-lg font-bold text-slate-300">10</span>
                     </div>
-                    
+
                     <div class="flex justify-between items-center bg-emerald-900/20 p-3 rounded-lg border border-emerald-900/30">
                         <span class="text-xs font-semibold text-emerald-400 tracking-wide">Inscritos</span>
                         <span class="text-xl font-extrabold text-emerald-400">2</span>
@@ -316,8 +325,7 @@
                     </div>
                 </div>
             </div>
-            
-            <!-- Barra de Progresso do Aproveitamento -->
+
             <div class="mt-5">
                 <div class="flex justify-between mb-2">
                     <span class="text-xs font-bold text-slate-400 tracking-wide">% Inscrições</span>
@@ -332,13 +340,13 @@
         <div class="bg-brand-800 rounded-2xl p-6 border border-brand-700 shadow-[0_10px_15px_-3px_rgba(0,0,0,0.5)] transform transition-transform duration-300 hover:-translate-y-1 hover:border-blue-500 hover:shadow-xl animate-fade-in-up flex flex-col justify-between" style="animation-delay: 300ms;">
             <div>
                 <h3 class="text-lg font-bold text-slate-100 mb-4">Jd. Guarujá</h3>
-                
+
                 <div class="flex flex-col gap-2">
                     <div class="flex justify-between items-center bg-brand-900/60 p-3 rounded-lg border border-brand-700/50">
                         <span class="text-xs font-semibold text-slate-400 tracking-wide">Previstos</span>
                         <span class="text-lg font-bold text-slate-300">29</span>
                     </div>
-                    
+
                     <div class="flex justify-between items-center bg-emerald-900/20 p-3 rounded-lg border border-emerald-900/30">
                         <span class="text-xs font-semibold text-emerald-400 tracking-wide">Inscritos</span>
                         <span class="text-xl font-extrabold text-emerald-400">13</span>
@@ -350,8 +358,7 @@
                     </div>
                 </div>
             </div>
-            
-            <!-- Barra de Progresso do Aproveitamento -->
+
             <div class="mt-5">
                 <div class="flex justify-between mb-2">
                     <span class="text-xs font-bold text-slate-400 tracking-wide">% Inscrições</span>
@@ -366,13 +373,13 @@
         <div class="bg-brand-800 rounded-2xl p-6 border border-brand-700 shadow-[0_10px_15px_-3px_rgba(0,0,0,0.5)] transform transition-transform duration-300 hover:-translate-y-1 hover:border-blue-500 hover:shadow-xl animate-fade-in-up flex flex-col justify-between" style="animation-delay: 350ms;">
             <div>
                 <h3 class="text-lg font-bold text-slate-100 mb-4">Jd. Ibirapuera</h3>
-                
+
                 <div class="flex flex-col gap-2">
                     <div class="flex justify-between items-center bg-brand-900/60 p-3 rounded-lg border border-brand-700/50">
                         <span class="text-xs font-semibold text-slate-400 tracking-wide">Previstos</span>
                         <span class="text-lg font-bold text-slate-300">22</span>
                     </div>
-                    
+
                     <div class="flex justify-between items-center bg-emerald-900/20 p-3 rounded-lg border border-emerald-900/30">
                         <span class="text-xs font-semibold text-emerald-400 tracking-wide">Inscritos</span>
                         <span class="text-xl font-extrabold text-emerald-400">2</span>
@@ -384,8 +391,7 @@
                     </div>
                 </div>
             </div>
-            
-            <!-- Barra de Progresso do Aproveitamento -->
+
             <div class="mt-5">
                 <div class="flex justify-between mb-2">
                     <span class="text-xs font-bold text-slate-400 tracking-wide">% Inscrições</span>
@@ -400,13 +406,13 @@
         <div class="bg-brand-800 rounded-2xl p-6 border border-brand-700 shadow-[0_10px_15px_-3px_rgba(0,0,0,0.5)] transform transition-transform duration-300 hover:-translate-y-1 hover:border-blue-500 hover:shadow-xl animate-fade-in-up flex flex-col justify-between" style="animation-delay: 400ms;">
             <div>
                 <h3 class="text-lg font-bold text-slate-100 mb-4">Jd. Ingá</h3>
-                
+
                 <div class="flex flex-col gap-2">
                     <div class="flex justify-between items-center bg-brand-900/60 p-3 rounded-lg border border-brand-700/50">
                         <span class="text-xs font-semibold text-slate-400 tracking-wide">Previstos</span>
                         <span class="text-lg font-bold text-slate-300">17</span>
                     </div>
-                    
+
                     <div class="flex justify-between items-center bg-emerald-900/20 p-3 rounded-lg border border-emerald-900/30">
                         <span class="text-xs font-semibold text-emerald-400 tracking-wide">Inscritos</span>
                         <span class="text-xl font-extrabold text-emerald-400">5</span>
@@ -418,8 +424,7 @@
                     </div>
                 </div>
             </div>
-            
-            <!-- Barra de Progresso do Aproveitamento -->
+
             <div class="mt-5">
                 <div class="flex justify-between mb-2">
                     <span class="text-xs font-bold text-slate-400 tracking-wide">% Inscrições</span>
@@ -434,13 +439,13 @@
         <div class="bg-brand-800 rounded-2xl p-6 border border-brand-700 shadow-[0_10px_15px_-3px_rgba(0,0,0,0.5)] transform transition-transform duration-300 hover:-translate-y-1 hover:border-blue-500 hover:shadow-xl animate-fade-in-up flex flex-col justify-between" style="animation-delay: 450ms;">
             <div>
                 <h3 class="text-lg font-bold text-slate-100 mb-4">Jd. Leônidas Moreira</h3>
-                
+
                 <div class="flex flex-col gap-2">
                     <div class="flex justify-between items-center bg-brand-900/60 p-3 rounded-lg border border-brand-700/50">
                         <span class="text-xs font-semibold text-slate-400 tracking-wide">Previstos</span>
                         <span class="text-lg font-bold text-slate-300">25</span>
                     </div>
-                    
+
                     <div class="flex justify-between items-center bg-emerald-900/20 p-3 rounded-lg border border-emerald-900/30">
                         <span class="text-xs font-semibold text-emerald-400 tracking-wide">Inscritos</span>
                         <span class="text-xl font-extrabold text-emerald-400">4</span>
@@ -452,8 +457,7 @@
                     </div>
                 </div>
             </div>
-            
-            <!-- Barra de Progresso do Aproveitamento -->
+
             <div class="mt-5">
                 <div class="flex justify-between mb-2">
                     <span class="text-xs font-bold text-slate-400 tracking-wide">% Inscrições</span>
@@ -468,13 +472,13 @@
         <div class="bg-brand-800 rounded-2xl p-6 border border-brand-700 shadow-[0_10px_15px_-3px_rgba(0,0,0,0.5)] transform transition-transform duration-300 hover:-translate-y-1 hover:border-blue-500 hover:shadow-xl animate-fade-in-up flex flex-col justify-between" style="animation-delay: 500ms;">
             <div>
                 <h3 class="text-lg font-bold text-slate-100 mb-4">Jd. Lídia</h3>
-                
+
                 <div class="flex flex-col gap-2">
                     <div class="flex justify-between items-center bg-brand-900/60 p-3 rounded-lg border border-brand-700/50">
                         <span class="text-xs font-semibold text-slate-400 tracking-wide">Previstos</span>
                         <span class="text-lg font-bold text-slate-300">0</span>
                     </div>
-                    
+
                     <div class="flex justify-between items-center bg-emerald-900/20 p-3 rounded-lg border border-emerald-900/30">
                         <span class="text-xs font-semibold text-emerald-400 tracking-wide">Inscritos</span>
                         <span class="text-xl font-extrabold text-emerald-400">4</span>
@@ -486,8 +490,7 @@
                     </div>
                 </div>
             </div>
-            
-            <!-- Barra de Progresso do Aproveitamento -->
+
             <div class="mt-5">
                 <div class="flex justify-between mb-2">
                     <span class="text-xs font-bold text-slate-400 tracking-wide">% Inscrições</span>
@@ -502,13 +505,13 @@
         <div class="bg-brand-800 rounded-2xl p-6 border border-brand-700 shadow-[0_10px_15px_-3px_rgba(0,0,0,0.5)] transform transition-transform duration-300 hover:-translate-y-1 hover:border-blue-500 hover:shadow-xl animate-fade-in-up flex flex-col justify-between" style="animation-delay: 550ms;">
             <div>
                 <h3 class="text-lg font-bold text-slate-100 mb-4">Jd. Nakamura</h3>
-                
+
                 <div class="flex flex-col gap-2">
                     <div class="flex justify-between items-center bg-brand-900/60 p-3 rounded-lg border border-brand-700/50">
                         <span class="text-xs font-semibold text-slate-400 tracking-wide">Previstos</span>
                         <span class="text-lg font-bold text-slate-300">17</span>
                     </div>
-                    
+
                     <div class="flex justify-between items-center bg-emerald-900/20 p-3 rounded-lg border border-emerald-900/30">
                         <span class="text-xs font-semibold text-emerald-400 tracking-wide">Inscritos</span>
                         <span class="text-xl font-extrabold text-emerald-400">16</span>
@@ -520,8 +523,7 @@
                     </div>
                 </div>
             </div>
-            
-            <!-- Barra de Progresso do Aproveitamento -->
+
             <div class="mt-5">
                 <div class="flex justify-between mb-2">
                     <span class="text-xs font-bold text-slate-400 tracking-wide">% Inscrições</span>
@@ -536,13 +538,13 @@
         <div class="bg-brand-800 rounded-2xl p-6 border border-brand-700 shadow-[0_10px_15px_-3px_rgba(0,0,0,0.5)] transform transition-transform duration-300 hover:-translate-y-1 hover:border-blue-500 hover:shadow-xl animate-fade-in-up flex flex-col justify-between" style="animation-delay: 600ms;">
             <div>
                 <h3 class="text-lg font-bold text-slate-100 mb-4">Jd. Novo Oriente</h3>
-                
+
                 <div class="flex flex-col gap-2">
                     <div class="flex justify-between items-center bg-brand-900/60 p-3 rounded-lg border border-brand-700/50">
                         <span class="text-xs font-semibold text-slate-400 tracking-wide">Previstos</span>
                         <span class="text-lg font-bold text-slate-300">23</span>
                     </div>
-                    
+
                     <div class="flex justify-between items-center bg-emerald-900/20 p-3 rounded-lg border border-emerald-900/30">
                         <span class="text-xs font-semibold text-emerald-400 tracking-wide">Inscritos</span>
                         <span class="text-xl font-extrabold text-emerald-400">8</span>
@@ -554,8 +556,7 @@
                     </div>
                 </div>
             </div>
-            
-            <!-- Barra de Progresso do Aproveitamento -->
+
             <div class="mt-5">
                 <div class="flex justify-between mb-2">
                     <span class="text-xs font-bold text-slate-400 tracking-wide">% Inscrições</span>
@@ -570,13 +571,13 @@
         <div class="bg-brand-800 rounded-2xl p-6 border border-brand-700 shadow-[0_10px_15px_-3px_rgba(0,0,0,0.5)] transform transition-transform duration-300 hover:-translate-y-1 hover:border-blue-500 hover:shadow-xl animate-fade-in-up flex flex-col justify-between" style="animation-delay: 650ms;">
             <div>
                 <h3 class="text-lg font-bold text-slate-100 mb-4">Jd. Piracuama</h3>
-                
+
                 <div class="flex flex-col gap-2">
                     <div class="flex justify-between items-center bg-brand-900/60 p-3 rounded-lg border border-brand-700/50">
                         <span class="text-xs font-semibold text-slate-400 tracking-wide">Previstos</span>
                         <span class="text-lg font-bold text-slate-300">0</span>
                     </div>
-                    
+
                     <div class="flex justify-between items-center bg-emerald-900/20 p-3 rounded-lg border border-emerald-900/30">
                         <span class="text-xs font-semibold text-emerald-400 tracking-wide">Inscritos</span>
                         <span class="text-xl font-extrabold text-emerald-400">3</span>
@@ -588,8 +589,7 @@
                     </div>
                 </div>
             </div>
-            
-            <!-- Barra de Progresso do Aproveitamento -->
+
             <div class="mt-5">
                 <div class="flex justify-between mb-2">
                     <span class="text-xs font-bold text-slate-400 tracking-wide">% Inscrições</span>
@@ -604,13 +604,13 @@
         <div class="bg-brand-800 rounded-2xl p-6 border border-brand-700 shadow-[0_10px_15px_-3px_rgba(0,0,0,0.5)] transform transition-transform duration-300 hover:-translate-y-1 hover:border-blue-500 hover:shadow-xl animate-fade-in-up flex flex-col justify-between" style="animation-delay: 700ms;">
             <div>
                 <h3 class="text-lg font-bold text-slate-100 mb-4">Jd. Sete Lagos</h3>
-                
+
                 <div class="flex flex-col gap-2">
                     <div class="flex justify-between items-center bg-brand-900/60 p-3 rounded-lg border border-brand-700/50">
                         <span class="text-xs font-semibold text-slate-400 tracking-wide">Previstos</span>
                         <span class="text-lg font-bold text-slate-300">20</span>
                     </div>
-                    
+
                     <div class="flex justify-between items-center bg-emerald-900/20 p-3 rounded-lg border border-emerald-900/30">
                         <span class="text-xs font-semibold text-emerald-400 tracking-wide">Inscritos</span>
                         <span class="text-xl font-extrabold text-emerald-400">6</span>
@@ -622,8 +622,7 @@
                     </div>
                 </div>
             </div>
-            
-            <!-- Barra de Progresso do Aproveitamento -->
+
             <div class="mt-5">
                 <div class="flex justify-between mb-2">
                     <span class="text-xs font-bold text-slate-400 tracking-wide">% Inscrições</span>
@@ -638,13 +637,13 @@
         <div class="bg-brand-800 rounded-2xl p-6 border border-brand-700 shadow-[0_10px_15px_-3px_rgba(0,0,0,0.5)] transform transition-transform duration-300 hover:-translate-y-1 hover:border-blue-500 hover:shadow-xl animate-fade-in-up flex flex-col justify-between" style="animation-delay: 750ms;">
             <div>
                 <h3 class="text-lg font-bold text-slate-100 mb-4">Jd. São Francisco</h3>
-                
+
                 <div class="flex flex-col gap-2">
                     <div class="flex justify-between items-center bg-brand-900/60 p-3 rounded-lg border border-brand-700/50">
                         <span class="text-xs font-semibold text-slate-400 tracking-wide">Previstos</span>
                         <span class="text-lg font-bold text-slate-300">21</span>
                     </div>
-                    
+
                     <div class="flex justify-between items-center bg-emerald-900/20 p-3 rounded-lg border border-emerald-900/30">
                         <span class="text-xs font-semibold text-emerald-400 tracking-wide">Inscritos</span>
                         <span class="text-xl font-extrabold text-emerald-400">4</span>
@@ -656,8 +655,7 @@
                     </div>
                 </div>
             </div>
-            
-            <!-- Barra de Progresso do Aproveitamento -->
+
             <div class="mt-5">
                 <div class="flex justify-between mb-2">
                     <span class="text-xs font-bold text-slate-400 tracking-wide">% Inscrições</span>
@@ -672,13 +670,13 @@
         <div class="bg-brand-800 rounded-2xl p-6 border border-brand-700 shadow-[0_10px_15px_-3px_rgba(0,0,0,0.5)] transform transition-transform duration-300 hover:-translate-y-1 hover:border-blue-500 hover:shadow-xl animate-fade-in-up flex flex-col justify-between" style="animation-delay: 800ms;">
             <div>
                 <h3 class="text-lg font-bold text-slate-100 mb-4">Jd. São Lourenço</h3>
-                
+
                 <div class="flex flex-col gap-2">
                     <div class="flex justify-between items-center bg-brand-900/60 p-3 rounded-lg border border-brand-700/50">
                         <span class="text-xs font-semibold text-slate-400 tracking-wide">Previstos</span>
                         <span class="text-lg font-bold text-slate-300">29</span>
                     </div>
-                    
+
                     <div class="flex justify-between items-center bg-emerald-900/20 p-3 rounded-lg border border-emerald-900/30">
                         <span class="text-xs font-semibold text-emerald-400 tracking-wide">Inscritos</span>
                         <span class="text-xl font-extrabold text-emerald-400">7</span>
@@ -690,8 +688,7 @@
                     </div>
                 </div>
             </div>
-            
-            <!-- Barra de Progresso do Aproveitamento -->
+
             <div class="mt-5">
                 <div class="flex justify-between mb-2">
                     <span class="text-xs font-bold text-slate-400 tracking-wide">% Inscrições</span>
@@ -706,13 +703,13 @@
         <div class="bg-brand-800 rounded-2xl p-6 border border-brand-700 shadow-[0_10px_15px_-3px_rgba(0,0,0,0.5)] transform transition-transform duration-300 hover:-translate-y-1 hover:border-blue-500 hover:shadow-xl animate-fade-in-up flex flex-col justify-between" style="animation-delay: 850ms;">
             <div>
                 <h3 class="text-lg font-bold text-slate-100 mb-4">Jd. São Luiz</h3>
-                
+
                 <div class="flex flex-col gap-2">
                     <div class="flex justify-between items-center bg-brand-900/60 p-3 rounded-lg border border-brand-700/50">
                         <span class="text-xs font-semibold text-slate-400 tracking-wide">Previstos</span>
                         <span class="text-lg font-bold text-slate-300">14</span>
                     </div>
-                    
+
                     <div class="flex justify-between items-center bg-emerald-900/20 p-3 rounded-lg border border-emerald-900/30">
                         <span class="text-xs font-semibold text-emerald-400 tracking-wide">Inscritos</span>
                         <span class="text-xl font-extrabold text-emerald-400">13</span>
@@ -724,8 +721,7 @@
                     </div>
                 </div>
             </div>
-            
-            <!-- Barra de Progresso do Aproveitamento -->
+
             <div class="mt-5">
                 <div class="flex justify-between mb-2">
                     <span class="text-xs font-bold text-slate-400 tracking-wide">% Inscrições</span>
@@ -740,13 +736,13 @@
         <div class="bg-brand-800 rounded-2xl p-6 border border-brand-700 shadow-[0_10px_15px_-3px_rgba(0,0,0,0.5)] transform transition-transform duration-300 hover:-translate-y-1 hover:border-blue-500 hover:shadow-xl animate-fade-in-up flex flex-col justify-between" style="animation-delay: 900ms;">
             <div>
                 <h3 class="text-lg font-bold text-slate-100 mb-4">Jd. Umarizal</h3>
-                
+
                 <div class="flex flex-col gap-2">
                     <div class="flex justify-between items-center bg-brand-900/60 p-3 rounded-lg border border-brand-700/50">
                         <span class="text-xs font-semibold text-slate-400 tracking-wide">Previstos</span>
                         <span class="text-lg font-bold text-slate-300">17</span>
                     </div>
-                    
+
                     <div class="flex justify-between items-center bg-emerald-900/20 p-3 rounded-lg border border-emerald-900/30">
                         <span class="text-xs font-semibold text-emerald-400 tracking-wide">Inscritos</span>
                         <span class="text-xl font-extrabold text-emerald-400">6</span>
@@ -758,8 +754,7 @@
                     </div>
                 </div>
             </div>
-            
-            <!-- Barra de Progresso do Aproveitamento -->
+
             <div class="mt-5">
                 <div class="flex justify-between mb-2">
                     <span class="text-xs font-bold text-slate-400 tracking-wide">% Inscrições</span>
@@ -774,13 +769,13 @@
         <div class="bg-brand-800 rounded-2xl p-6 border border-brand-700 shadow-[0_10px_15px_-3px_rgba(0,0,0,0.5)] transform transition-transform duration-300 hover:-translate-y-1 hover:border-blue-500 hover:shadow-xl animate-fade-in-up flex flex-col justify-between" style="animation-delay: 950ms;">
             <div>
                 <h3 class="text-lg font-bold text-slate-100 mb-4">Jd. Vera Cruz</h3>
-                
+
                 <div class="flex flex-col gap-2">
                     <div class="flex justify-between items-center bg-brand-900/60 p-3 rounded-lg border border-brand-700/50">
                         <span class="text-xs font-semibold text-slate-400 tracking-wide">Previstos</span>
                         <span class="text-lg font-bold text-slate-300">8</span>
                     </div>
-                    
+
                     <div class="flex justify-between items-center bg-emerald-900/20 p-3 rounded-lg border border-emerald-900/30">
                         <span class="text-xs font-semibold text-emerald-400 tracking-wide">Inscritos</span>
                         <span class="text-xl font-extrabold text-emerald-400">2</span>
@@ -792,8 +787,7 @@
                     </div>
                 </div>
             </div>
-            
-            <!-- Barra de Progresso do Aproveitamento -->
+
             <div class="mt-5">
                 <div class="flex justify-between mb-2">
                     <span class="text-xs font-bold text-slate-400 tracking-wide">% Inscrições</span>
@@ -808,13 +802,13 @@
         <div class="bg-brand-800 rounded-2xl p-6 border border-brand-700 shadow-[0_10px_15px_-3px_rgba(0,0,0,0.5)] transform transition-transform duration-300 hover:-translate-y-1 hover:border-blue-500 hover:shadow-xl animate-fade-in-up flex flex-col justify-between" style="animation-delay: 1000ms;">
             <div>
                 <h3 class="text-lg font-bold text-slate-100 mb-4">Jd. Ângela</h3>
-                
+
                 <div class="flex flex-col gap-2">
                     <div class="flex justify-between items-center bg-brand-900/60 p-3 rounded-lg border border-brand-700/50">
                         <span class="text-xs font-semibold text-slate-400 tracking-wide">Previstos</span>
                         <span class="text-lg font-bold text-slate-300">46</span>
                     </div>
-                    
+
                     <div class="flex justify-between items-center bg-emerald-900/20 p-3 rounded-lg border border-emerald-900/30">
                         <span class="text-xs font-semibold text-emerald-400 tracking-wide">Inscritos</span>
                         <span class="text-xl font-extrabold text-emerald-400">5</span>
@@ -826,8 +820,7 @@
                     </div>
                 </div>
             </div>
-            
-            <!-- Barra de Progresso do Aproveitamento -->
+
             <div class="mt-5">
                 <div class="flex justify-between mb-2">
                     <span class="text-xs font-bold text-slate-400 tracking-wide">% Inscrições</span>
@@ -842,13 +835,13 @@
         <div class="bg-brand-800 rounded-2xl p-6 border border-brand-700 shadow-[0_10px_15px_-3px_rgba(0,0,0,0.5)] transform transition-transform duration-300 hover:-translate-y-1 hover:border-blue-500 hover:shadow-xl animate-fade-in-up flex flex-col justify-between" style="animation-delay: 1000ms;">
             <div>
                 <h3 class="text-lg font-bold text-slate-100 mb-4">M'Boi Mirim</h3>
-                
+
                 <div class="flex flex-col gap-2">
                     <div class="flex justify-between items-center bg-brand-900/60 p-3 rounded-lg border border-brand-700/50">
                         <span class="text-xs font-semibold text-slate-400 tracking-wide">Previstos</span>
                         <span class="text-lg font-bold text-slate-300">16</span>
                     </div>
-                    
+
                     <div class="flex justify-between items-center bg-emerald-900/20 p-3 rounded-lg border border-emerald-900/30">
                         <span class="text-xs font-semibold text-emerald-400 tracking-wide">Inscritos</span>
                         <span class="text-xl font-extrabold text-emerald-400">12</span>
@@ -860,8 +853,7 @@
                     </div>
                 </div>
             </div>
-            
-            <!-- Barra de Progresso do Aproveitamento -->
+
             <div class="mt-5">
                 <div class="flex justify-between mb-2">
                     <span class="text-xs font-bold text-slate-400 tracking-wide">% Inscrições</span>
@@ -876,13 +868,13 @@
         <div class="bg-brand-800 rounded-2xl p-6 border border-brand-700 shadow-[0_10px_15px_-3px_rgba(0,0,0,0.5)] transform transition-transform duration-300 hover:-translate-y-1 hover:border-blue-500 hover:shadow-xl animate-fade-in-up flex flex-col justify-between" style="animation-delay: 1000ms;">
             <div>
                 <h3 class="text-lg font-bold text-slate-100 mb-4">Piraporinha</h3>
-                
+
                 <div class="flex flex-col gap-2">
                     <div class="flex justify-between items-center bg-brand-900/60 p-3 rounded-lg border border-brand-700/50">
                         <span class="text-xs font-semibold text-slate-400 tracking-wide">Previstos</span>
                         <span class="text-lg font-bold text-slate-300">17</span>
                     </div>
-                    
+
                     <div class="flex justify-between items-center bg-emerald-900/20 p-3 rounded-lg border border-emerald-900/30">
                         <span class="text-xs font-semibold text-emerald-400 tracking-wide">Inscritos</span>
                         <span class="text-xl font-extrabold text-emerald-400">2</span>
@@ -894,8 +886,7 @@
                     </div>
                 </div>
             </div>
-            
-            <!-- Barra de Progresso do Aproveitamento -->
+
             <div class="mt-5">
                 <div class="flex justify-between mb-2">
                     <span class="text-xs font-bold text-slate-400 tracking-wide">% Inscrições</span>
@@ -910,13 +901,13 @@
         <div class="bg-brand-800 rounded-2xl p-6 border border-brand-700 shadow-[0_10px_15px_-3px_rgba(0,0,0,0.5)] transform transition-transform duration-300 hover:-translate-y-1 hover:border-blue-500 hover:shadow-xl animate-fade-in-up flex flex-col justify-between" style="animation-delay: 1000ms;">
             <div>
                 <h3 class="text-lg font-bold text-slate-100 mb-4">Pq. Do Lago</h3>
-                
+
                 <div class="flex flex-col gap-2">
                     <div class="flex justify-between items-center bg-brand-900/60 p-3 rounded-lg border border-brand-700/50">
                         <span class="text-xs font-semibold text-slate-400 tracking-wide">Previstos</span>
                         <span class="text-lg font-bold text-slate-300">8</span>
                     </div>
-                    
+
                     <div class="flex justify-between items-center bg-emerald-900/20 p-3 rounded-lg border border-emerald-900/30">
                         <span class="text-xs font-semibold text-emerald-400 tracking-wide">Inscritos</span>
                         <span class="text-xl font-extrabold text-emerald-400">1</span>
@@ -928,8 +919,7 @@
                     </div>
                 </div>
             </div>
-            
-            <!-- Barra de Progresso do Aproveitamento -->
+
             <div class="mt-5">
                 <div class="flex justify-between mb-2">
                     <span class="text-xs font-bold text-slate-400 tracking-wide">% Inscrições</span>
@@ -944,13 +934,13 @@
         <div class="bg-brand-800 rounded-2xl p-6 border border-brand-700 shadow-[0_10px_15px_-3px_rgba(0,0,0,0.5)] transform transition-transform duration-300 hover:-translate-y-1 hover:border-blue-500 hover:shadow-xl animate-fade-in-up flex flex-col justify-between" style="animation-delay: 1000ms;">
             <div>
                 <h3 class="text-lg font-bold text-slate-100 mb-4">Pq. Fernanda</h3>
-                
+
                 <div class="flex flex-col gap-2">
                     <div class="flex justify-between items-center bg-brand-900/60 p-3 rounded-lg border border-brand-700/50">
                         <span class="text-xs font-semibold text-slate-400 tracking-wide">Previstos</span>
                         <span class="text-lg font-bold text-slate-300">15</span>
                     </div>
-                    
+
                     <div class="flex justify-between items-center bg-emerald-900/20 p-3 rounded-lg border border-emerald-900/30">
                         <span class="text-xs font-semibold text-emerald-400 tracking-wide">Inscritos</span>
                         <span class="text-xl font-extrabold text-emerald-400">7</span>
@@ -962,8 +952,7 @@
                     </div>
                 </div>
             </div>
-            
-            <!-- Barra de Progresso do Aproveitamento -->
+
             <div class="mt-5">
                 <div class="flex justify-between mb-2">
                     <span class="text-xs font-bold text-slate-400 tracking-wide">% Inscrições</span>
@@ -978,13 +967,13 @@
         <div class="bg-brand-800 rounded-2xl p-6 border border-brand-700 shadow-[0_10px_15px_-3px_rgba(0,0,0,0.5)] transform transition-transform duration-300 hover:-translate-y-1 hover:border-blue-500 hover:shadow-xl animate-fade-in-up flex flex-col justify-between" style="animation-delay: 1000ms;">
             <div>
                 <h3 class="text-lg font-bold text-slate-100 mb-4">Pq. Maria Helena</h3>
-                
+
                 <div class="flex flex-col gap-2">
                     <div class="flex justify-between items-center bg-brand-900/60 p-3 rounded-lg border border-brand-700/50">
                         <span class="text-xs font-semibold text-slate-400 tracking-wide">Previstos</span>
                         <span class="text-lg font-bold text-slate-300">22</span>
                     </div>
-                    
+
                     <div class="flex justify-between items-center bg-emerald-900/20 p-3 rounded-lg border border-emerald-900/30">
                         <span class="text-xs font-semibold text-emerald-400 tracking-wide">Inscritos</span>
                         <span class="text-xl font-extrabold text-emerald-400">2</span>
@@ -996,8 +985,7 @@
                     </div>
                 </div>
             </div>
-            
-            <!-- Barra de Progresso do Aproveitamento -->
+
             <div class="mt-5">
                 <div class="flex justify-between mb-2">
                     <span class="text-xs font-bold text-slate-400 tracking-wide">% Inscrições</span>
@@ -1012,13 +1000,13 @@
         <div class="bg-brand-800 rounded-2xl p-6 border border-brand-700 shadow-[0_10px_15px_-3px_rgba(0,0,0,0.5)] transform transition-transform duration-300 hover:-translate-y-1 hover:border-blue-500 hover:shadow-xl animate-fade-in-up flex flex-col justify-between" style="animation-delay: 1000ms;">
             <div>
                 <h3 class="text-lg font-bold text-slate-100 mb-4">Pq. Santo Antônio</h3>
-                
+
                 <div class="flex flex-col gap-2">
                     <div class="flex justify-between items-center bg-brand-900/60 p-3 rounded-lg border border-brand-700/50">
                         <span class="text-xs font-semibold text-slate-400 tracking-wide">Previstos</span>
                         <span class="text-lg font-bold text-slate-300">5</span>
                     </div>
-                    
+
                     <div class="flex justify-between items-center bg-emerald-900/20 p-3 rounded-lg border border-emerald-900/30">
                         <span class="text-xs font-semibold text-emerald-400 tracking-wide">Inscritos</span>
                         <span class="text-xl font-extrabold text-emerald-400">4</span>
@@ -1030,8 +1018,7 @@
                     </div>
                 </div>
             </div>
-            
-            <!-- Barra de Progresso do Aproveitamento -->
+
             <div class="mt-5">
                 <div class="flex justify-between mb-2">
                     <span class="text-xs font-bold text-slate-400 tracking-wide">% Inscrições</span>
@@ -1046,13 +1033,13 @@
         <div class="bg-brand-800 rounded-2xl p-6 border border-brand-700 shadow-[0_10px_15px_-3px_rgba(0,0,0,0.5)] transform transition-transform duration-300 hover:-translate-y-1 hover:border-blue-500 hover:shadow-xl animate-fade-in-up flex flex-col justify-between" style="animation-delay: 1000ms;">
             <div>
                 <h3 class="text-lg font-bold text-slate-100 mb-4">Riviera Paulista</h3>
-                
+
                 <div class="flex flex-col gap-2">
                     <div class="flex justify-between items-center bg-brand-900/60 p-3 rounded-lg border border-brand-700/50">
                         <span class="text-xs font-semibold text-slate-400 tracking-wide">Previstos</span>
                         <span class="text-lg font-bold text-slate-300">10</span>
                     </div>
-                    
+
                     <div class="flex justify-between items-center bg-emerald-900/20 p-3 rounded-lg border border-emerald-900/30">
                         <span class="text-xs font-semibold text-emerald-400 tracking-wide">Inscritos</span>
                         <span class="text-xl font-extrabold text-emerald-400">7</span>
@@ -1064,8 +1051,7 @@
                     </div>
                 </div>
             </div>
-            
-            <!-- Barra de Progresso do Aproveitamento -->
+
             <div class="mt-5">
                 <div class="flex justify-between mb-2">
                     <span class="text-xs font-bold text-slate-400 tracking-wide">% Inscrições</span>
@@ -1080,13 +1066,13 @@
         <div class="bg-brand-800 rounded-2xl p-6 border border-brand-700 shadow-[0_10px_15px_-3px_rgba(0,0,0,0.5)] transform transition-transform duration-300 hover:-translate-y-1 hover:border-blue-500 hover:shadow-xl animate-fade-in-up flex flex-col justify-between" style="animation-delay: 1000ms;">
             <div>
                 <h3 class="text-lg font-bold text-slate-100 mb-4">Vila Remo</h3>
-                
+
                 <div class="flex flex-col gap-2">
                     <div class="flex justify-between items-center bg-brand-900/60 p-3 rounded-lg border border-brand-700/50">
                         <span class="text-xs font-semibold text-slate-400 tracking-wide">Previstos</span>
                         <span class="text-lg font-bold text-slate-300">0</span>
                     </div>
-                    
+
                     <div class="flex justify-between items-center bg-emerald-900/20 p-3 rounded-lg border border-emerald-900/30">
                         <span class="text-xs font-semibold text-emerald-400 tracking-wide">Inscritos</span>
                         <span class="text-xl font-extrabold text-emerald-400">10</span>
@@ -1098,8 +1084,7 @@
                     </div>
                 </div>
             </div>
-            
-            <!-- Barra de Progresso do Aproveitamento -->
+
             <div class="mt-5">
                 <div class="flex justify-between mb-2">
                     <span class="text-xs font-bold text-slate-400 tracking-wide">% Inscrições</span>
@@ -1114,13 +1099,13 @@
         <div class="bg-brand-800 rounded-2xl p-6 border border-brand-700 shadow-[0_10px_15px_-3px_rgba(0,0,0,0.5)] transform transition-transform duration-300 hover:-translate-y-1 hover:border-blue-500 hover:shadow-xl animate-fade-in-up flex flex-col justify-between" style="animation-delay: 1000ms;">
             <div>
                 <h3 class="text-lg font-bold text-slate-100 mb-4">Vila Santa Lúcia</h3>
-                
+
                 <div class="flex flex-col gap-2">
                     <div class="flex justify-between items-center bg-brand-900/60 p-3 rounded-lg border border-brand-700/50">
                         <span class="text-xs font-semibold text-slate-400 tracking-wide">Previstos</span>
                         <span class="text-lg font-bold text-slate-300">23</span>
                     </div>
-                    
+
                     <div class="flex justify-between items-center bg-emerald-900/20 p-3 rounded-lg border border-emerald-900/30">
                         <span class="text-xs font-semibold text-emerald-400 tracking-wide">Inscritos</span>
                         <span class="text-xl font-extrabold text-emerald-400">24</span>
@@ -1132,8 +1117,7 @@
                     </div>
                 </div>
             </div>
-            
-            <!-- Barra de Progresso do Aproveitamento -->
+
             <div class="mt-5">
                 <div class="flex justify-between mb-2">
                     <span class="text-xs font-bold text-slate-400 tracking-wide">% Inscrições</span>
@@ -1145,78 +1129,117 @@
             </div>
         </div>
         
-            </div>
-        </div>
-
-        <!-- CONTEÚDO DA ABA DE DETALHES (LISTA) -->
-        <div id="view-detalhes" class="hidden animate-fade-in-up pb-12" style="animation-delay: 100ms;">
-            
-            <div class="bg-brand-800 rounded-2xl p-6 border border-brand-700 shadow-xl mb-6">
-                <label for="congregation-select" class="block text-sm font-bold text-slate-400 mb-2 tracking-wider">Filtre por Casa de Oração:</label>
-                <select id="congregation-select" class="w-full md:w-1/3 bg-brand-900 border border-brand-700 text-slate-100 text-base rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-3 shadow-inner cursor-pointer" onchange="renderDetails()">
-                    <option value="">-- Selecione uma opção --</option>
-                    <!-- Opções injetadas via JS -->
-                </select>
+                </div>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6" id="tables-container">
-                
-                <!-- Tabela Previstos -->
-                <div class="bg-brand-800 rounded-2xl border border-brand-700 shadow-xl overflow-hidden flex flex-col h-[600px]">
-                    <div class="p-6 border-b border-brand-700 bg-brand-800/80 backdrop-blur shrink-0">
-                        <h3 class="text-xl font-bold text-slate-200 flex items-center gap-3">
-                            <div class="w-3 h-3 rounded-full bg-blue-500 shadow-[0_0_10px_rgba(59,130,246,0.8)]"></div> 
-                            Previstos (<span id="count-esp" class="text-blue-400">0</span>)
-                        </h3>
-                    </div>
-                    <div class="overflow-y-auto grow p-0">
-                        <table class="w-full text-sm text-left text-slate-300">
-                            <thead class="text-xs text-slate-400 bg-brand-900/90 sticky top-0 z-10 backdrop-blur border-b border-brand-700">
-                                <tr>
-                                    <th scope="col" class="px-6 py-4">Nome</th>
-                                    <th scope="col" class="px-6 py-4 hidden sm:table-cell">Função na Congregação (Inf. Escrita Local)</th>
-                                </tr>
-                            </thead>
-                            <tbody id="tbody-esp" class="divide-y divide-brand-700/50">
-                                <tr><td colspan="2" class="px-6 py-8 text-center text-slate-500 italic">Selecione uma Congregação</td></tr>
-                            </tbody>
-                        </table>
-                    </div>
+            <div id="view-detalhes" class="hidden animate-fade-in-up pb-12" style="animation-delay: 100ms;">
+
+                <div class="bg-brand-800 rounded-2xl p-6 border border-brand-700 shadow-xl mb-6">
+                    <label for="congregation-select" class="block text-sm font-bold text-slate-400 mb-2 tracking-wider">Filtre por Casa de Oração:</label>
+                    <select id="congregation-select" class="w-full md:w-1/3 bg-brand-900 border border-brand-700 text-slate-100 text-base rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-3 shadow-inner cursor-pointer" onchange="renderDetails()">
+                        <option value="">-- Selecione uma opção --</option>
+                        </select>
                 </div>
 
-                <!-- Tabela Inscritos -->
-                <div class="bg-brand-800 rounded-2xl border border-brand-700 shadow-xl overflow-hidden flex flex-col h-[600px]">
-                    <div class="p-6 border-b border-brand-700 bg-brand-800/80 backdrop-blur shrink-0">
-                        <h3 class="text-xl font-bold text-slate-200 flex items-center gap-3">
-                            <div class="w-3 h-3 rounded-full bg-emerald-500 shadow-[0_0_10px_rgba(16,185,129,0.8)]"></div> 
-                            Inscritos (<span id="count-insc" class="text-emerald-400">0</span>)
-                        </h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6" id="tables-container">
+
+                    <div class="bg-brand-800 rounded-2xl border border-brand-700 shadow-xl overflow-hidden flex flex-col h-[600px]">
+                        <div class="p-6 border-b border-brand-700 bg-brand-800/80 backdrop-blur shrink-0">
+                            <h3 class="text-xl font-bold text-slate-200 flex items-center gap-3">
+                                <div class="w-3 h-3 rounded-full bg-blue-500 shadow-[0_0_10px_rgba(59,130,246,0.8)]"></div> 
+                                Previstos (<span id="count-esp" class="text-blue-400">0</span>)
+                            </h3>
+                        </div>
+                        <div class="overflow-y-auto grow p-0">
+                            <table class="w-full text-sm text-left text-slate-300">
+                                <thead class="text-xs text-slate-400 bg-brand-900/90 sticky top-0 z-10 backdrop-blur border-b border-brand-700">
+                                    <tr>
+                                        <th scope="col" class="px-6 py-4">Nome</th>
+                                        <th scope="col" class="px-6 py-4 hidden sm:table-cell">Função na Congregação (Inf. Escrita Local)</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tbody-esp" class="divide-y divide-brand-700/50">
+                                    <tr><td colspan="2" class="px-6 py-8 text-center text-slate-500 italic">Selecione uma Congregação</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
-                    <div class="overflow-y-auto grow p-0">
-                        <table class="w-full text-sm text-left text-slate-300">
-                            <thead class="text-xs text-slate-400 bg-brand-900/90 sticky top-0 z-10 backdrop-blur border-b border-brand-700">
-                                <tr>
-                                    <th scope="col" class="px-6 py-4">Nome</th>
-                                    <th scope="col" class="px-6 py-4 hidden sm:table-cell">Função na Congregação (Inf. na Inscrição)</th>
-                                </tr>
-                            </thead>
-                            <tbody id="tbody-insc" class="divide-y divide-brand-700/50">
-                                <tr><td colspan="2" class="px-6 py-8 text-center text-slate-500 italic">Selecione uma Congregação</td></tr>
-                            </tbody>
-                        </table>
+
+                    <div class="bg-brand-800 rounded-2xl border border-brand-700 shadow-xl overflow-hidden flex flex-col h-[600px]">
+                        <div class="p-6 border-b border-brand-700 bg-brand-800/80 backdrop-blur shrink-0">
+                            <h3 class="text-xl font-bold text-slate-200 flex items-center gap-3">
+                                <div class="w-3 h-3 rounded-full bg-emerald-500 shadow-[0_0_10px_rgba(16,185,129,0.8)]"></div> 
+                                Inscritos (<span id="count-insc" class="text-emerald-400">0</span>)
+                            </h3>
+                        </div>
+                        <div class="overflow-y-auto grow p-0">
+                            <table class="w-full text-sm text-left text-slate-300">
+                                <thead class="text-xs text-slate-400 bg-brand-900/90 sticky top-0 z-10 backdrop-blur border-b border-brand-700">
+                                    <tr>
+                                        <th scope="col" class="px-6 py-4">Nome</th>
+                                        <th scope="col" class="px-6 py-4 hidden sm:table-cell">Função na Congregação (Inf. na Inscrição)</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tbody-insc" class="divide-y divide-brand-700/50">
+                                    <tr><td colspan="2" class="px-6 py-8 text-center text-slate-500 italic">Selecione uma Congregação</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
+
                 </div>
 
             </div>
-            
         </div>
-
     </div>
 
     <script>
-        const dataDetalhes = {"Cidade Ipava": {"esperados": [{"Nome": "Antônia Carvalho De Oliveira ", "Funcao": "Limpeza "}, {"Nome": "Luezi Sousa Santos ", "Funcao": "Limpeza "}, {"Nome": "Luzia Maria De Siqueira ", "Funcao": "Limpeza "}, {"Nome": "Maria Amâncio Dos Santos Rocha ", "Funcao": "Limpeza "}, {"Nome": "Maria Elzidores L. Silva", "Funcao": "Limpeza "}, {"Nome": "Maria Luzia De Santana Silva", "Funcao": "Limpeza "}, {"Nome": "Ozaneide De Lima Sousa", "Funcao": "Limpeza "}, {"Nome": "Risemary Santos Da Silva ", "Funcao": "Limpeza "}, {"Nome": "Rizonilda Ferreira Dos Santos ", "Funcao": "Limpeza "}, {"Nome": "Rosangela Apareciada A Rodrigues ", "Funcao": "Limpeza "}, {"Nome": "Rosangela Apareciada Rodrigues Da Silva ", "Funcao": "Limpeza "}, {"Nome": "Tereza Azevedo Rocha ", "Funcao": "Limpeza "}, {"Nome": "Zilmar Souza Oliveira ", "Funcao": "Limpeza "}, {"Nome": "Elenice Barbosa Da Silva ", "Funcao": "Cozinha "}, {"Nome": "Maria Zita Ribeiro Santos ", "Funcao": "Cozinha "}, {"Nome": "Solange Santana De Almeida ", "Funcao": "Cozinha "}], "inscritos": [{"Nome": "Márcia Roberta Vidal Alves ", "Funcao": "Copa"}, {"Nome": "Hozana Lima Da Silva ", "Funcao": "Auxiliar Da Copa"}, {"Nome": "Solange Santana De Almeida ", "Funcao": "Cozinha"}, {"Nome": "Tereza Azeredo Rocha ", "Funcao": "Conservação "}, {"Nome": "Daniela Silva Santos ", "Funcao": "Conservação E Limpeza"}, {"Nome": "Jaqueline Simão De Araújo Sousa", "Funcao": "Conservação E Limpeza"}, {"Nome": "Dilma De Oliveira ", "Funcao": "Limpeza"}, {"Nome": "Taynara Souza Soares", "Funcao": "Cozinha E Conservação "}]}, "Jd. Amália": {"esperados": [{"Nome": "Aline Cardoso Da Silva ", "Funcao": "Auxiliar Da Limpeza "}, {"Nome": "Andrea Maria Barbosa Novais ", "Funcao": "Colaborador De Limpeza "}, {"Nome": "Beatriz Dias Dos Santos ", "Funcao": "Auxiliar Da Limpeza "}, {"Nome": "Cleidiane Silva Santos ", "Funcao": "Colaborador De Limpeza "}, {"Nome": "José Carlos Da Conceição Souza ", "Funcao": "Auxiliar Da Limpeza "}, {"Nome": "Josete Santos Da Silva ", "Funcao": "Auxiliar Da Limpeza "}, {"Nome": "Karina Maria De Jesus Morais ", "Funcao": "Auxiliar De Limpeza "}, {"Nome": "Maria Aparecida Silva Pereira ", "Funcao": "Auxiliar Da Limpeza "}, {"Nome": "Marlene Da Conceição Rezende Michaeli ", "Funcao": "Colaborador De Limpeza "}, {"Nome": "Roseli Cristina Marques Do Nascimento ", "Funcao": "Encarregada Da Limpeza "}, {"Nome": "Stefany Fernanda Santos ", "Funcao": "Colaborador De Limpeza "}, {"Nome": "Tania Brilho Dos Santos ", "Funcao": "Auxiliar Da Limpeza "}, {"Nome": "Valdivino Silva Leite ", "Funcao": "Auxiliar Da Limpeza "}, {"Nome": "Edvane Teixeira Da Silva ", "Funcao": "Colaborador Da Cozinha "}, {"Nome": "Gilda Pires Valentim ", "Funcao": "Colaborador Da Cozinha "}, {"Nome": "Márcia Cristina Caetano De Souza ", "Funcao": "Colaborador Da Cozinha "}, {"Nome": "Maria Aparecida Mendes De Roma ", "Funcao": "Colaborador Da Cozinha "}, {"Nome": "Maria Silvana Pacheco ", "Funcao": "Colaborador Da Cozinha "}, {"Nome": "Patrícia Silva Siqueira ", "Funcao": "Colaborador Da Cozinha "}, {"Nome": "Rachel Guimarães De Oliveira ", "Funcao": "Colaborador Da Cozinha "}, {"Nome": "Sandra Lolita De Sousa ", "Funcao": "Cozinheira "}, {"Nome": "Sirlei Braga Santana Da Silva ", "Funcao": "Colaborador Da Cozinha "}, {"Nome": "Vânia Ribeiro Tossini De Andrade ", "Funcao": "Colaborador Da Cozinha "}], "inscritos": [{"Nome": "Karina Maria De Jesus Morais ", "Funcao": "Ajudante De Limpeza "}, {"Nome": "Beatriz Dos  Dos Santos ", "Funcao": "Lipeza"}, {"Nome": "Sandra Lolita De Sousa ", "Funcao": "Cozinha"}, {"Nome": "Aline Cardoso Da Silva ", "Funcao": "Limpeza "}]}, "Jd. Aracati": {"esperados": [{"Nome": "Conceição Aparecida Fernandes", "Funcao": "Limpeza"}, {"Nome": "Ginalda De Jesus", "Funcao": "Limpeza"}, {"Nome": "Isabel Nunes Souza", "Funcao": "Limpeza"}, {"Nome": "Laudeci Jacinto Da Silva Paixão", "Funcao": "Limpeza"}, {"Nome": "Maria Eliana Martins", "Funcao": "Limpeza"}, {"Nome": "Maria Selma Da Conceição Dos Santos", "Funcao": "Limpeza"}, {"Nome": "Maricy Muniz Da Silva", "Funcao": "Limpeza"}, {"Nome": "Alessandra Ruth Souza De Morais", "Funcao": "Cozinha"}, {"Nome": "Eliaci De Cintra Santos", "Funcao": "Cozinha"}, {"Nome": "Jessica Souza De Morais", "Funcao": "Cozinha"}, {"Nome": "Rita De Cassia Nonato Santana", "Funcao": "Cozinha"}, {"Nome": "Roberta Caroline Goes Dantas De Morais", "Funcao": "Cozinha"}], "inscritos": [{"Nome": "Ediana Aparecida Silva De Jesus ", "Funcao": "Cozinha "}]}, "Jd. Capão Redondo": {"esperados": [{"Nome": "Ana Rocha De Almeida Pinto", "Funcao": "Colaborador De Limpeza"}, {"Nome": "Andrea Almeida Barbosa Dos Santos", "Funcao": "Colaborador De Limpeza"}, {"Nome": "Andrea Da Silva", "Funcao": "Colaborador De Limpeza"}, {"Nome": "Avani Lima Ferreira", "Funcao": "Colaborador De Limpeza"}, {"Nome": "Evanilza Rodrigues De Santana Leal", "Funcao": "Colaborador De Limpeza"}, {"Nome": "Luana Kelly Dos Santos Lima", "Funcao": "Colaborador De Limpeza"}, {"Nome": "Luiza Firmino Carano", "Funcao": "Colaborador De Limpeza"}, {"Nome": "Maria Isabel Souza Ribeiro", "Funcao": "Colaborador De Limpeza"}, {"Nome": "Maria Jose De Souza Ferreira", "Funcao": "Colaborador Responsável Pela Limpeza"}, {"Nome": "Mariene Ferreira Rocha", "Funcao": "Colaborador De Limpeza"}, {"Nome": "Nadir Alves Dos Anjos", "Funcao": "Colaborador Da Limpeza"}, {"Nome": "Shirlene Caputo De Oliveira", "Funcao": "Colaborador De Limpeza"}, {"Nome": "Simone Souza De Oliveira", "Funcao": "Colaborador De Limpeza"}, {"Nome": "Stephanie Amaral Massulo", "Funcao": "Colaborador De Limpeza"}, {"Nome": "Alaide Oliveira De Souza", "Funcao": "Colaborador Da Cozinha"}, {"Nome": "Fernanda Da Silva Santos", "Funcao": "Colaborador Da Cozinha"}, {"Nome": "Kamila De Souza Olegario Da Costa", "Funcao": "Colaborador Da Cozinha"}, {"Nome": "Katia Rodrigues Dos Anjos", "Funcao": "Cozinheiro"}, {"Nome": "Rosana Alves Cadenas Das Neves", "Funcao": "Colaborador Da Cozinha"}, {"Nome": "Vera Lucia Caetano Souza", "Funcao": "Colaborador Da Cozinha"}, {"Nome": "Verônica Biscario Xisto Oliveira", "Funcao": "Colaborador Da Cozinha"}], "inscritos": [{"Nome": "Kamila De Souza Olegario Da Costa ", "Funcao": "Auxiliar Da Porta, Monitora Do Espaço Biblico Infantil, Auxiliar De Cozinha"}, {"Nome": "Ana Flávia Domingues Medeiros ", "Funcao": "Auxiliar De Limpeza "}, {"Nome": "Denise Santos Da Silva Teixeira ", "Funcao": "Auxiliar De Limpeza "}, {"Nome": "Andréa Da Silva ", "Funcao": "Limpeza "}, {"Nome": "Mariene Ferreira Rocha ", "Funcao": "Limpeza "}, {"Nome": "Avanir De Lima Ferreira ", "Funcao": "Auxiliar De Limpeza "}, {"Nome": "Isabel Cristina Nunes De Mendonça ", "Funcao": "Auxiliar Das Portas E Da Limpeza "}, {"Nome": "Maria Isabel Souza Ribeiro ", "Funcao": "Limpeza "}, {"Nome": "Adriana Rodrigues Amorim Suguihara ", "Funcao": "Colaboradora Limpeza "}, {"Nome": "Nadir Alves Dos Anjos", "Funcao": "Auxiliar Da Porta, Auxiliar Da Limpeza"}, {"Nome": "Verônica Biscario Xisto Oliveira", "Funcao": "Auxiliar De Cozinha"}, {"Nome": "Fernanda Da Silva Santos ", "Funcao": "Ajudante Cozinha"}, {"Nome": "Kátia Rodrigues Dos Anjos ", "Funcao": "Encarregada Da Limpeza "}, {"Nome": "Elifalete Aquino Barbosa Vital", "Funcao": "Limpeza"}, {"Nome": "Ana Rocha De Almeida Pinto", "Funcao": "Linpeza"}]}, "Jd. Célia": {"esperados": [{"Nome": "Adelicia Alves Ferreira ", "Funcao": "Encarregada Limpeza "}, {"Nome": "Alice Neves Santos ", "Funcao": "Ajudante Limpeza E Cozinha "}, {"Nome": "Edna Do Amparo Silva ", "Funcao": "Ajudante Limpeza E Cozinha "}, {"Nome": "Fabiana Cristina Cyrillo Menini Madeira ", "Funcao": "Ajudante Limpeza E Cozinha "}, {"Nome": "Jéssica Alves Da Anunciação ", "Funcao": "Ajudante Limpeza E Cozinha "}, {"Nome": "Joyce Amanda Ferreira De Lima ", "Funcao": "Ajudante Limpeza E Cozinha "}, {"Nome": "Loide Pereira De Camargo Koutroutsos", "Funcao": "Colaborador De Limpeza"}, {"Nome": "Maria Cristina Dias Gomes ", "Funcao": "Encarregada Limpeza "}, {"Nome": "Maria De Lourdes Alves Santos Silva", "Funcao": "Ajudante Limpeza "}, {"Nome": "Maria Isabel Santos Paulo ", "Funcao": "Ajudante Limpeza E Cozinha "}, {"Nome": "Mauricéia Maria Da Silva ", "Funcao": "Ajudante Limpeza E Cozinha "}, {"Nome": "Rosimeire Santos Cardoso ", "Funcao": "Ajudante Limpeza E Cozinha "}, {"Nome": "Sandra Maria Da Cunha ", "Funcao": "Ajudante Limpeza E Cozinha "}, {"Nome": "Sonia De Fátima Lopes ", "Funcao": "Ajudante Limpeza E Cozinha "}, {"Nome": "Terezinha Pereira De Souza Nogueira ", "Funcao": "Ajudante Limpeza E Cozinha "}, {"Nome": "Viviane Da Cunha Silva ", "Funcao": "Ajudante Limpeza E Cozinha "}, {"Nome": "Maria Aparecida Ribeiro De Abreu ", "Funcao": "Encarregada Da Cozinha "}], "inscritos": [{"Nome": "Adelicia Alves Ferreira ", "Funcao": "Encarregada De Limpeza "}, {"Nome": "Fabiana Cristina Cyrillo Menini Madeira ", "Funcao": "Auxiliar De Limpeza "}, {"Nome": "Alice Neves Santos ", "Funcao": "Auxiliar Da Cozinha "}, {"Nome": "23.667.318-×", "Funcao": "Auxiliar  De Cozinha, Auxiliar  Da Porta "}, {"Nome": "Jessica Alves Da Anunciação ", "Funcao": "Auxiliar Da Limpeza "}, {"Nome": "Maria Cristina Cano Dias Gomes ", "Funcao": "Encarregada Limpeza "}, {"Nome": "Maria Aparecida Ribeiro De Abreu", "Funcao": "Auxiliar De Porta / Encarregada Da Cozinha"}]}, "Jd. Das Flores": {"esperados": [{"Nome": "Ana Paula Lourenço Martins ", "Funcao": "Limpeza "}, {"Nome": "Antônia Íris Pereira De Brito ", "Funcao": "Limpeza "}, {"Nome": "Eliana Maria De Jesus Paixão ", "Funcao": "Limpeza "}, {"Nome": "Irani De Oliveira Silva Christo", "Funcao": "Limpeza (Cclimp)/Cozinha/Auxiliar Da Porta"}, {"Nome": "Ivanilde Dos Santos", "Funcao": "Limpeza"}, {"Nome": "Luzenilda De Jesus Araújo ", "Funcao": "Limpeza "}, {"Nome": "Andreza Da Silva Tavares", "Funcao": "Cozinha"}, {"Nome": "Juliana Pereira Oyakawa ", "Funcao": "Cozinha "}, {"Nome": "Maria Rivalda Teles Da Silva ", "Funcao": "Cozinha"}, {"Nome": "Quedna Da Silva Coelho ", "Funcao": "Cozinha "}], "inscritos": [{"Nome": "Eliana Maria De Jesus Paixão ", "Funcao": "Função "}, {"Nome": "Ana Paula Lorenço Martins", "Funcao": "Carregada Da Limpeza"}]}, "Jd. Guarujá": {"esperados": [{"Nome": "Ana Paula Macedo Da Costa", "Funcao": "Colaborador De Limpeza"}, {"Nome": "Claudia Maria Da Silva", "Funcao": "Colaborador De Limpeza"}, {"Nome": "Dalva Oliveira De Souza", "Funcao": "Colaborador Responsável Da Atividade De Limpeza"}, {"Nome": "Fernanda Brunholi Verutti", "Funcao": "Colaborador De Limpeza"}, {"Nome": "Joana Aparecida De Faria Sousa", "Funcao": "Colaborador De Limpeza"}, {"Nome": "Juscelina Maria Da Conceição Terra", "Funcao": "Colaborador De Limpeza"}, {"Nome": "Maria Adriana Batista Gonçalves", "Funcao": "Colaborador De Limpeza"}, {"Nome": "Maria Aparecida Aquiles Coutinho", "Funcao": "Colaborador De Limpeza"}, {"Nome": "Maria Da Conceicao Santos Souza Da Silva", "Funcao": "Colaborador De Limpeza"}, {"Nome": "Maria De Lourdes Oliveira Aparicio  Araujo", "Funcao": "Colaborador De Limpeza"}, {"Nome": "Maria Do Carmo De Oliveira Ferreira", "Funcao": "Colaborador De Limpeza"}, {"Nome": "Maria Madalena Da Silva Santos", "Funcao": "Colaborador De Limpeza"}, {"Nome": "Marinalva Oliveira Marques", "Funcao": "Colaborador Responsável Da Atividade De Limpeza"}, {"Nome": "Neuci Araujo Da Silva", "Funcao": "Colaborador De Limpeza"}, {"Nome": "Silvana Rodrigues Pardinho Dos Santos", "Funcao": "Colaborador De Limpeza"}, {"Nome": "Silvaneide Alves Sampaio Bastos", "Funcao": "Colaborador De Limpeza"}, {"Nome": "Zinete Angela De Araujo", "Funcao": " Colaborador De Limpeza"}, {"Nome": "Adriana Denise De Sena", "Funcao": "Colaborador De Cozinha"}, {"Nome": "Claudia Aparecida Esteves Grenfell", "Funcao": " Colaborador De Cozinha"}, {"Nome": "Cleudi De Almeida Martins", "Funcao": "Colaborador De Cozinha"}, {"Nome": "Maria Gonçalves Moreira Pereira", "Funcao": "Colaborador De Cozinha"}, {"Nome": "Maria Lindalva Torres Soares", "Funcao": " Colaborador De Cozinha"}, {"Nome": "Maria Lúcia De Jesus", "Funcao": " Colaborador De Cozinha"}, {"Nome": "Maria Luiza Gomes De Carvalho", "Funcao": "Colaborador De Cozinha"}, {"Nome": "Maria Madalena Sousa Marinho", "Funcao": "Colaborador De Cozinha"}, {"Nome": "Marlene Maria Da Silva ", "Funcao": " Colaborador De Cozinha"}, {"Nome": "Regina Celia Do Nascimento Silva", "Funcao": "Colaborador De Cozinha"}, {"Nome": "Roseli De Oliveira Pimenta", "Funcao": "Colaborador De Cozinha"}, {"Nome": "Vitoria Brunholi Augusto Diniz", "Funcao": "Colaborador De Cozinha"}], "inscritos": [{"Nome": "Claudia Maria Da Silva ", "Funcao": "Limpeza "}, {"Nome": "Maria Luiza Gomes De Carvalho ", "Funcao": "Auxiliar Da Porta"}, {"Nome": "Zinete Angela De Araújo ", "Funcao": "Limpeza "}, {"Nome": "Marinalva Oliveira Marques ", "Funcao": "Aux.Portas, Encarregada Limpeza"}, {"Nome": "Loide Pereira De Camargo Koutroutsos", "Funcao": "Auxiliar De Limpeza"}, {"Nome": "Maria Da Conceição Santos Souza Da Silva ", "Funcao": "Auxiliar De Limpeza "}, {"Nome": " Roseli De Oliveira Pimenta ", "Funcao": "Encarregada Da Cozinha"}, {"Nome": "Maryvone Nascimento Ferreira ", "Funcao": "Limpeza"}, {"Nome": "Silvana Rodrigues P Dos Santos", "Funcao": "Limpeza E Coordenadora E.B.I"}, {"Nome": "Maria Lúcia De Jesus ", "Funcao": "Copa"}, {"Nome": "Ana Paula Macedo Da Costa ", "Funcao": "Limpeza E Brigadista"}, {"Nome": "Dalva Oliveira De Sousa", "Funcao": "Porteira E Encarregada Da Limpeza "}, {"Nome": "Maria Lindalva Torres Soares ", "Funcao": "Cozinha"}]}, "Jd. Ibirapuera": {"esperados": [{"Nome": "Alice Brandão Ferreira", "Funcao": "Auxiliar Da Limpeza"}, {"Nome": "Anisia Carvalho Da Silva", "Funcao": "Auxiliar Da Limpeza"}, {"Nome": "Edineia Gonçalves Franco Nunes", "Funcao": "Auxiliar Da Limpeza/Cozinha"}, {"Nome": "Flavia Aparecida De Almeida Carvalhaes", "Funcao": "Auxiliar Da Limpeza/Cozinha"}, {"Nome": "Iraci De Macena", "Funcao": "Auxiliar Da Limpeza"}, {"Nome": "Lidia Gonçalves", "Funcao": "Auxiliar Da Limpeza"}, {"Nome": "Maria Aparecida Da Silva", "Funcao": "Auxiliar Da Limpeza"}, {"Nome": "Maria Claudia Da Costa Araujo", "Funcao": "Auxiliar Da Limpeza"}, {"Nome": "Maria Hermenegilda De Santana Costa", "Funcao": "Auxiliar Da Limpeza"}, {"Nome": "Maria Jose Souza Bezerra", "Funcao": "Auxiliar Da Limpeza"}, {"Nome": "Maria Paula Da Costa Souza", "Funcao": "Encarregada Da Limpeza/Cozinha"}, {"Nome": "Neide Aparecida Godoi Ferreira Silva", "Funcao": "Encarregada Da Limpeza/Cozinha"}, {"Nome": "Nelza Barreto Brandão", "Funcao": "Auxiliar Da Limpeza"}, {"Nome": "Paula Aparecida De Freitas", "Funcao": "Auxiliar Da Limpeza/Cozinha"}, {"Nome": "Rosemilda Da Silva Soares ", "Funcao": "Auxiliar Da Limpeza"}, {"Nome": "Rosilva De Araujo Silva", "Funcao": "Auxiliar Da Limpeza"}, {"Nome": "Talita Da Costa Dias Ramos", "Funcao": "Auxiliar Da Limpeza"}, {"Nome": "Emily Bispo Do Nascimento", "Funcao": "Auxiliar Da Cozinha"}, {"Nome": "Evelyn Novaes Silva", "Funcao": "Auxiliar Da Cozinha"}, {"Nome": "Joiciele Antunes Dos Anjos", "Funcao": "Auxiliar Da Cozinha"}, {"Nome": "Rebeca Bispo Do Nascimento", "Funcao": "Auxiliar Da Cozinha"}, {"Nome": "Zelita Teixeira Caldeira Souza", "Funcao": "Auxiliar Da Cozinha"}], "inscritos": [{"Nome": "Cristina Ramos Costa Sena ", "Funcao": "Encarregada Na Limpeza "}, {"Nome": "Neide Aparecida De Godoi Ferreira Silva", "Funcao": "Encarregada Da Limpeza E Cozinha "}]}, "Jd. Ingá": {"esperados": [{"Nome": "Edinalra Cristina Xavier Sacramento ", "Funcao": "Limpeza / Cozinha"}, {"Nome": "Maria Carlita De Souza Campos ", "Funcao": "Encarrega Da Cozinha E Auxiliar Da Limpeza "}, {"Nome": "Maria Cristina Do Rosario ", "Funcao": "Limpeza / Cozinha"}, {"Nome": "Marisa Cruz Silva ", "Funcao": "Limpeza"}, {"Nome": "Mirian Souza  Da Silva  ", "Funcao": "Limpeza"}, {"Nome": "Nadir Lucia De Souza Albino", "Funcao": "Limpeza "}, {"Nome": "Vilma Macedo Oliveira", "Funcao": "Encarregada Da Cozinha"}, {"Nome": "Maria Aparecida Silva", "Funcao": "Limpeza"}, {"Nome": "Daniela Pereira França Silva", "Funcao": "Orientadora Cns Limpeza"}, {"Nome": "Sebastiana Aparecida Ferreira Silva", "Funcao": "Limpeza"}, {"Nome": "Roseli Maria De Souza", "Funcao": "Limpeza"}, {"Nome": "Rosilda Aparecida De Souza Da Silva", "Funcao": "Limpeza"}, {"Nome": "Maria Salete De Lima", "Funcao": "Limpeza"}, {"Nome": "Maria Lino Dos Reis Rodrigues", "Funcao": "Limpeza"}, {"Nome": "Regina Lúcia Cerqueira", "Funcao": "Limpeza"}, {"Nome": "Marisa Da Cruz M. Firmino", "Funcao": "Coordenadora Cns Limpeza"}, {"Nome": "Lúcia Helena Dos Santos Ribeiro", "Funcao": "Limpeza"}], "inscritos": [{"Nome": "Marisa Da Cruz Machado Firmino ", "Funcao": "Coordenadora Cns Limpeza "}, {"Nome": "Daniela Pereira França Silva", "Funcao": "Orientadora Cns"}, {"Nome": "Sebastiana Aparecida Teixeira Silva ", "Funcao": "Limpeza "}, {"Nome": "Maria Aparecida Dos Santos ", "Funcao": "Limpeza "}, {"Nome": "Maria Lino Dos Reis Rodrigues ", "Funcao": "Limpeza"}]}, "Jd. Leônidas Moreira": {"esperados": [{"Nome": "Carmem Lúcia Caetano", "Funcao": "Colaborador Limpeza"}, {"Nome": "Cleusa Livramento Corsi", "Funcao": "Limpeza Preventiva"}, {"Nome": "Ducine Vieira De Freitas", "Funcao": "Colaborador De Limpeza"}, {"Nome": "Edinalva Pires", "Funcao": "Colaborador Responsável Da  Atividade De Limpeza"}, {"Nome": "Elda Mares De Oliveira Moraes Lopes", "Funcao": "Colaborador Da Limpeza"}, {"Nome": "Eliene Sousa Santos", "Funcao": "Colaborador De Limpeza"}, {"Nome": "Irani Rosa De Novaes", "Funcao": "Colaborador De Limpeza"}, {"Nome": "Maria Dalva Bonfim", "Funcao": "Colaborador De Limpeza"}, {"Nome": "Marizete Alves Ferreira Dos Santos", "Funcao": "Colaborador De Limpeza"}, {"Nome": "Sebastião Gomes De Sá", "Funcao": "Colaborador Da Limpeza"}, {"Nome": "Selma Maria Dos Santos", "Funcao": "Colaborador Da Limpeza"}, {"Nome": "Valdenor Pereira Dos Santos", "Funcao": "Colaborador De Limpeza"}, {"Nome": "Zunilda Izilda Do Nascimento", "Funcao": "Colaborador Da Limpeza"}, {"Nome": "Arlete Mendes Da Silveira", "Funcao": "Colaborador Da Cozinha"}, {"Nome": "Elenice De Oliveira Santana", "Funcao": "Colaborador Cozinha"}, {"Nome": "Isabel Da Conceição Dos Santos", "Funcao": "Colaborador Cozinha"}, {"Nome": "Lucimar Francisco Dos Santos De Oliveira", "Funcao": "Colaborador Cozinha"}, {"Nome": "Maria Do Socorro Gomes Da Silva", "Funcao": "Colaborador Da Cozinha"}, {"Nome": "Marinalva Da Silva Miranda", "Funcao": "Colaborador Cozinha"}, {"Nome": "Maura Lopes Santana", "Funcao": "Colaborador Da Cozinha"}, {"Nome": "Natália Reis Da Silva", "Funcao": "Colaborador Da Cozinha"}, {"Nome": "Regiane Reis", "Funcao": "Colaborador De Cozinha"}, {"Nome": "Rosângela Alves Longhim", "Funcao": "Colaborador Cozinha"}, {"Nome": "Sara Mendes Ferreira ", "Funcao": "Colaborador Da Cozinha"}, {"Nome": "Sheila Pereira De Souza", "Funcao": "Colaborador Cozinha"}], "inscritos": [{"Nome": "Natalya Reis Da Silva ", "Funcao": "Cozinha E Auxiliar "}, {"Nome": "Edinalva Pires", "Funcao": "Encarregada Da Limpeza"}, {"Nome": "Sara Mendes Ferreira ", "Funcao": "Aux De Cozinha "}, {"Nome": "Regiane Reis ", "Funcao": "Cozinha"}]}, "Jd. Lídia": {"esperados": [], "inscritos": [{"Nome": "Zenaide Pereira Dias ", "Funcao": "Encarregada Limpeza "}, {"Nome": "Ana Claudia Da Silva ", "Funcao": "Orientadora Cns Limpeza "}, {"Nome": "Rute Cristina Ambrósio De Camargo ", "Funcao": "Encarregado Da Limpeza "}, {"Nome": "Maria José Silva ", "Funcao": "Limpeza E Cozinha "}]}, "Jd. Nakamura": {"esperados": [{"Nome": "Ana Maria Xavier De Souza", "Funcao": "Aux De Limpeza "}, {"Nome": "Angelita De Queiroz Marques ", "Funcao": "Aux De Limpeza "}, {"Nome": "Cleudiane Maria Da Conceição ", "Funcao": "Encarrega De Limpeza "}, {"Nome": "Eliane Gonçalves Dos Santos ", "Funcao": "Auxiliar De Limpeza "}, {"Nome": "Elierge Da Silva ", "Funcao": "Aux De Limpeza "}, {"Nome": "Janete Pereira Dos Santos ", "Funcao": "Aux De Limpeza "}, {"Nome": "Marcia De Oliveira ", "Funcao": "Aux De Limpeza "}, {"Nome": "Maria Francisca De Oliveira Silva", "Funcao": "Aux De Limpeza "}, {"Nome": "Maria Luiza De Oliveira ", "Funcao": "Aux De Limpeza "}, {"Nome": "Patricia Da Silva Conceição ", "Funcao": "Aux Limpeza "}, {"Nome": "Silvana Alves Do Espírito Santo Freschi", "Funcao": "Aux Limpeza "}, {"Nome": "Ana Kessia Santana Araujo", "Funcao": "Aux De Cozinha "}, {"Nome": "Dulcelea Dias De Souza ", "Funcao": "Aux De Cozinha "}, {"Nome": "Fabiana Borges De Sousa Galdino", "Funcao": "Aux De Cozinha "}, {"Nome": "Francisca Cleia Carvalho Mourão ", "Funcao": "Aux De Cozinha "}, {"Nome": "Maria Cristina De Souza Freitas ", "Funcao": "Aux De Cozinha "}, {"Nome": "Maria Ivaneide Pereira Da Silva ", "Funcao": "Aux De Cozinha "}], "inscritos": [{"Nome": "María Ivaneide Pereira Da Silva ", "Funcao": "Encarregada Dá Cozinha "}, {"Nome": "Cleudiane Maria Da Conceição ", "Funcao": "Limpeza "}, {"Nome": "Janete Pereira Dos Santos Rodrigues ", "Funcao": "Limpeza "}, {"Nome": "Ana Maria Xavier De Souza ", "Funcao": "Limpeza "}, {"Nome": "Elierge Da Silva ", "Funcao": "Limpeza "}, {"Nome": "Silvana Alves Do Espírito Santo Freschi ", "Funcao": "Limpeza"}, {"Nome": "Antonia Rosa De Jesus Rocha ", "Funcao": "Limpeza/Cozinha "}, {"Nome": "Maria Cristina De Souza Freitas", "Funcao": "Cozinha "}, {"Nome": "Fabiana Borges De Sousa Galdino ", "Funcao": "Cozinha,Ebi E Organista "}, {"Nome": "Eliane Gonçalves Dos Santos ", "Funcao": "Porteira É Auxiliar De Limpeza"}, {"Nome": "Bernadete Maria Dos Reis Santos ", "Funcao": "Encarregada De Limpeza"}, {"Nome": "Clélia Aparecida De Souza Matins ", "Funcao": "Cozinha E Limpeza "}, {"Nome": "Elierge Deda Silva", "Funcao": "Limpeza "}, {"Nome": "María Francisca De Oliveira Silva ", "Funcao": "Limpeza \\ Cozinha "}, {"Nome": "Roseli Alves Do Espírito S.S", "Funcao": "Limpeza "}, {"Nome": "Dulcilea Dias De Souza ", "Funcao": "Cozinha E Ebi"}]}, "Jd. Novo Oriente": {"esperados": [{"Nome": "Emanuelle Caetano Da Silva", "Funcao": "Limpeza"}, {"Nome": "Gilvanice Brandão Pereira", "Funcao": "Limpeza"}, {"Nome": "Ines Tenorio Da Silva", "Funcao": "Limpeza"}, {"Nome": "Janice Nascimento Da Silveira", "Funcao": "Limpeza"}, {"Nome": "Josiane Gomes Reis Alves", "Funcao": "Limpeza"}, {"Nome": "Jucelia Brandao Pereira Gois", "Funcao": "Limpeza"}, {"Nome": "Keli Cristina Mendes De Oliveira", "Funcao": "Limpeza"}, {"Nome": "Maria Aparecida Patez Dos Santos", "Funcao": "Limpeza"}, {"Nome": "Nilzete Marques Leal Silva", "Funcao": "Limpeza"}, {"Nome": "Priscila Rodrigues Santos Bastos", "Funcao": "Limpeza"}, {"Nome": "Valdenice Aparecida Lima De Oliveira", "Funcao": "Limpeza"}, {"Nome": "Vera Lucia Ribeiro Dos Santos", "Funcao": "Limpeza"}, {"Nome": "Alessandra Vanessa Silva", "Funcao": "Cozinha"}, {"Nome": "Edna Vieira Padula", "Funcao": "Cozinha"}, {"Nome": "Elaine Rodrigues Machado Batista", "Funcao": "Cozinha"}, {"Nome": "Erica Almeida Gama Oliveira", "Funcao": "Cozinha"}, {"Nome": "Jacira Ribeiro Fonseca", "Funcao": "Cozinha"}, {"Nome": "Maria Das Dores Ferreira Da Silva Esteves", "Funcao": "Cozinha"}, {"Nome": "Maria Geralda Rodrigues Da Cruz", "Funcao": "Cozinha"}, {"Nome": "Maria José Reis Dos Santos", "Funcao": "Cozinha"}, {"Nome": "Raimunda Jose Dos Santos E Santos", "Funcao": "Cozinha"}, {"Nome": "Rosilda Rosa Almeida ", "Funcao": "Cozinha "}, {"Nome": "Sandra Cristina Greco", "Funcao": "Cozinha"}], "inscritos": [{"Nome": "Alessandra Vanessa Silva ", "Funcao": "Auxiliar  De Limpeza  E Auxiliar  De Cozinha "}, {"Nome": "Simone Ramos Coelho ", "Funcao": "Cooperadora Da Limpeza "}, {"Nome": "Maria Das Dores Ferreira Da Silva ", "Funcao": "Voluntário  "}, {"Nome": "Érica A G Oliveira ", "Funcao": "Limpeza & Cozinha "}, {"Nome": "Maria Geralda Rodrigues Da Cruz  ", "Funcao": "Limpeza E Cozinha "}, {"Nome": "Elaine Rodrigues Machado ", "Funcao": " Auxiliar De Limpeza  E Cozinha "}, {"Nome": "Jacira Ribeiro Fonseca", "Funcao": "Cozinha"}, {"Nome": "Valdenice Aparecida Lima De Oliveira ", "Funcao": "Voluntária Limpeza "}]}, "Jd. Piracuama": {"esperados": [], "inscritos": [{"Nome": "Silvia Helena Ramos De Souza ", "Funcao": "Auxiliar Da Cozinha E Limpeza "}, {"Nome": "Aparecida Ferreira Sampaio", "Funcao": "Limpeza"}, {"Nome": "Maria Faristone De Oliveira ", "Funcao": "Encarregada Limpeza "}]}, "Jd. Sete Lagos": {"esperados": [{"Nome": "Cleide Antônia Guerra Chagas ", "Funcao": "Encarregada De Limpeza "}, {"Nome": "Edna Andrade Felix", "Funcao": "Auxiliar De Limpeza "}, {"Nome": "Eliene Cristina De Paula ", "Funcao": "Auxiliar De Limpeza "}, {"Nome": "Francisca Rodrigues De Souza Oliveira ", "Funcao": "Auxiliar De Limpeza "}, {"Nome": "Joana Candido De Sá ", "Funcao": "Auxiliar De Limpeza "}, {"Nome": "Maria Gracinete B Miranda", "Funcao": "Auxiliar De Limpeza "}, {"Nome": "Marizete Alves Dos Santos ", "Funcao": "Auxiliar De Limpeza "}, {"Nome": "Norma Maria Teixeira ", "Funcao": "Auxiliar De Limpeza "}, {"Nome": "Stela Dias Dos Santos ", "Funcao": "Auxiliar De Limpeza "}, {"Nome": "Terezinha Ferreira  Mesquita De Paiva ", "Funcao": "Auxiliar De Limpeza "}, {"Nome": "Ana Maria Dos Santos De Oliveira ", "Funcao": "Encarregada De Cozinha "}, {"Nome": "Elcia Maria De Jesus ", "Funcao": "Encarregada De Cozinha "}, {"Nome": "Eliana Marques Crespin", "Funcao": "Auxiliar De Cozinha "}, {"Nome": "Joseane Ferreira De Sena", "Funcao": "Auxiliar De Cozinha "}, {"Nome": "Josefa Alves Da Silva ", "Funcao": "Auxiliar De Cozinha "}, {"Nome": "Lucinete Saraiva De Carvalho ", "Funcao": "Auxiliar De Cozinha "}, {"Nome": "Maria Dias De Carvalho ", "Funcao": "Auxiliar De Cozinha "}, {"Nome": "Sheila Dos Santos Fonseca ", "Funcao": "Auxiliar De Cozinha "}, {"Nome": "Sidnéia Oliveira Dos Santos ", "Funcao": "Auxiliar De Cozinha "}, {"Nome": "Solange Rosa David Dos Santos", "Funcao": "Auxiliar De Cozinha "}], "inscritos": [{"Nome": "Cleuza Livramento Corsi", "Funcao": "Encarregada Da Limpeza "}, {"Nome": "Keller De Jesus Ferreira ", "Funcao": "Auxiliar De Cozinha "}, {"Nome": "Josefa Alves Da Silva Santos ", "Funcao": "Encarregada"}, {"Nome": "Cleide Antonia Guerra Chagas ", "Funcao": "Encarregada  Limpeza "}, {"Nome": "Edna Andrade Felix ", "Funcao": "Limpeza "}, {"Nome": "Eliene Cristina De Paula Rosario ", "Funcao": "Limpeza"}]}, "Jd. São Francisco": {"esperados": [{"Nome": "Angela Maria Aparecida Da Silva Martins", "Funcao": "Limpeza"}, {"Nome": "Araci Lugnes De Oliveira Pereira", "Funcao": "Enc Limpeza"}, {"Nome": "Barbara De Souza Honorato Santana", "Funcao": "Limpeza"}, {"Nome": "Catarina Ferreira Da Silva", "Funcao": "Limpeza"}, {"Nome": "Cristiane Pereira Carvalho De Lima Mota", "Funcao": "Limpeza"}, {"Nome": "Elaine Souza Gama Ramolla", "Funcao": "Enc Limpeza"}, {"Nome": "Elizabete Maria Ciolfi", "Funcao": "Limpeza"}, {"Nome": "Fabiana De Jesus Demetrio", "Funcao": "Limpeza"}, {"Nome": "Juçara Gomes Nacimento", "Funcao": "Limpeza"}, {"Nome": "Juçara Gomes Nascimento", "Funcao": "Colaborador De Limpeza"}, {"Nome": "Lucia Barbosa De Noronha", "Funcao": "Limpeza"}, {"Nome": "Maria De Fátima Aparecida Dos Santos ", "Funcao": "Colaborador De Limpeza"}, {"Nome": "Patricia Rezende", "Funcao": "Limpeza"}, {"Nome": "Priscila Caroline Rezende", "Funcao": "Limpeza"}, {"Nome": "Rosangela França Da Silva", "Funcao": "Enc Limpeza"}, {"Nome": "Silma Mateus Andrade Feliciano", "Funcao": "Limpeza"}, {"Nome": "Sueli Aparecida De Oliveira", "Funcao": "Limpeza"}, {"Nome": "Gerlane Faustino Eduardo", "Funcao": "Cozinha"}, {"Nome": "Katia Dos Santos Ribeiro Melo", "Funcao": "Cozinha"}, {"Nome": "Leandra Gonçalves Dos Santos Silva", "Funcao": "Enc Cozinha"}, {"Nome": "Maria Aparecida De Lima", "Funcao": "Colaborador De Cozinha"}], "inscritos": [{"Nome": "43677799X", "Funcao": "Limpeza - Colaboradora Dos Livros "}, {"Nome": "Cristiane Pereira Carvalho De Lima Mota ", "Funcao": "Limpeza "}, {"Nome": "Araci Lugnes De Oliveira Pereira ", "Funcao": "Limpeza "}, {"Nome": "Rosangela França Da Silva ", "Funcao": "Encarregada"}]}, "Jd. São Lourenço": {"esperados": [{"Nome": "Ednalva Francisca De Oliveira ", "Funcao": "Limpeza E Cozinha"}, {"Nome": "Renata De Andrade  Pereira Sousa", "Funcao": "Colaboradora Responsável Da Cozinha E  Limpeza "}, {"Nome": "Berenice Maria Do Couto Alves", "Funcao": "Limpeza"}, {"Nome": "Carmelita De Andrade Pereira", "Funcao": "Limpeza "}, {"Nome": "Cecília Da Silva Reis Ferreira", "Funcao": "Limpeza "}, {"Nome": "Espedita Inacio De Queiroz Nascimento", "Funcao": " Limpeza "}, {"Nome": "Genilda Silva Bezerra", "Funcao": "Limpeza"}, {"Nome": "Glaucia Da Conceição De Oliveira", "Funcao": "Limpeza "}, {"Nome": "Izabel Silva Reis", "Funcao": "Limpeza "}, {"Nome": "Kezia De Souza Santos Maia", "Funcao": "Limpeza"}, {"Nome": "Maria Alves Do Rego", "Funcao": "Limpeza"}, {"Nome": "Maria Do Socorro Rodrigues De Oliveira", "Funcao": "Limpeza E Cozinha"}, {"Nome": "Maria Evanilda Gomes Dos Santos", "Funcao": "Limpeza"}, {"Nome": "Maria Sonia Pereira Nascimento", "Funcao": "Limpeza E Cozinha"}, {"Nome": "Marluce Trajano Dos Santos", "Funcao": "Limpeza E Cozinha"}, {"Nome": "Monica De Oliveira", "Funcao": "Limpeza E Cozinha"}, {"Nome": "Natalia Pereira Moraes Monteiro", "Funcao": "Colaboradora Responsável Da Cozinha E  Limpeza "}, {"Nome": "Rosemeire Nery Dos Santos Braga", "Funcao": "Limpeza E Cozinha"}, {"Nome": "Valdinete Maria Alves Felizardo", "Funcao": "Limpeza"}, {"Nome": " Ednalva Francisca De Oliveira ", "Funcao": "Limpeza E Cozinha"}, {"Nome": " Renata De Andrade  Pereira Sousa", "Funcao": "Colaboradora Responsável Da Cozinha E  Limpeza "}, {"Nome": "Aline Honório Da Silva", "Funcao": "Cozinha"}, {"Nome": "Claudia Honório Da Silva Santos", "Funcao": "Cozinha"}, {"Nome": "Edna Brito Santos Souza", "Funcao": "Cozinha"}, {"Nome": "Eliane Alves Porto Brambila", "Funcao": "Cozinha"}, {"Nome": "Maria Aparecida Ramos De Sa Landim", "Funcao": "Cozinha"}, {"Nome": "Sandra Maria Dos Santos Cunha", "Funcao": "Cozinha"}, {"Nome": "Sara Cristina Alves Cestari Rios", "Funcao": "Cozinha"}, {"Nome": "Shirlei Monteiro Queiroz", "Funcao": "Cozinha"}], "inscritos": [{"Nome": "Monica De Oliveira ", "Funcao": "Limpeza "}, {"Nome": "24.874.039-8", "Funcao": "Auxiliar De Porta E Limpeza"}, {"Nome": "Renata De Andrade Pereira ", "Funcao": "Encarregada Da Limpeza."}, {"Nome": "Maria Do Socorro R De Oliveira ", "Funcao": "Auxiliar De Limpeza E Cns Limpeza "}, {"Nome": "Maria Alves", "Funcao": "Limpeza"}, {"Nome": "Marluce Trajano Dos Santos ", "Funcao": "Limpeza "}, {"Nome": "Kezia De Souza Santos Maia", "Funcao": "Orientadora Cns Limpeza "}]}, "Jd. São Luiz": {"esperados": [{"Nome": "Luzeni Pinheiro Araújo", "Funcao": "Colaborador De Limpeza"}, {"Nome": "Isabel Cristina De Lima Tertulino", "Funcao": "Colaborador De Limpeza"}, {"Nome": "Eliana Vieira Da Silva", "Funcao": "Colaborador De Limpeza"}, {"Nome": "Vanessa De Lima Da Silva Soares", "Funcao": "Colaborador De Limpeza"}, {"Nome": "Clecia Aparecida De Sousa Gomes", "Funcao": "Colaborador De Limpeza"}, {"Nome": "Maria Ramos Ribeiro", "Funcao": "Colaborador De Limpeza"}, {"Nome": "Maria José Lacerda Rodrigues", "Funcao": "Colaborador De Limpeza"}, {"Nome": "Marilene Dos Santos Souza Da Silva", "Funcao": "Colaborador De Limpeza"}, {"Nome": "Eulina Alves De Mendonca", "Funcao": "Colaborador De Limpeza"}, {"Nome": "Nilda Fonseca Araujo", "Funcao": "Colaborador De Limpeza"}, {"Nome": "Marta Gomes Dos Santos Tomaz", "Funcao": "Colaborador De Limpeza"}, {"Nome": "Isanyldes Alves Nascimento", "Funcao": "Colaborador De Limpeza"}, {"Nome": "Ana Maria Souza Costa Santos", "Funcao": "Colaborador De Limpeza"}, {"Nome": "Ana Cleide Gomes Dos Santos", "Funcao": "Colaborador De Limpeza"}], "inscritos": [{"Nome": "Eliana Vieira Da Silva ", "Funcao": "Limpeza "}, {"Nome": "Renata Lopes Rodrigues Silva ", "Funcao": "Orientadora Cns Limpeza"}, {"Nome": "Clecia Aparecida De Sousa ", "Funcao": "Limpeza / Cozinha "}, {"Nome": "Sumaia Da Silva Nascimento ", "Funcao": "Limpeza "}, {"Nome": "541158910", "Funcao": "Limpeza E Cozinha"}, {"Nome": "Edina Braga Da Silva Santos ", "Funcao": "Cozinha"}, {"Nome": "Bernadete Andrade Cruz ", "Funcao": "Limpeza "}, {"Nome": "Nilda Fonseca Araújo ", "Funcao": "Auxiliar  De  Limpeza  E  Cozinha "}, {"Nome": "Isanyldes Alves Nascimento ", "Funcao": "Limpeza "}, {"Nome": "Sileide Maria Pio De Jesus Lemos ", "Funcao": "Cozinha"}, {"Nome": "Sandra Maria Pio De Jesus ", "Funcao": "Limpeza E Cozinha"}, {"Nome": "Luzeni Pinheiro Araújo ", "Funcao": "Limpeza "}, {"Nome": "Julieth Cunha Teixeira Lira ", "Funcao": "Auxiliar Da Porta , Cozinha ."}]}, "Jd. Umarizal": {"esperados": [{"Nome": "Ana Cristina Paterno Hilário", "Funcao": "Auxiliar Da Limpeza"}, {"Nome": "Ana Rosa Amâncio Cordeiro", "Funcao": "Auxiliar Da Limpeza"}, {"Nome": "Daiana Janiele Almeida Vieira", "Funcao": "Auxiliar Da Limpeza"}, {"Nome": "Edilma Maria Oliveira Moitinho", "Funcao": "Encarregada Da Limpeza"}, {"Nome": "Elieuza Pereira De Araujo ", "Funcao": "Auxiliar De Limpeza"}, {"Nome": "Elis Maria Da Silva Pinheiro ", "Funcao": "Auxiliar De Limpeza"}, {"Nome": "Elizete Nunes Ferreira", "Funcao": "Auxiliar Da Limpeza"}, {"Nome": "Eunice Theodoro Dos Santos", "Funcao": "Auxiliar De Limpeza"}, {"Nome": "Francisca Barbosa De Souza", "Funcao": "Encarregada Limpeza"}, {"Nome": "Ilmar Pereira De Aguiar Cordeiro", "Funcao": "Auxiliar Da Limpeza"}, {"Nome": "Joelma Aparecida Da Conceição Araújo", "Funcao": "Auxiliar Da Limpeza"}, {"Nome": "Lindaura Francisca Lopes", "Funcao": "Auxiliar De Limpeza "}, {"Nome": "Maria Isabel Santana", "Funcao": "Auxiliar Da Limpeza"}, {"Nome": "Sandra Aparecida Santos De Souza", "Funcao": "Auxiliar Da Limpeza"}, {"Nome": "Simone De Cunha Souza", "Funcao": "Auxiliar De Limpeza"}, {"Nome": "Eunice Nogueira De Souza", "Funcao": "Encarregada Da Cozinha"}, {"Nome": "Mariana Da Costa Morais Dantas", "Funcao": "Auxiliar De Cozinha"}], "inscritos": [{"Nome": "Lindaura F Lopes ", "Funcao": "Colaboradoura Da Limpeza "}, {"Nome": "Ilmar Pereira De Aguiar Cordeiro", "Funcao": "Limpeza"}, {"Nome": "Edilma Maria Oliveira Moitinho ", "Funcao": "Limpeza "}, {"Nome": "Eunice Theodoro Dos Santos", "Funcao": "Limpeza"}, {"Nome": "Ana Cristina Paterno Hilario", "Funcao": "Aux Limpeza"}, {"Nome": "Maria Izabel De Santana ", "Funcao": "Limpeza "}]}, "Jd. Vera Cruz": {"esperados": [{"Nome": "Edimilce Araújo De Souza ", "Funcao": "Limpeza "}, {"Nome": "Eliana Aparecida Da Silva Mattos ", "Funcao": "Limpeza "}, {"Nome": "Elizabete Josefa Salvina Dos Santos ", "Funcao": "Limpeza "}, {"Nome": "Joelita Amaral Da Silva ", "Funcao": "Limpeza "}, {"Nome": "Maria Efigênia De Brito", "Funcao": "Encarregada Da Limpeza "}, {"Nome": "Eliane Moura Da Silva ", "Funcao": "Cozinha"}, {"Nome": "Mailda Vicência Carneiro Santos ", "Funcao": "Cozinha "}, {"Nome": "Rosenilda De Jesus Santos ", "Funcao": "Ajudante De Cozinha "}], "inscritos": [{"Nome": "Eliane Moura Da Silva ", "Funcao": "Cozinha"}, {"Nome": "Rosenilda De Jesus Santos ", "Funcao": "O Ciliar De Cozinha "}]}, "Jd. Ângela": {"esperados": [{"Nome": "Alaide Araújo Santos De Jesus", "Funcao": "Limpeza. "}, {"Nome": "Cássia De Jesus Freitas ", "Funcao": "Aux.Limpeza "}, {"Nome": "Creuza Cardoso ", "Funcao": "Aux Limpeza "}, {"Nome": "Daniela Alves De Lima ", "Funcao": "Aux Limpeza "}, {"Nome": "Djandira Otacilha Dos Santos ", "Funcao": "Aux Limpeza "}, {"Nome": "Eunice Pereira Silva", "Funcao": "Encarregada/Limpeza "}, {"Nome": "Genilde Sousa De Oliveira ", "Funcao": "Encarregada Limpeza "}, {"Nome": "Glauciene Vianna Dos Santos", "Funcao": "Aux Limpeza. "}, {"Nome": "Josiane Lopes Soares", "Funcao": "Aux Limpeza "}, {"Nome": "Lucilene Teixeira Sá Rocha", "Funcao": "Aux Limpeza/Cozinha."}, {"Nome": "Maria Aparecida Ana Dos Santos Lima", "Funcao": "Aux Limpeza/Cozinha. "}, {"Nome": "Maria Dedilza De Souza França Spindola ", "Funcao": "Aux Limpeza "}, {"Nome": "Maria Edilene Batista De Sousa", "Funcao": "Encarregada/Limpeza "}, {"Nome": "Maria Laci De Souza ", "Funcao": "Aux Limpeza/Cozinha "}, {"Nome": "Neuza Do Nascimento Firmino ", "Funcao": "Aux Limpeza "}, {"Nome": "Perla Nascimento Vieira", "Funcao": "Aux Limpeza/Cozinha. "}, {"Nome": "Rosana Nogueira Dias Silva", "Funcao": "Aux Limpeza "}, {"Nome": "Rosângela Campos ", "Funcao": "Aux Limpeza "}, {"Nome": "Roseane Maria Veríssimo Bezerra ", "Funcao": "Aux Limpeza "}, {"Nome": "Rozeli Rodrigues Da Silva ", "Funcao": "Aux Limpeza "}, {"Nome": "Sandra Helena Nascimento De Araújo ", "Funcao": "Aux.Cozinha/Limpeza"}, {"Nome": "Sueli Silva Ferreira De Barros ", "Funcao": "Limpeza. "}, {"Nome": "Telma Conceição Silva ", "Funcao": "Aux Limpeza/Cozinha"}, {"Nome": "Terezinha Elizabeth De Faria ", "Funcao": "Aux Limpeza "}, {"Nome": "Alzira Oliveira Gomes ", "Funcao": "Cozinheira "}, {"Nome": "Amanda Vitória Nascimentor Souza ", "Funcao": "Aux.Cozinha "}, {"Nome": "Ana Paula Fernandes Dultra Santos ", "Funcao": "Encarregada/Cozinha "}, {"Nome": "Brenda Barbosa Dos Santos ", "Funcao": "Aux. Cozinha "}, {"Nome": "Cleide Francisca Da Cruz ", "Funcao": "Aux.Cozinha "}, {"Nome": "Dalva Rocha Soares ", "Funcao": "Encarregada Coziinha."}, {"Nome": "Daniela Pires De Souza ", "Funcao": "Aux.Cozinha "}, {"Nome": "Edinalva Da Silva Andrade ", "Funcao": "Cozinheira "}, {"Nome": "Edvani Souza De Jesus Rocha ", "Funcao": "Cozinheira "}, {"Nome": "Evanete Souza Do Sacramento ", "Funcao": "Aux. Cozinha "}, {"Nome": "Isabel Conceição Da Silva ", "Funcao": "Encarregada/Cozinha"}, {"Nome": "Jenilda Barbosa Da Silva", "Funcao": "Aux Cozinha "}, {"Nome": "Larissa Guedes Oliveira ", "Funcao": "Aux . Cozinha "}, {"Nome": "Luana De Oliveira ", "Funcao": "Aux.Cozinha "}, {"Nome": "Maria Aparecida Da Silva Maragoni", "Funcao": "Aux.Cozinha "}, {"Nome": "Maria Leila Santos De Jesus ", "Funcao": "Cozinheira "}, {"Nome": "Marildes Maria Da Silva Mendonça ", "Funcao": "Cozinheira "}, {"Nome": "Maura Pereira Do Carmo Silva ", "Funcao": "Aux . Cozinha "}, {"Nome": "Pamela Soares Sala", "Funcao": "Aux.Cozinha "}, {"Nome": "Raquel Rodrigues Garcia Nunes", "Funcao": "Aux . Cozinha "}, {"Nome": "Salete Pereira  Da Silva Valdoski", "Funcao": "Aux Cozinha "}, {"Nome": "Vanessa Barbosa Santos ", "Funcao": "Aux. Cozinha "}], "inscritos": [{"Nome": "Neuza Firmino Do Nascimento ", "Funcao": "Porteira  ( Limpeza)"}, {"Nome": "Rosana Nogueira Dias Silva ", "Funcao": "Limpeza "}, {"Nome": "289232880", "Funcao": "Encarregada Da Limpeza "}, {"Nome": "Cássia De Jesus Freitas ", "Funcao": "Limpeza "}, {"Nome": "María Zileide Soares Da Silva ", "Funcao": "Limpeza "}]}, "M'Boi Mirim": {"esperados": [{"Nome": "Cíntia Silva Prado", "Funcao": "Auxiliar De Limpeza "}, {"Nome": "Maria De Sousa Fernandes ", "Funcao": "Auxiliar De Limpeza "}, {"Nome": "Maria Do Socorro De Souza Ferreira ", "Funcao": "Auxiliar De Limpeza "}, {"Nome": "Maria Lídia Almeida", "Funcao": "Encarregada De Limpeza"}, {"Nome": "Marisa Gallo Marques ", "Funcao": "Auxiliar De Limpeza"}, {"Nome": "Nicole Souza Soares", "Funcao": "Auxiliar De Limpeza"}, {"Nome": "Priscila De Carvalho Gomes", "Funcao": "Auxiliar De Limpeza"}, {"Nome": "Ruth Vieira Cruz", "Funcao": "Auxiliar De Limpeza "}, {"Nome": "Sônia Maria Pereira Cândido", "Funcao": "Auxiliar De Limpeza "}, {"Nome": "Valdineide Da Silva Santos", "Funcao": "Auxiliar De Limpeza"}, {"Nome": "Lea Alzira De Oliveira Martins", "Funcao": "Auxiliar Na Cozinha"}, {"Nome": "Loraine Fernandes Dos Reis Oliveira ", "Funcao": "Colaborador De Cozinha"}, {"Nome": "Maria Celia Oliveira Da Silva", "Funcao": "Colaborador De Cozinha"}, {"Nome": "Marilene Alecrim Dos Santos Sousa", "Funcao": "Colaborador De Cozinha"}, {"Nome": "Sebastiana Rodrigues De Jesus Vasconcelos ", "Funcao": "Encarregada De Cozinha"}, {"Nome": "Tatiana Salma De Paula", "Funcao": "Colaborador De Cozinha"}], "inscritos": [{"Nome": "Priscila De Carvalho Gomes ", "Funcao": "Auxiliar De Limpeza E Cozinha "}, {"Nome": "Nicole Souza Soares", "Funcao": "Limpeza "}, {"Nome": "Sonia Maria Pereira Candido ", "Funcao": "Auxiliar Limpeza "}, {"Nome": "Maria Lídia Tiburcio Almeida ", "Funcao": "Encarregada Limpeza "}, {"Nome": "Inacia Ferreira Da Silva ", "Funcao": "Auxiliar Limpeza "}, {"Nome": "Valdineide Da Silva ", "Funcao": "Auxiliar De Limpeza "}, {"Nome": "Maria Aparecida De Oliveira ", "Funcao": "Auxiliar  De Limpeza"}, {"Nome": "Marisa G Marques Da Silva ", "Funcao": "Auxiliar De Limpeza "}, {"Nome": "Maria Célia Oliveira Da Silva ", "Funcao": "Auxiliar De Cozinha"}, {"Nome": "Marilene Alecrin Dos Santos Sousa Nascimento ", "Funcao": "Auxiliar De Cpzinha "}, {"Nome": "Ruth Vieira Cruz ", "Funcao": "Limpeza"}, {"Nome": "Lea Alzira De Oliveira Martins ", "Funcao": "Auxiliar  De Cozinha "}]}, "Piraporinha": {"esperados": [{"Nome": "Armelinda Dos Santos", "Funcao": "Colaboradr Responsável Limpeza"}, {"Nome": "Dilza De Queiroz Fiuza Lima", "Funcao": "Colaborador Limpeza"}, {"Nome": "Doralice Dias De Queiroz Cunha", "Funcao": "Colaborador Limpeza"}, {"Nome": "Edvania Rita Da Silva", "Funcao": "Colaborador Limpeza"}, {"Nome": "Ivone Santos De Oliveira", "Funcao": "Colaborador De Limpeza"}, {"Nome": "Juceli De Jesus Costa Barreto", "Funcao": "Colaborador Limpeza"}, {"Nome": "Kelly Cristina Moreira Da Silva", "Funcao": "Colaborador Limpeza"}, {"Nome": "Maria Do Carmo Cruz Silva", "Funcao": "Colaborador Limpeza"}, {"Nome": "Maria Rocha Ribas", "Funcao": "Colaborador De Limpeza"}, {"Nome": "Marilene Barbosa Gomes", "Funcao": "Colaborador Limpeza"}, {"Nome": "Valdelice Da Conceição Ferreira De Brito", "Funcao": "Colaborador Limpeza"}, {"Nome": "Valeria Campos Maia", "Funcao": "Colaborador Limpeza"}, {"Nome": "Maria Lucia Da Silva", "Funcao": "Colaborador Cozinha"}, {"Nome": "Maria Ridna De Almeida Alves", "Funcao": "Colaborador De Cozinha"}, {"Nome": "Maryanna Oliveira Santos", "Funcao": "Colaborador Cozinha"}, {"Nome": "Sonia Maria Feliciano Guerra Da Silva", "Funcao": "Colaborador De Cozinha"}, {"Nome": "Tania Rita De Cassia Simoes Henrique", "Funcao": "Colaborador Cozinha"}], "inscritos": [{"Nome": "Lucimara Da Silva Gomes ", "Funcao": "Limpeza "}, {"Nome": "Armelinda Dos Santos ", "Funcao": "Encarregada Limpeza"}]}, "Pq. Do Lago": {"esperados": [{"Nome": "Iranilda Maria Dos Santos ", "Funcao": "Colaboradora Da Limpeza "}, {"Nome": "Márcia Cristina De Oliveira ", "Funcao": "Encarregada Da Limpeza "}, {"Nome": "Silvana Ferreira De Oliveira ", "Funcao": "Coloboradora Da Limpeza "}, {"Nome": "Thays De Oliveira Gelo Silva ", "Funcao": "Coloboradora Da Limpeza "}, {"Nome": "Caroline Vicente Souza Santos ", "Funcao": "Ajudante De Cozinha "}, {"Nome": "Karina Da Silva Salá Nascimento ", "Funcao": "Responsável Pela Cozinha "}, {"Nome": "Nadia Gomes Sarrão ", "Funcao": "Ajudante De Cozinha "}, {"Nome": "Nilsa Gomes De Freitas Lopes ", "Funcao": "Ajudante De Cozinha "}], "inscritos": [{"Nome": "Marcia Cristina De Oliveira ", "Funcao": "Encarregada De Limpeza "}]}, "Pq. Fernanda": {"esperados": [{"Nome": "Odete Vicente Do N. De Assunção", "Funcao": "Cozinha"}, {"Nome": "Noemi Marques P. De Santana", "Funcao": "Cozinha"}, {"Nome": "Rosa Valentim Da Silva", "Funcao": "Cozinha"}, {"Nome": "Maria Selia Rezende Da Silva", "Funcao": "Cozinha"}, {"Nome": "Almir Ribeiro", "Funcao": "Cozinha"}, {"Nome": "Adriana Alves Gomes Dos Santos", "Funcao": "Limpeza"}, {"Nome": "Maria Aparecida Da Silva", "Funcao": "Limpeza"}, {"Nome": "Inês Da Cruz R. Carvalho", "Funcao": "Limpeza"}, {"Nome": "Doralice De O. Rodrigues", "Funcao": "Limpeza"}, {"Nome": "Maria Do Carmo P. Dos Santos", "Funcao": "Limpeza"}, {"Nome": "Elza Joana Da Silva Souza", "Funcao": "Limpeza"}, {"Nome": "Aidê De Oliveira", "Funcao": "Limpeza"}, {"Nome": "Francisca Valentim Da Silva", "Funcao": "Limpeza"}, {"Nome": "Valéria De Souza Paes Germano", "Funcao": "Limpeza"}, {"Nome": "Hosana Lúcia Adão Da Silva", "Funcao": "Limpeza"}], "inscritos": [{"Nome": "Odete Vicente Do Nascimento De Assunção ", "Funcao": "Encarregada Cozinha"}, {"Nome": "Maspc", "Funcao": "Limpeza Geral"}, {"Nome": "Adriana Alves Gomes Dos Santos ", "Funcao": "Encarregada "}, {"Nome": "Elza Joana Da Silva Souza ", "Funcao": "Limpeza "}, {"Nome": "Ana Célia Souza Guimarães ", "Funcao": "Limpeza Orientadora"}, {"Nome": "Aide De Oliveira Correia Da Silva ", "Funcao": "Limpeza"}, {"Nome": "Maria Aparecida Da Silva ", "Funcao": "Cozinha "}]}, "Pq. Maria Helena": {"esperados": [{"Nome": "Adriana Anunciação Dos Reis Silva", "Funcao": "Colaboradora Limpeza"}, {"Nome": "Alaide Marques Da Silva Farias", "Funcao": "Colaboradora Limpeza E Cozinha"}, {"Nome": "Antonia Ferreira Machado", "Funcao": "Colaboradora Limpeza"}, {"Nome": "Ines Sebastiana De Lima Sirqueira", "Funcao": "Colaboradora Limpeza E Cozinha"}, {"Nome": "Isanyldes Alves Do Nascimento", "Funcao": "Colaboradora Limpeza"}, {"Nome": "Jassonita Lima De Araujo", "Funcao": "Colaboradora Limpeza"}, {"Nome": "Maria Aparecida De Carvalho", "Funcao": "Colaboradora Limpeza"}, {"Nome": "Maria De Lourdes Lima Da Mota Costa", "Funcao": "Colaboradora Limpeza"}, {"Nome": "Maria Dos Santos", "Funcao": "Colaboradora Limpeza"}, {"Nome": "Maria Rosimar De Almeida", "Funcao": "Encarregada Limpeza"}, {"Nome": "Marlene Maria Da Silva", "Funcao": "Colaboradora Limpeza"}, {"Nome": "Marta Souza Aguiar Carneiro", "Funcao": "Colaboradora Limpeza E Cozinha"}, {"Nome": "Neli Alves Benedicto", "Funcao": "Colaboradora Limpeza"}, {"Nome": "Sebastiana Ribeiro Pinto", "Funcao": "Colaboradora Limpeza"}, {"Nome": "Alexandra Berto Soares", "Funcao": "Colaboradora Da Cozinha"}, {"Nome": "Ana Angelica Alves Das Virgens De Brito", "Funcao": "Colaboradora Da Cozinha"}, {"Nome": "Andrea Cristina Da Silva Leme Santos", "Funcao": "Colaboradora Da Cozinha"}, {"Nome": "Aparecida Leite Dos Santos", "Funcao": "Colaboradora Da Cozinha"}, {"Nome": "Ellen De Oliveira Machado Souza", "Funcao": "Colaboradora Da Cozinha"}, {"Nome": "Giane Vieira Campos", "Funcao": "Colaboradora Da Cozinha"}, {"Nome": "Renata Camargo Jardim", "Funcao": "Colaboradora Da Cozinha"}, {"Nome": "Sandra Vieira Da Silva", "Funcao": "Colaboradora Da Cozinha"}], "inscritos": [{"Nome": "Renata Camargo Jardim ", "Funcao": "Auxiliar De Cozinha "}, {"Nome": "Luciane María Souza Paes ", "Funcao": "Cozinha "}]}, "Pq. Santo Antônio": {"esperados": [{"Nome": "Maria Kelle Da Silva ", "Funcao": "Limpeza "}, {"Nome": "Maria Lúcia Santos Batista ", "Funcao": "Limpeza"}, {"Nome": "Maria Rosa Soares Da Silva ", "Funcao": "Limpeza"}, {"Nome": "Maria Vilma Alves Ferreira ", "Funcao": "Limpeza "}, {"Nome": "Paula Cristina Cintra Lourenço ", "Funcao": "Limpeza "}], "inscritos": [{"Nome": "Maria Kelle Da Silva ", "Funcao": "Voluntário Na Limpeza "}, {"Nome": "Roseli Dangela ", "Funcao": "Ax Limpeza"}, {"Nome": "Maria De Fátima Da Silva", "Funcao": "Encarregada Da Limpeza"}, {"Nome": "Ana Lucia Rubim Silva ", "Funcao": "Limpeza"}]}, "Riviera Paulista": {"esperados": [{"Nome": "Aline Cristina Rodrigues Da Silva ", "Funcao": "Auxiliar De Limpeza "}, {"Nome": "Débora Cordeiro Dias ", "Funcao": "Auxiliar De Limpeza "}, {"Nome": "Maria De Fátima De Assis Rodrigues ", "Funcao": "Auxiliar De Limpeza "}, {"Nome": "Neide De Souza Jesus Siqueira ", "Funcao": "Encarregada Da Limpeza "}, {"Nome": "Norma Cristina Da Silva ", "Funcao": "Auxiliar De Limpeza "}, {"Nome": "Silvana Jesus De Assis ", "Funcao": "Auxiliar De Limpeza "}, {"Nome": "Lindimar Vieira Da Silva ", "Funcao": "Auxiliar De Cozinha "}, {"Nome": "Lindimar Vieira De Souza Silva ", "Funcao": "Auxiliar De Cozinha "}, {"Nome": "Maria De Lourdes Vieira De Sousa ", "Funcao": "Auxiliar De Cozinha "}, {"Nome": "María De Lourdes Vieira De Souza ", "Funcao": "Auxiliar De Cozinha "}], "inscritos": [{"Nome": "Neide De Souza Jesus Siqueira ", "Funcao": "Limpeza"}, {"Nome": "Lindimar Vieira Da Silva ", "Funcao": "Responsavel Da Cozinha "}, {"Nome": "Maria Rivania Teles Mendes ", "Funcao": "Auxiliar Da Porta/Aux Da Cozinha "}, {"Nome": "Maria De Lourdes Vieira Sousa (07702344881", "Funcao": "Aux Da Da Cozinha "}, {"Nome": "Silvana  Jesus  De  Assis ", "Funcao": " Limpeza "}, {"Nome": "María De Fátima De Assis Rodrigues ", "Funcao": " Área Da Limpeza "}, {"Nome": "Aline Cristina Rodrigues Da Silva ", "Funcao": "Area Da Limpeza"}]}, "Vila Remo": {"esperados": [], "inscritos": [{"Nome": "Simone Nery Da Cruz ", "Funcao": "Limpeza "}, {"Nome": "Maria Leopoldina Rocha Carvalho /11.405.750", "Funcao": "Encarregada"}, {"Nome": "Maria Leopoldina Rocha Carvalho ", "Funcao": "Encarregada "}, {"Nome": "Angela Maria Da Silva Turatti", "Funcao": "Limpeza"}, {"Nome": "Adilia Ferreira De Morais ", "Funcao": "Limpeza"}, {"Nome": "19.738.038-4", "Funcao": "Auxiliar Da Porta E Limpeza "}, {"Nome": "Maria Nilza Miranda De Souza Monteiro ", "Funcao": "Auxiliar Da Porta E Auxiliar Da Limpeza "}, {"Nome": "Marta Elaine Oliveira De Souza ", "Funcao": "Limpeza E Auxiliar E Espaço Infantil "}, {"Nome": "Vera Lúcia Nascimento Alves ", "Funcao": "Limpeza "}, {"Nome": "Maria Olimpia Da Silva Argemi", "Funcao": "Limpeza"}]}, "Vila Santa Lúcia": {"esperados": [{"Nome": "Ana Batista De Souza", "Funcao": "Colaborador De Limpeza"}, {"Nome": "Andreia De Souza Nascimento", "Funcao": "Colaborador De Limpeza"}, {"Nome": "Dolores Galdino Da Silva Cardoso", "Funcao": "Colaboradora Responsável Pela Atividade De Limpeza"}, {"Nome": "Eliane Coelho Ferreira", "Funcao": "Colaborador De Limpeza"}, {"Nome": "Elizeth Severino De Souza Santos Da Silva", "Funcao": "Colaborador De Limpeza"}, {"Nome": "Ilda Felismina Dos Santos", "Funcao": "Colaborador De Limpeza"}, {"Nome": "Jacira  Dias Paes", "Funcao": "Colaborador De Limpeza"}, {"Nome": "Maria José Ramos Dutra", "Funcao": "Colaborador De Limpeza"}, {"Nome": "Nilza Helena De Sousa Soares", "Funcao": "Colaborador Responsável Pela Atividade De Limpeza"}, {"Nome": "Vera Lúcia Dos Santos Sodré Almeida", "Funcao": "Colaborador De Limpeza"}, {"Nome": "Ana Lúcia Pereira Anunciação", "Funcao": "Colaborador De Cozinha"}, {"Nome": "Elaine Cristina Ramos Paes", "Funcao": "Colaborador De Cozinha"}, {"Nome": "Eliana Coelho Ferreira", "Funcao": "Colaborador De Cozinha"}, {"Nome": "Eliana Pereira Dos Santos", "Funcao": "Colaborador De Cozinha"}, {"Nome": "Elizete Ferreira Da Silva", "Funcao": "Colaborador De Cozinha"}, {"Nome": "Erica Ferreira Da Silva Santos", "Funcao": "Colaborador De Cozinha"}, {"Nome": "Iraci Borges De Oliveira Caetano", "Funcao": "Colaborador De Cozinha"}, {"Nome": "Joelma Verissimo Nascimento", "Funcao": "Colaborador De Cozinha"}, {"Nome": "Luiza Aparecida Dos Santos Figueiredo", "Funcao": "Colaborador De Cozinha"}, {"Nome": "Maria Selma Marcolino Honorato", "Funcao": "Colaborador De Cozinha"}, {"Nome": "Renata Silva Oliveira", "Funcao": "Colaborador De Cozinha"}, {"Nome": "Soraia Leal Soares", "Funcao": "Colaborador De Cozinha"}, {"Nome": "Timotia Martins Conceição Dos Santos", "Funcao": "Colaborador De Cozinha"}], "inscritos": [{"Nome": "Dolores Galdino Da Silva Cardoso", "Funcao": "Voluntário Responsável Ativ. Limpeza"}, {"Nome": "Nilza Helena De Sousa Soares", "Funcao": "Voluntário Responsável Ativ. Limpeza"}, {"Nome": "Vera Lúcia Dos Santos Sodré Almeida", "Funcao": "Colaborador De Limpeza"}, {"Nome": "Jacira  Dias Paes", "Funcao": "Colaborador De Limpeza"}, {"Nome": "Maria José Ramos Dutra", "Funcao": "Colaborador De Limpeza"}, {"Nome": "Eliane Coelho Ferreira", "Funcao": "Colaborador De Limpeza"}, {"Nome": "Ilda Felismina Dos Santos", "Funcao": "Colaborador De Limpeza"}, {"Nome": "Andreia De Souza Nascimento", "Funcao": "Colaborador De Limpeza"}, {"Nome": "Ana Batista De Souza", "Funcao": "Colaborador De Limpeza"}, {"Nome": "Elizeth Severino De Souza Santos Da Silva", "Funcao": "Colaborador De Limpeza"}, {"Nome": "Elaine Cristina Ramos Paes", "Funcao": "Ajudante De Cozinha"}, {"Nome": "Iraci Borges De Oliveira Caetano", "Funcao": "Ajudante De Cozinha"}, {"Nome": "Joelma Verissimo Nascimento", "Funcao": "Colaboradora De Cozinha"}, {"Nome": "Maria Selma Marcolino Honorato", "Funcao": "Colaboradora De Cozinha"}, {"Nome": "Soraia Leal Soares", "Funcao": "Colaboradora De Cozinha"}, {"Nome": "Elizete Ferreira Da Silva", "Funcao": "Colaboradora De Cozinha"}, {"Nome": "Ana Lúcia Pereira Anunciação", "Funcao": "Colaboradora De Cozinha"}, {"Nome": "Timotia Martins Conceição Dos Santos", "Funcao": "Colaboradora De Cozinha"}, {"Nome": "Renata Silva Oliveira", "Funcao": "Colaboradora De Cozinha"}, {"Nome": "Erica Ferreira Da Silva Santos", "Funcao": "Colaboradora De Cozinha"}, {"Nome": "Eliana Pereira Dos Santos", "Funcao": "Colaboradora De Cozinha"}, {"Nome": "Luiza Aparecida Dos Santos Figueiredo", "Funcao": "Colaboradora De Cozinha"}, {"Nome": "Ivanilda Nunes Neris De Oliveira", "Funcao": "Colaboradora De Cozinha"}, {"Nome": "Maria Das Mercês Urbano De Araujo", "Funcao": "Colaboradora De Cozinha"}]}};
+        // Dados Criptografados gerados pelo Python
+        const saltB64 = "O2qnPgz7nam3f6lLwgDe/A==";
+        const ivB64 = "b121vP0WgsPeabTLh74Hqg==";
+        const ctB64 = "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";
 
-        document.addEventListener('DOMContentLoaded', () => {
+        let dataDetalhes = {};
+
+        function checkPass() {
+            const pass = document.getElementById('passInput').value;
+            const error = document.getElementById('errorMsg');
+
+            try {
+                // Descriptografia em memória usando CryptoJS
+                const salt = CryptoJS.enc.Base64.parse(saltB64);
+                const iv = CryptoJS.enc.Base64.parse(ivB64);
+                const ciphertext = CryptoJS.enc.Base64.parse(ctB64);
+
+                const key = CryptoJS.PBKDF2(pass, salt, { keySize: 256/32, iterations: 1000 });
+                const cipherParams = CryptoJS.lib.CipherParams.create({ ciphertext: ciphertext });
+
+                const decrypted = CryptoJS.AES.decrypt(cipherParams, key, { iv: iv });
+                const decryptedStr = decrypted.toString(CryptoJS.enc.Utf8);
+
+                if (!decryptedStr) throw new Error("Senha incorreta");
+
+                // Alimentando o Dashboard com os dados descriptografados
+                dataDetalhes = JSON.parse(decryptedStr);
+
+                // Alternando as telas
+                document.getElementById('login-screen').style.display = 'none';
+                document.getElementById('main-content').style.display = 'block';
+
+                initDashboard();
+
+            } catch (e) {
+                error.classList.remove('hidden');
+                document.getElementById('passInput').value = "";
+            }
+        }
+
+        // permitindo que o usuario aperte enter para validar
+        document.getElementById('passInput').addEventListener('keypress', function (e) {
+            if (e.key === 'Enter') checkPass();
+        });
+
+        function initDashboard() {
             const select = document.getElementById('congregation-select');
             const congs = Object.keys(dataDetalhes).sort();
             congs.forEach(cong => {
@@ -1225,7 +1248,7 @@
                 opt.textContent = cong;
                 select.appendChild(opt);
             });
-        });
+        }
 
         function switchTab(tabId) {
             const btnResumo = document.getElementById('tab-resumo');
@@ -1251,7 +1274,7 @@
             const cong = select.value;
             const tbodyEsp = document.getElementById('tbody-esp');
             const tbodyInsc = document.getElementById('tbody-insc');
-            
+
             const countEsp = document.getElementById('count-esp');
             const countInsc = document.getElementById('count-insc');
 
