@@ -1,0 +1,1291 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard de Inscrição do Treinamento - Produtos Químicos [Limpeza] & Segurança [Cozinha]</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            950: '#070D22',
+                            900: '#0b1633', /* Deep Blue Body */
+                            800: '#142551', /* Cards */
+                            700: '#1d3674', /* Borders / hover */
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+    <style>
+        body { background-color: #0b1633; }
+        @keyframes fade-in-up {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fade-in-up { animation: fade-in-up 0.6s ease-out forwards; opacity: 0; }
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #0b1633; }
+        ::-webkit-scrollbar-thumb { background: #1d3674; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #254694; }
+    </style>
+</head>
+<body class="text-slate-100 font-sans min-h-screen">
+
+    <div class="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        
+        <header class="mb-10 animate-fade-in-up flex flex-col gap-2">
+            <h2 class="text-3xl md:text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-300 to-blue-500 max-w-4xl">
+                Dashboard de Inscrição no Treinamento
+            </h2>
+            <h4 class="text-2xl md:text-3xl font-bold text-slate-300 mt-1">
+                Produtos Químicos (Limpeza) & Segurança (Cozinha)
+            </h4>
+            <p class="text-brand-300 mt-3 font-semibold text-sm">Atualizado em: <span class="text-blue-300">13/04/2026 18:01:12</span></p>
+        </header>
+
+        <!-- Navegação de Abas -->
+        <div class="mb-8 flex space-x-6 border-b border-brand-700 animate-fade-in-up" style="animation-delay: 50ms;">
+            <button id="tab-resumo" class="pb-3 text-blue-400 border-b-2 border-blue-500 font-semibold focus:outline-none transition-colors text-lg" onclick="switchTab('resumo')">Visão Geral</button>
+            <button id="tab-detalhes" class="pb-3 text-slate-400 border-b-2 border-transparent hover:text-slate-200 hover:border-slate-500 font-semibold focus:outline-none transition-colors text-lg" onclick="switchTab('detalhes')">Lista por Congregação</button>
+        </div>
+
+        <!-- CONTEÚDO DA ABA DE RESUMO -->
+        <div id="view-resumo">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
+                
+                <div class="bg-brand-800 rounded-2xl p-6 border border-brand-700 shadow-[0_10px_15px_-3px_rgba(0,0,0,0.5)] transform transition-transform duration-300 hover:-translate-y-1 hover:border-blue-500 hover:shadow-xl animate-fade-in-up" style="animation-delay: 100ms;">
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <p class="text-sm font-semibold text-slate-400 mb-1">Total Previstos</p>
+                            <h2 class="text-4xl font-extrabold text-white">503</h2>
+                        </div>
+                        <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-blue-500 to-blue-700 flex items-center justify-center shadow-lg">
+                            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-brand-800 rounded-2xl p-6 border border-brand-700 shadow-[0_10px_15px_-3px_rgba(0,0,0,0.5)] transform transition-transform duration-300 hover:-translate-y-1 hover:border-emerald-500 hover:shadow-xl animate-fade-in-up" style="animation-delay: 200ms;">
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <p class="text-sm font-semibold text-slate-400 mb-1">Total Inscritos</p>
+                            <h2 class="text-4xl font-extrabold text-white">257</h2>
+                        </div>
+                        <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-emerald-500 to-emerald-700 flex items-center justify-center shadow-lg">
+                            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-brand-800 rounded-2xl p-6 border border-brand-700 shadow-[0_10px_15px_-3px_rgba(0,0,0,0.5)] transform transition-transform duration-300 hover:-translate-y-1 hover:border-rose-500 hover:shadow-xl animate-fade-in-up" style="animation-delay: 300ms;">
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <p class="text-sm font-semibold text-slate-400 mb-1">Faltam Inscrever</p>
+                            <h2 class="text-4xl font-extrabold text-white">246</h2>
+                        </div>
+                        <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-yellow-500 to-yellow-700 flex items-center justify-center shadow-lg">
+                            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-brand-800 rounded-2xl p-6 border border-brand-700 shadow-[0_10px_15px_-3px_rgba(0,0,0,0.5)] transform transition-transform duration-300 hover:-translate-y-1 hover:border-purple-500 hover:shadow-xl animate-fade-in-up" style="animation-delay: 400ms;">
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <p class="text-sm font-semibold text-slate-400 mb-1">% de Inscrições</p>
+                            <h2 class="text-4xl font-extrabold text-white">51.1%</h2>
+                        </div>
+                        <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-purple-500 to-purple-700 flex items-center justify-center shadow-lg">
+                            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path></svg>
+                        </div>
+                    </div>
+                    <div class="w-full bg-brand-900 rounded-full h-1.5 mt-4">
+                        <div class="bg-purple-500 h-1.5 rounded-full" style="width: 51.0934393638171%"></div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="mb-6 mt-12 animate-fade-in-up" style="animation-delay: 500ms;">
+                <h2 class="text-2xl font-bold text-slate-200">
+                    Detalhamento por Congregação
+                </h2>
+                <div class="h-1 w-20 bg-blue-500 rounded mt-2"></div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 pb-12">
+                
+        <div class="bg-brand-800 rounded-2xl p-6 border border-brand-700 shadow-[0_10px_15px_-3px_rgba(0,0,0,0.5)] transform transition-transform duration-300 hover:-translate-y-1 hover:border-blue-500 hover:shadow-xl animate-fade-in-up flex flex-col justify-between" style="animation-delay: 0ms;">
+            <div>
+                <h3 class="text-lg font-bold text-slate-100 mb-4">Cidade Ipava</h3>
+                
+                <div class="flex flex-col gap-2">
+                    <div class="flex justify-between items-center bg-brand-900/60 p-3 rounded-lg border border-brand-700/50">
+                        <span class="text-xs font-semibold text-slate-400 tracking-wide">Previstos</span>
+                        <span class="text-lg font-bold text-slate-300">16</span>
+                    </div>
+                    
+                    <div class="flex justify-between items-center bg-emerald-900/20 p-3 rounded-lg border border-emerald-900/30">
+                        <span class="text-xs font-semibold text-emerald-400 tracking-wide">Inscritos</span>
+                        <span class="text-xl font-extrabold text-emerald-400">8</span>
+                    </div>
+
+                    <div class="flex justify-between items-center bg-yellow-900/20 p-3 rounded-lg border border-yellow-900/30">
+                        <span class="text-xs font-semibold text-yellow-400 tracking-wide">Pendentes</span>
+                        <span class="text-lg font-extrabold text-yellow-400">8</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Barra de Progresso do Aproveitamento -->
+            <div class="mt-5">
+                <div class="flex justify-between mb-2">
+                    <span class="text-xs font-bold text-slate-400 tracking-wide">% Inscrições</span>
+                    <span class="text-xs font-extrabold text-blue-400">50.0%</span>
+                </div>
+                <div class="w-full bg-brand-900/80 rounded-full h-2.5 overflow-hidden">
+                    <div class="bg-blue-500 h-2.5 rounded-full transition-all duration-1000" style="width: 50.0%"></div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="bg-brand-800 rounded-2xl p-6 border border-brand-700 shadow-[0_10px_15px_-3px_rgba(0,0,0,0.5)] transform transition-transform duration-300 hover:-translate-y-1 hover:border-blue-500 hover:shadow-xl animate-fade-in-up flex flex-col justify-between" style="animation-delay: 50ms;">
+            <div>
+                <h3 class="text-lg font-bold text-slate-100 mb-4">Jd. Amália</h3>
+                
+                <div class="flex flex-col gap-2">
+                    <div class="flex justify-between items-center bg-brand-900/60 p-3 rounded-lg border border-brand-700/50">
+                        <span class="text-xs font-semibold text-slate-400 tracking-wide">Previstos</span>
+                        <span class="text-lg font-bold text-slate-300">23</span>
+                    </div>
+                    
+                    <div class="flex justify-between items-center bg-emerald-900/20 p-3 rounded-lg border border-emerald-900/30">
+                        <span class="text-xs font-semibold text-emerald-400 tracking-wide">Inscritos</span>
+                        <span class="text-xl font-extrabold text-emerald-400">4</span>
+                    </div>
+
+                    <div class="flex justify-between items-center bg-yellow-900/20 p-3 rounded-lg border border-yellow-900/30">
+                        <span class="text-xs font-semibold text-yellow-400 tracking-wide">Pendentes</span>
+                        <span class="text-lg font-extrabold text-yellow-400">19</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Barra de Progresso do Aproveitamento -->
+            <div class="mt-5">
+                <div class="flex justify-between mb-2">
+                    <span class="text-xs font-bold text-slate-400 tracking-wide">% Inscrições</span>
+                    <span class="text-xs font-extrabold text-yellow-400">17.4%</span>
+                </div>
+                <div class="w-full bg-brand-900/80 rounded-full h-2.5 overflow-hidden">
+                    <div class="bg-yellow-500 h-2.5 rounded-full transition-all duration-1000" style="width: 17.391304347826086%"></div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="bg-brand-800 rounded-2xl p-6 border border-brand-700 shadow-[0_10px_15px_-3px_rgba(0,0,0,0.5)] transform transition-transform duration-300 hover:-translate-y-1 hover:border-blue-500 hover:shadow-xl animate-fade-in-up flex flex-col justify-between" style="animation-delay: 100ms;">
+            <div>
+                <h3 class="text-lg font-bold text-slate-100 mb-4">Jd. Aracati</h3>
+                
+                <div class="flex flex-col gap-2">
+                    <div class="flex justify-between items-center bg-brand-900/60 p-3 rounded-lg border border-brand-700/50">
+                        <span class="text-xs font-semibold text-slate-400 tracking-wide">Previstos</span>
+                        <span class="text-lg font-bold text-slate-300">12</span>
+                    </div>
+                    
+                    <div class="flex justify-between items-center bg-emerald-900/20 p-3 rounded-lg border border-emerald-900/30">
+                        <span class="text-xs font-semibold text-emerald-400 tracking-wide">Inscritos</span>
+                        <span class="text-xl font-extrabold text-emerald-400">4</span>
+                    </div>
+
+                    <div class="flex justify-between items-center bg-yellow-900/20 p-3 rounded-lg border border-yellow-900/30">
+                        <span class="text-xs font-semibold text-yellow-400 tracking-wide">Pendentes</span>
+                        <span class="text-lg font-extrabold text-yellow-400">8</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Barra de Progresso do Aproveitamento -->
+            <div class="mt-5">
+                <div class="flex justify-between mb-2">
+                    <span class="text-xs font-bold text-slate-400 tracking-wide">% Inscrições</span>
+                    <span class="text-xs font-extrabold text-yellow-400">33.3%</span>
+                </div>
+                <div class="w-full bg-brand-900/80 rounded-full h-2.5 overflow-hidden">
+                    <div class="bg-yellow-500 h-2.5 rounded-full transition-all duration-1000" style="width: 33.33333333333333%"></div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="bg-brand-800 rounded-2xl p-6 border border-brand-700 shadow-[0_10px_15px_-3px_rgba(0,0,0,0.5)] transform transition-transform duration-300 hover:-translate-y-1 hover:border-blue-500 hover:shadow-xl animate-fade-in-up flex flex-col justify-between" style="animation-delay: 150ms;">
+            <div>
+                <h3 class="text-lg font-bold text-slate-100 mb-4">Jd. Capão Redondo</h3>
+                
+                <div class="flex flex-col gap-2">
+                    <div class="flex justify-between items-center bg-brand-900/60 p-3 rounded-lg border border-brand-700/50">
+                        <span class="text-xs font-semibold text-slate-400 tracking-wide">Previstos</span>
+                        <span class="text-lg font-bold text-slate-300">21</span>
+                    </div>
+                    
+                    <div class="flex justify-between items-center bg-emerald-900/20 p-3 rounded-lg border border-emerald-900/30">
+                        <span class="text-xs font-semibold text-emerald-400 tracking-wide">Inscritos</span>
+                        <span class="text-xl font-extrabold text-emerald-400">16</span>
+                    </div>
+
+                    <div class="flex justify-between items-center bg-yellow-900/20 p-3 rounded-lg border border-yellow-900/30">
+                        <span class="text-xs font-semibold text-yellow-400 tracking-wide">Pendentes</span>
+                        <span class="text-lg font-extrabold text-yellow-400">5</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Barra de Progresso do Aproveitamento -->
+            <div class="mt-5">
+                <div class="flex justify-between mb-2">
+                    <span class="text-xs font-bold text-slate-400 tracking-wide">% Inscrições</span>
+                    <span class="text-xs font-extrabold text-blue-400">76.2%</span>
+                </div>
+                <div class="w-full bg-brand-900/80 rounded-full h-2.5 overflow-hidden">
+                    <div class="bg-blue-500 h-2.5 rounded-full transition-all duration-1000" style="width: 76.19047619047619%"></div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="bg-brand-800 rounded-2xl p-6 border border-brand-700 shadow-[0_10px_15px_-3px_rgba(0,0,0,0.5)] transform transition-transform duration-300 hover:-translate-y-1 hover:border-blue-500 hover:shadow-xl animate-fade-in-up flex flex-col justify-between" style="animation-delay: 200ms;">
+            <div>
+                <h3 class="text-lg font-bold text-slate-100 mb-4">Jd. Célia</h3>
+                
+                <div class="flex flex-col gap-2">
+                    <div class="flex justify-between items-center bg-brand-900/60 p-3 rounded-lg border border-brand-700/50">
+                        <span class="text-xs font-semibold text-slate-400 tracking-wide">Previstos</span>
+                        <span class="text-lg font-bold text-slate-300">17</span>
+                    </div>
+                    
+                    <div class="flex justify-between items-center bg-emerald-900/20 p-3 rounded-lg border border-emerald-900/30">
+                        <span class="text-xs font-semibold text-emerald-400 tracking-wide">Inscritos</span>
+                        <span class="text-xl font-extrabold text-emerald-400">12</span>
+                    </div>
+
+                    <div class="flex justify-between items-center bg-yellow-900/20 p-3 rounded-lg border border-yellow-900/30">
+                        <span class="text-xs font-semibold text-yellow-400 tracking-wide">Pendentes</span>
+                        <span class="text-lg font-extrabold text-yellow-400">5</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Barra de Progresso do Aproveitamento -->
+            <div class="mt-5">
+                <div class="flex justify-between mb-2">
+                    <span class="text-xs font-bold text-slate-400 tracking-wide">% Inscrições</span>
+                    <span class="text-xs font-extrabold text-blue-400">70.6%</span>
+                </div>
+                <div class="w-full bg-brand-900/80 rounded-full h-2.5 overflow-hidden">
+                    <div class="bg-blue-500 h-2.5 rounded-full transition-all duration-1000" style="width: 70.58823529411765%"></div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="bg-brand-800 rounded-2xl p-6 border border-brand-700 shadow-[0_10px_15px_-3px_rgba(0,0,0,0.5)] transform transition-transform duration-300 hover:-translate-y-1 hover:border-blue-500 hover:shadow-xl animate-fade-in-up flex flex-col justify-between" style="animation-delay: 250ms;">
+            <div>
+                <h3 class="text-lg font-bold text-slate-100 mb-4">Jd. Das Flores</h3>
+                
+                <div class="flex flex-col gap-2">
+                    <div class="flex justify-between items-center bg-brand-900/60 p-3 rounded-lg border border-brand-700/50">
+                        <span class="text-xs font-semibold text-slate-400 tracking-wide">Previstos</span>
+                        <span class="text-lg font-bold text-slate-300">10</span>
+                    </div>
+                    
+                    <div class="flex justify-between items-center bg-emerald-900/20 p-3 rounded-lg border border-emerald-900/30">
+                        <span class="text-xs font-semibold text-emerald-400 tracking-wide">Inscritos</span>
+                        <span class="text-xl font-extrabold text-emerald-400">3</span>
+                    </div>
+
+                    <div class="flex justify-between items-center bg-yellow-900/20 p-3 rounded-lg border border-yellow-900/30">
+                        <span class="text-xs font-semibold text-yellow-400 tracking-wide">Pendentes</span>
+                        <span class="text-lg font-extrabold text-yellow-400">7</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Barra de Progresso do Aproveitamento -->
+            <div class="mt-5">
+                <div class="flex justify-between mb-2">
+                    <span class="text-xs font-bold text-slate-400 tracking-wide">% Inscrições</span>
+                    <span class="text-xs font-extrabold text-yellow-400">30.0%</span>
+                </div>
+                <div class="w-full bg-brand-900/80 rounded-full h-2.5 overflow-hidden">
+                    <div class="bg-yellow-500 h-2.5 rounded-full transition-all duration-1000" style="width: 30.0%"></div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="bg-brand-800 rounded-2xl p-6 border border-brand-700 shadow-[0_10px_15px_-3px_rgba(0,0,0,0.5)] transform transition-transform duration-300 hover:-translate-y-1 hover:border-blue-500 hover:shadow-xl animate-fade-in-up flex flex-col justify-between" style="animation-delay: 300ms;">
+            <div>
+                <h3 class="text-lg font-bold text-slate-100 mb-4">Jd. Guarujá</h3>
+                
+                <div class="flex flex-col gap-2">
+                    <div class="flex justify-between items-center bg-brand-900/60 p-3 rounded-lg border border-brand-700/50">
+                        <span class="text-xs font-semibold text-slate-400 tracking-wide">Previstos</span>
+                        <span class="text-lg font-bold text-slate-300">29</span>
+                    </div>
+                    
+                    <div class="flex justify-between items-center bg-emerald-900/20 p-3 rounded-lg border border-emerald-900/30">
+                        <span class="text-xs font-semibold text-emerald-400 tracking-wide">Inscritos</span>
+                        <span class="text-xl font-extrabold text-emerald-400">14</span>
+                    </div>
+
+                    <div class="flex justify-between items-center bg-yellow-900/20 p-3 rounded-lg border border-yellow-900/30">
+                        <span class="text-xs font-semibold text-yellow-400 tracking-wide">Pendentes</span>
+                        <span class="text-lg font-extrabold text-yellow-400">15</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Barra de Progresso do Aproveitamento -->
+            <div class="mt-5">
+                <div class="flex justify-between mb-2">
+                    <span class="text-xs font-bold text-slate-400 tracking-wide">% Inscrições</span>
+                    <span class="text-xs font-extrabold text-yellow-400">48.3%</span>
+                </div>
+                <div class="w-full bg-brand-900/80 rounded-full h-2.5 overflow-hidden">
+                    <div class="bg-yellow-500 h-2.5 rounded-full transition-all duration-1000" style="width: 48.275862068965516%"></div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="bg-brand-800 rounded-2xl p-6 border border-brand-700 shadow-[0_10px_15px_-3px_rgba(0,0,0,0.5)] transform transition-transform duration-300 hover:-translate-y-1 hover:border-blue-500 hover:shadow-xl animate-fade-in-up flex flex-col justify-between" style="animation-delay: 350ms;">
+            <div>
+                <h3 class="text-lg font-bold text-slate-100 mb-4">Jd. Ibirapuera</h3>
+                
+                <div class="flex flex-col gap-2">
+                    <div class="flex justify-between items-center bg-brand-900/60 p-3 rounded-lg border border-brand-700/50">
+                        <span class="text-xs font-semibold text-slate-400 tracking-wide">Previstos</span>
+                        <span class="text-lg font-bold text-slate-300">22</span>
+                    </div>
+                    
+                    <div class="flex justify-between items-center bg-emerald-900/20 p-3 rounded-lg border border-emerald-900/30">
+                        <span class="text-xs font-semibold text-emerald-400 tracking-wide">Inscritos</span>
+                        <span class="text-xl font-extrabold text-emerald-400">3</span>
+                    </div>
+
+                    <div class="flex justify-between items-center bg-yellow-900/20 p-3 rounded-lg border border-yellow-900/30">
+                        <span class="text-xs font-semibold text-yellow-400 tracking-wide">Pendentes</span>
+                        <span class="text-lg font-extrabold text-yellow-400">19</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Barra de Progresso do Aproveitamento -->
+            <div class="mt-5">
+                <div class="flex justify-between mb-2">
+                    <span class="text-xs font-bold text-slate-400 tracking-wide">% Inscrições</span>
+                    <span class="text-xs font-extrabold text-yellow-400">13.6%</span>
+                </div>
+                <div class="w-full bg-brand-900/80 rounded-full h-2.5 overflow-hidden">
+                    <div class="bg-yellow-500 h-2.5 rounded-full transition-all duration-1000" style="width: 13.636363636363635%"></div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="bg-brand-800 rounded-2xl p-6 border border-brand-700 shadow-[0_10px_15px_-3px_rgba(0,0,0,0.5)] transform transition-transform duration-300 hover:-translate-y-1 hover:border-blue-500 hover:shadow-xl animate-fade-in-up flex flex-col justify-between" style="animation-delay: 400ms;">
+            <div>
+                <h3 class="text-lg font-bold text-slate-100 mb-4">Jd. Ingá</h3>
+                
+                <div class="flex flex-col gap-2">
+                    <div class="flex justify-between items-center bg-brand-900/60 p-3 rounded-lg border border-brand-700/50">
+                        <span class="text-xs font-semibold text-slate-400 tracking-wide">Previstos</span>
+                        <span class="text-lg font-bold text-slate-300">17</span>
+                    </div>
+                    
+                    <div class="flex justify-between items-center bg-emerald-900/20 p-3 rounded-lg border border-emerald-900/30">
+                        <span class="text-xs font-semibold text-emerald-400 tracking-wide">Inscritos</span>
+                        <span class="text-xl font-extrabold text-emerald-400">5</span>
+                    </div>
+
+                    <div class="flex justify-between items-center bg-yellow-900/20 p-3 rounded-lg border border-yellow-900/30">
+                        <span class="text-xs font-semibold text-yellow-400 tracking-wide">Pendentes</span>
+                        <span class="text-lg font-extrabold text-yellow-400">12</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Barra de Progresso do Aproveitamento -->
+            <div class="mt-5">
+                <div class="flex justify-between mb-2">
+                    <span class="text-xs font-bold text-slate-400 tracking-wide">% Inscrições</span>
+                    <span class="text-xs font-extrabold text-yellow-400">29.4%</span>
+                </div>
+                <div class="w-full bg-brand-900/80 rounded-full h-2.5 overflow-hidden">
+                    <div class="bg-yellow-500 h-2.5 rounded-full transition-all duration-1000" style="width: 29.411764705882355%"></div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="bg-brand-800 rounded-2xl p-6 border border-brand-700 shadow-[0_10px_15px_-3px_rgba(0,0,0,0.5)] transform transition-transform duration-300 hover:-translate-y-1 hover:border-blue-500 hover:shadow-xl animate-fade-in-up flex flex-col justify-between" style="animation-delay: 450ms;">
+            <div>
+                <h3 class="text-lg font-bold text-slate-100 mb-4">Jd. Leônidas Moreira</h3>
+                
+                <div class="flex flex-col gap-2">
+                    <div class="flex justify-between items-center bg-brand-900/60 p-3 rounded-lg border border-brand-700/50">
+                        <span class="text-xs font-semibold text-slate-400 tracking-wide">Previstos</span>
+                        <span class="text-lg font-bold text-slate-300">25</span>
+                    </div>
+                    
+                    <div class="flex justify-between items-center bg-emerald-900/20 p-3 rounded-lg border border-emerald-900/30">
+                        <span class="text-xs font-semibold text-emerald-400 tracking-wide">Inscritos</span>
+                        <span class="text-xl font-extrabold text-emerald-400">6</span>
+                    </div>
+
+                    <div class="flex justify-between items-center bg-yellow-900/20 p-3 rounded-lg border border-yellow-900/30">
+                        <span class="text-xs font-semibold text-yellow-400 tracking-wide">Pendentes</span>
+                        <span class="text-lg font-extrabold text-yellow-400">19</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Barra de Progresso do Aproveitamento -->
+            <div class="mt-5">
+                <div class="flex justify-between mb-2">
+                    <span class="text-xs font-bold text-slate-400 tracking-wide">% Inscrições</span>
+                    <span class="text-xs font-extrabold text-yellow-400">24.0%</span>
+                </div>
+                <div class="w-full bg-brand-900/80 rounded-full h-2.5 overflow-hidden">
+                    <div class="bg-yellow-500 h-2.5 rounded-full transition-all duration-1000" style="width: 24.0%"></div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="bg-brand-800 rounded-2xl p-6 border border-brand-700 shadow-[0_10px_15px_-3px_rgba(0,0,0,0.5)] transform transition-transform duration-300 hover:-translate-y-1 hover:border-blue-500 hover:shadow-xl animate-fade-in-up flex flex-col justify-between" style="animation-delay: 500ms;">
+            <div>
+                <h3 class="text-lg font-bold text-slate-100 mb-4">Jd. Lídia</h3>
+                
+                <div class="flex flex-col gap-2">
+                    <div class="flex justify-between items-center bg-brand-900/60 p-3 rounded-lg border border-brand-700/50">
+                        <span class="text-xs font-semibold text-slate-400 tracking-wide">Previstos</span>
+                        <span class="text-lg font-bold text-slate-300">0</span>
+                    </div>
+                    
+                    <div class="flex justify-between items-center bg-emerald-900/20 p-3 rounded-lg border border-emerald-900/30">
+                        <span class="text-xs font-semibold text-emerald-400 tracking-wide">Inscritos</span>
+                        <span class="text-xl font-extrabold text-emerald-400">5</span>
+                    </div>
+
+                    <div class="flex justify-between items-center bg-yellow-900/20 p-3 rounded-lg border border-yellow-900/30">
+                        <span class="text-xs font-semibold text-yellow-400 tracking-wide">Pendentes</span>
+                        <span class="text-lg font-extrabold text-yellow-400">0</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Barra de Progresso do Aproveitamento -->
+            <div class="mt-5">
+                <div class="flex justify-between mb-2">
+                    <span class="text-xs font-bold text-slate-400 tracking-wide">% Inscrições</span>
+                    <span class="text-xs font-extrabold text-emerald-400">100.0%</span>
+                </div>
+                <div class="w-full bg-brand-900/80 rounded-full h-2.5 overflow-hidden">
+                    <div class="bg-emerald-500 h-2.5 rounded-full transition-all duration-1000" style="width: 100.0%"></div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="bg-brand-800 rounded-2xl p-6 border border-brand-700 shadow-[0_10px_15px_-3px_rgba(0,0,0,0.5)] transform transition-transform duration-300 hover:-translate-y-1 hover:border-blue-500 hover:shadow-xl animate-fade-in-up flex flex-col justify-between" style="animation-delay: 550ms;">
+            <div>
+                <h3 class="text-lg font-bold text-slate-100 mb-4">Jd. Nakamura</h3>
+                
+                <div class="flex flex-col gap-2">
+                    <div class="flex justify-between items-center bg-brand-900/60 p-3 rounded-lg border border-brand-700/50">
+                        <span class="text-xs font-semibold text-slate-400 tracking-wide">Previstos</span>
+                        <span class="text-lg font-bold text-slate-300">17</span>
+                    </div>
+                    
+                    <div class="flex justify-between items-center bg-emerald-900/20 p-3 rounded-lg border border-emerald-900/30">
+                        <span class="text-xs font-semibold text-emerald-400 tracking-wide">Inscritos</span>
+                        <span class="text-xl font-extrabold text-emerald-400">17</span>
+                    </div>
+
+                    <div class="flex justify-between items-center bg-yellow-900/20 p-3 rounded-lg border border-yellow-900/30">
+                        <span class="text-xs font-semibold text-yellow-400 tracking-wide">Pendentes</span>
+                        <span class="text-lg font-extrabold text-yellow-400">0</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Barra de Progresso do Aproveitamento -->
+            <div class="mt-5">
+                <div class="flex justify-between mb-2">
+                    <span class="text-xs font-bold text-slate-400 tracking-wide">% Inscrições</span>
+                    <span class="text-xs font-extrabold text-emerald-400">100.0%</span>
+                </div>
+                <div class="w-full bg-brand-900/80 rounded-full h-2.5 overflow-hidden">
+                    <div class="bg-emerald-500 h-2.5 rounded-full transition-all duration-1000" style="width: 100.0%"></div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="bg-brand-800 rounded-2xl p-6 border border-brand-700 shadow-[0_10px_15px_-3px_rgba(0,0,0,0.5)] transform transition-transform duration-300 hover:-translate-y-1 hover:border-blue-500 hover:shadow-xl animate-fade-in-up flex flex-col justify-between" style="animation-delay: 600ms;">
+            <div>
+                <h3 class="text-lg font-bold text-slate-100 mb-4">Jd. Novo Oriente</h3>
+                
+                <div class="flex flex-col gap-2">
+                    <div class="flex justify-between items-center bg-brand-900/60 p-3 rounded-lg border border-brand-700/50">
+                        <span class="text-xs font-semibold text-slate-400 tracking-wide">Previstos</span>
+                        <span class="text-lg font-bold text-slate-300">23</span>
+                    </div>
+                    
+                    <div class="flex justify-between items-center bg-emerald-900/20 p-3 rounded-lg border border-emerald-900/30">
+                        <span class="text-xs font-semibold text-emerald-400 tracking-wide">Inscritos</span>
+                        <span class="text-xl font-extrabold text-emerald-400">8</span>
+                    </div>
+
+                    <div class="flex justify-between items-center bg-yellow-900/20 p-3 rounded-lg border border-yellow-900/30">
+                        <span class="text-xs font-semibold text-yellow-400 tracking-wide">Pendentes</span>
+                        <span class="text-lg font-extrabold text-yellow-400">15</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Barra de Progresso do Aproveitamento -->
+            <div class="mt-5">
+                <div class="flex justify-between mb-2">
+                    <span class="text-xs font-bold text-slate-400 tracking-wide">% Inscrições</span>
+                    <span class="text-xs font-extrabold text-yellow-400">34.8%</span>
+                </div>
+                <div class="w-full bg-brand-900/80 rounded-full h-2.5 overflow-hidden">
+                    <div class="bg-yellow-500 h-2.5 rounded-full transition-all duration-1000" style="width: 34.78260869565217%"></div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="bg-brand-800 rounded-2xl p-6 border border-brand-700 shadow-[0_10px_15px_-3px_rgba(0,0,0,0.5)] transform transition-transform duration-300 hover:-translate-y-1 hover:border-blue-500 hover:shadow-xl animate-fade-in-up flex flex-col justify-between" style="animation-delay: 650ms;">
+            <div>
+                <h3 class="text-lg font-bold text-slate-100 mb-4">Jd. Piracuama</h3>
+                
+                <div class="flex flex-col gap-2">
+                    <div class="flex justify-between items-center bg-brand-900/60 p-3 rounded-lg border border-brand-700/50">
+                        <span class="text-xs font-semibold text-slate-400 tracking-wide">Previstos</span>
+                        <span class="text-lg font-bold text-slate-300">0</span>
+                    </div>
+                    
+                    <div class="flex justify-between items-center bg-emerald-900/20 p-3 rounded-lg border border-emerald-900/30">
+                        <span class="text-xs font-semibold text-emerald-400 tracking-wide">Inscritos</span>
+                        <span class="text-xl font-extrabold text-emerald-400">3</span>
+                    </div>
+
+                    <div class="flex justify-between items-center bg-yellow-900/20 p-3 rounded-lg border border-yellow-900/30">
+                        <span class="text-xs font-semibold text-yellow-400 tracking-wide">Pendentes</span>
+                        <span class="text-lg font-extrabold text-yellow-400">0</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Barra de Progresso do Aproveitamento -->
+            <div class="mt-5">
+                <div class="flex justify-between mb-2">
+                    <span class="text-xs font-bold text-slate-400 tracking-wide">% Inscrições</span>
+                    <span class="text-xs font-extrabold text-emerald-400">100.0%</span>
+                </div>
+                <div class="w-full bg-brand-900/80 rounded-full h-2.5 overflow-hidden">
+                    <div class="bg-emerald-500 h-2.5 rounded-full transition-all duration-1000" style="width: 100.0%"></div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="bg-brand-800 rounded-2xl p-6 border border-brand-700 shadow-[0_10px_15px_-3px_rgba(0,0,0,0.5)] transform transition-transform duration-300 hover:-translate-y-1 hover:border-blue-500 hover:shadow-xl animate-fade-in-up flex flex-col justify-between" style="animation-delay: 700ms;">
+            <div>
+                <h3 class="text-lg font-bold text-slate-100 mb-4">Jd. Sete Lagos</h3>
+                
+                <div class="flex flex-col gap-2">
+                    <div class="flex justify-between items-center bg-brand-900/60 p-3 rounded-lg border border-brand-700/50">
+                        <span class="text-xs font-semibold text-slate-400 tracking-wide">Previstos</span>
+                        <span class="text-lg font-bold text-slate-300">20</span>
+                    </div>
+                    
+                    <div class="flex justify-between items-center bg-emerald-900/20 p-3 rounded-lg border border-emerald-900/30">
+                        <span class="text-xs font-semibold text-emerald-400 tracking-wide">Inscritos</span>
+                        <span class="text-xl font-extrabold text-emerald-400">10</span>
+                    </div>
+
+                    <div class="flex justify-between items-center bg-yellow-900/20 p-3 rounded-lg border border-yellow-900/30">
+                        <span class="text-xs font-semibold text-yellow-400 tracking-wide">Pendentes</span>
+                        <span class="text-lg font-extrabold text-yellow-400">10</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Barra de Progresso do Aproveitamento -->
+            <div class="mt-5">
+                <div class="flex justify-between mb-2">
+                    <span class="text-xs font-bold text-slate-400 tracking-wide">% Inscrições</span>
+                    <span class="text-xs font-extrabold text-blue-400">50.0%</span>
+                </div>
+                <div class="w-full bg-brand-900/80 rounded-full h-2.5 overflow-hidden">
+                    <div class="bg-blue-500 h-2.5 rounded-full transition-all duration-1000" style="width: 50.0%"></div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="bg-brand-800 rounded-2xl p-6 border border-brand-700 shadow-[0_10px_15px_-3px_rgba(0,0,0,0.5)] transform transition-transform duration-300 hover:-translate-y-1 hover:border-blue-500 hover:shadow-xl animate-fade-in-up flex flex-col justify-between" style="animation-delay: 750ms;">
+            <div>
+                <h3 class="text-lg font-bold text-slate-100 mb-4">Jd. São Francisco</h3>
+                
+                <div class="flex flex-col gap-2">
+                    <div class="flex justify-between items-center bg-brand-900/60 p-3 rounded-lg border border-brand-700/50">
+                        <span class="text-xs font-semibold text-slate-400 tracking-wide">Previstos</span>
+                        <span class="text-lg font-bold text-slate-300">21</span>
+                    </div>
+                    
+                    <div class="flex justify-between items-center bg-emerald-900/20 p-3 rounded-lg border border-emerald-900/30">
+                        <span class="text-xs font-semibold text-emerald-400 tracking-wide">Inscritos</span>
+                        <span class="text-xl font-extrabold text-emerald-400">8</span>
+                    </div>
+
+                    <div class="flex justify-between items-center bg-yellow-900/20 p-3 rounded-lg border border-yellow-900/30">
+                        <span class="text-xs font-semibold text-yellow-400 tracking-wide">Pendentes</span>
+                        <span class="text-lg font-extrabold text-yellow-400">13</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Barra de Progresso do Aproveitamento -->
+            <div class="mt-5">
+                <div class="flex justify-between mb-2">
+                    <span class="text-xs font-bold text-slate-400 tracking-wide">% Inscrições</span>
+                    <span class="text-xs font-extrabold text-yellow-400">38.1%</span>
+                </div>
+                <div class="w-full bg-brand-900/80 rounded-full h-2.5 overflow-hidden">
+                    <div class="bg-yellow-500 h-2.5 rounded-full transition-all duration-1000" style="width: 38.095238095238095%"></div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="bg-brand-800 rounded-2xl p-6 border border-brand-700 shadow-[0_10px_15px_-3px_rgba(0,0,0,0.5)] transform transition-transform duration-300 hover:-translate-y-1 hover:border-blue-500 hover:shadow-xl animate-fade-in-up flex flex-col justify-between" style="animation-delay: 800ms;">
+            <div>
+                <h3 class="text-lg font-bold text-slate-100 mb-4">Jd. São Lourenço</h3>
+                
+                <div class="flex flex-col gap-2">
+                    <div class="flex justify-between items-center bg-brand-900/60 p-3 rounded-lg border border-brand-700/50">
+                        <span class="text-xs font-semibold text-slate-400 tracking-wide">Previstos</span>
+                        <span class="text-lg font-bold text-slate-300">29</span>
+                    </div>
+                    
+                    <div class="flex justify-between items-center bg-emerald-900/20 p-3 rounded-lg border border-emerald-900/30">
+                        <span class="text-xs font-semibold text-emerald-400 tracking-wide">Inscritos</span>
+                        <span class="text-xl font-extrabold text-emerald-400">10</span>
+                    </div>
+
+                    <div class="flex justify-between items-center bg-yellow-900/20 p-3 rounded-lg border border-yellow-900/30">
+                        <span class="text-xs font-semibold text-yellow-400 tracking-wide">Pendentes</span>
+                        <span class="text-lg font-extrabold text-yellow-400">19</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Barra de Progresso do Aproveitamento -->
+            <div class="mt-5">
+                <div class="flex justify-between mb-2">
+                    <span class="text-xs font-bold text-slate-400 tracking-wide">% Inscrições</span>
+                    <span class="text-xs font-extrabold text-yellow-400">34.5%</span>
+                </div>
+                <div class="w-full bg-brand-900/80 rounded-full h-2.5 overflow-hidden">
+                    <div class="bg-yellow-500 h-2.5 rounded-full transition-all duration-1000" style="width: 34.48275862068966%"></div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="bg-brand-800 rounded-2xl p-6 border border-brand-700 shadow-[0_10px_15px_-3px_rgba(0,0,0,0.5)] transform transition-transform duration-300 hover:-translate-y-1 hover:border-blue-500 hover:shadow-xl animate-fade-in-up flex flex-col justify-between" style="animation-delay: 850ms;">
+            <div>
+                <h3 class="text-lg font-bold text-slate-100 mb-4">Jd. São Luiz</h3>
+                
+                <div class="flex flex-col gap-2">
+                    <div class="flex justify-between items-center bg-brand-900/60 p-3 rounded-lg border border-brand-700/50">
+                        <span class="text-xs font-semibold text-slate-400 tracking-wide">Previstos</span>
+                        <span class="text-lg font-bold text-slate-300">14</span>
+                    </div>
+                    
+                    <div class="flex justify-between items-center bg-emerald-900/20 p-3 rounded-lg border border-emerald-900/30">
+                        <span class="text-xs font-semibold text-emerald-400 tracking-wide">Inscritos</span>
+                        <span class="text-xl font-extrabold text-emerald-400">14</span>
+                    </div>
+
+                    <div class="flex justify-between items-center bg-yellow-900/20 p-3 rounded-lg border border-yellow-900/30">
+                        <span class="text-xs font-semibold text-yellow-400 tracking-wide">Pendentes</span>
+                        <span class="text-lg font-extrabold text-yellow-400">0</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Barra de Progresso do Aproveitamento -->
+            <div class="mt-5">
+                <div class="flex justify-between mb-2">
+                    <span class="text-xs font-bold text-slate-400 tracking-wide">% Inscrições</span>
+                    <span class="text-xs font-extrabold text-emerald-400">100.0%</span>
+                </div>
+                <div class="w-full bg-brand-900/80 rounded-full h-2.5 overflow-hidden">
+                    <div class="bg-emerald-500 h-2.5 rounded-full transition-all duration-1000" style="width: 100.0%"></div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="bg-brand-800 rounded-2xl p-6 border border-brand-700 shadow-[0_10px_15px_-3px_rgba(0,0,0,0.5)] transform transition-transform duration-300 hover:-translate-y-1 hover:border-blue-500 hover:shadow-xl animate-fade-in-up flex flex-col justify-between" style="animation-delay: 900ms;">
+            <div>
+                <h3 class="text-lg font-bold text-slate-100 mb-4">Jd. Umarizal</h3>
+                
+                <div class="flex flex-col gap-2">
+                    <div class="flex justify-between items-center bg-brand-900/60 p-3 rounded-lg border border-brand-700/50">
+                        <span class="text-xs font-semibold text-slate-400 tracking-wide">Previstos</span>
+                        <span class="text-lg font-bold text-slate-300">17</span>
+                    </div>
+                    
+                    <div class="flex justify-between items-center bg-emerald-900/20 p-3 rounded-lg border border-emerald-900/30">
+                        <span class="text-xs font-semibold text-emerald-400 tracking-wide">Inscritos</span>
+                        <span class="text-xl font-extrabold text-emerald-400">10</span>
+                    </div>
+
+                    <div class="flex justify-between items-center bg-yellow-900/20 p-3 rounded-lg border border-yellow-900/30">
+                        <span class="text-xs font-semibold text-yellow-400 tracking-wide">Pendentes</span>
+                        <span class="text-lg font-extrabold text-yellow-400">7</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Barra de Progresso do Aproveitamento -->
+            <div class="mt-5">
+                <div class="flex justify-between mb-2">
+                    <span class="text-xs font-bold text-slate-400 tracking-wide">% Inscrições</span>
+                    <span class="text-xs font-extrabold text-blue-400">58.8%</span>
+                </div>
+                <div class="w-full bg-brand-900/80 rounded-full h-2.5 overflow-hidden">
+                    <div class="bg-blue-500 h-2.5 rounded-full transition-all duration-1000" style="width: 58.82352941176471%"></div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="bg-brand-800 rounded-2xl p-6 border border-brand-700 shadow-[0_10px_15px_-3px_rgba(0,0,0,0.5)] transform transition-transform duration-300 hover:-translate-y-1 hover:border-blue-500 hover:shadow-xl animate-fade-in-up flex flex-col justify-between" style="animation-delay: 950ms;">
+            <div>
+                <h3 class="text-lg font-bold text-slate-100 mb-4">Jd. Vera Cruz</h3>
+                
+                <div class="flex flex-col gap-2">
+                    <div class="flex justify-between items-center bg-brand-900/60 p-3 rounded-lg border border-brand-700/50">
+                        <span class="text-xs font-semibold text-slate-400 tracking-wide">Previstos</span>
+                        <span class="text-lg font-bold text-slate-300">8</span>
+                    </div>
+                    
+                    <div class="flex justify-between items-center bg-emerald-900/20 p-3 rounded-lg border border-emerald-900/30">
+                        <span class="text-xs font-semibold text-emerald-400 tracking-wide">Inscritos</span>
+                        <span class="text-xl font-extrabold text-emerald-400">4</span>
+                    </div>
+
+                    <div class="flex justify-between items-center bg-yellow-900/20 p-3 rounded-lg border border-yellow-900/30">
+                        <span class="text-xs font-semibold text-yellow-400 tracking-wide">Pendentes</span>
+                        <span class="text-lg font-extrabold text-yellow-400">4</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Barra de Progresso do Aproveitamento -->
+            <div class="mt-5">
+                <div class="flex justify-between mb-2">
+                    <span class="text-xs font-bold text-slate-400 tracking-wide">% Inscrições</span>
+                    <span class="text-xs font-extrabold text-blue-400">50.0%</span>
+                </div>
+                <div class="w-full bg-brand-900/80 rounded-full h-2.5 overflow-hidden">
+                    <div class="bg-blue-500 h-2.5 rounded-full transition-all duration-1000" style="width: 50.0%"></div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="bg-brand-800 rounded-2xl p-6 border border-brand-700 shadow-[0_10px_15px_-3px_rgba(0,0,0,0.5)] transform transition-transform duration-300 hover:-translate-y-1 hover:border-blue-500 hover:shadow-xl animate-fade-in-up flex flex-col justify-between" style="animation-delay: 1000ms;">
+            <div>
+                <h3 class="text-lg font-bold text-slate-100 mb-4">Jd. Ângela</h3>
+                
+                <div class="flex flex-col gap-2">
+                    <div class="flex justify-between items-center bg-brand-900/60 p-3 rounded-lg border border-brand-700/50">
+                        <span class="text-xs font-semibold text-slate-400 tracking-wide">Previstos</span>
+                        <span class="text-lg font-bold text-slate-300">46</span>
+                    </div>
+                    
+                    <div class="flex justify-between items-center bg-emerald-900/20 p-3 rounded-lg border border-emerald-900/30">
+                        <span class="text-xs font-semibold text-emerald-400 tracking-wide">Inscritos</span>
+                        <span class="text-xl font-extrabold text-emerald-400">7</span>
+                    </div>
+
+                    <div class="flex justify-between items-center bg-yellow-900/20 p-3 rounded-lg border border-yellow-900/30">
+                        <span class="text-xs font-semibold text-yellow-400 tracking-wide">Pendentes</span>
+                        <span class="text-lg font-extrabold text-yellow-400">39</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Barra de Progresso do Aproveitamento -->
+            <div class="mt-5">
+                <div class="flex justify-between mb-2">
+                    <span class="text-xs font-bold text-slate-400 tracking-wide">% Inscrições</span>
+                    <span class="text-xs font-extrabold text-yellow-400">15.2%</span>
+                </div>
+                <div class="w-full bg-brand-900/80 rounded-full h-2.5 overflow-hidden">
+                    <div class="bg-yellow-500 h-2.5 rounded-full transition-all duration-1000" style="width: 15.217391304347828%"></div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="bg-brand-800 rounded-2xl p-6 border border-brand-700 shadow-[0_10px_15px_-3px_rgba(0,0,0,0.5)] transform transition-transform duration-300 hover:-translate-y-1 hover:border-blue-500 hover:shadow-xl animate-fade-in-up flex flex-col justify-between" style="animation-delay: 1000ms;">
+            <div>
+                <h3 class="text-lg font-bold text-slate-100 mb-4">M'Boi Mirim</h3>
+                
+                <div class="flex flex-col gap-2">
+                    <div class="flex justify-between items-center bg-brand-900/60 p-3 rounded-lg border border-brand-700/50">
+                        <span class="text-xs font-semibold text-slate-400 tracking-wide">Previstos</span>
+                        <span class="text-lg font-bold text-slate-300">16</span>
+                    </div>
+                    
+                    <div class="flex justify-between items-center bg-emerald-900/20 p-3 rounded-lg border border-emerald-900/30">
+                        <span class="text-xs font-semibold text-emerald-400 tracking-wide">Inscritos</span>
+                        <span class="text-xl font-extrabold text-emerald-400">12</span>
+                    </div>
+
+                    <div class="flex justify-between items-center bg-yellow-900/20 p-3 rounded-lg border border-yellow-900/30">
+                        <span class="text-xs font-semibold text-yellow-400 tracking-wide">Pendentes</span>
+                        <span class="text-lg font-extrabold text-yellow-400">4</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Barra de Progresso do Aproveitamento -->
+            <div class="mt-5">
+                <div class="flex justify-between mb-2">
+                    <span class="text-xs font-bold text-slate-400 tracking-wide">% Inscrições</span>
+                    <span class="text-xs font-extrabold text-blue-400">75.0%</span>
+                </div>
+                <div class="w-full bg-brand-900/80 rounded-full h-2.5 overflow-hidden">
+                    <div class="bg-blue-500 h-2.5 rounded-full transition-all duration-1000" style="width: 75.0%"></div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="bg-brand-800 rounded-2xl p-6 border border-brand-700 shadow-[0_10px_15px_-3px_rgba(0,0,0,0.5)] transform transition-transform duration-300 hover:-translate-y-1 hover:border-blue-500 hover:shadow-xl animate-fade-in-up flex flex-col justify-between" style="animation-delay: 1000ms;">
+            <div>
+                <h3 class="text-lg font-bold text-slate-100 mb-4">Piraporinha</h3>
+                
+                <div class="flex flex-col gap-2">
+                    <div class="flex justify-between items-center bg-brand-900/60 p-3 rounded-lg border border-brand-700/50">
+                        <span class="text-xs font-semibold text-slate-400 tracking-wide">Previstos</span>
+                        <span class="text-lg font-bold text-slate-300">17</span>
+                    </div>
+                    
+                    <div class="flex justify-between items-center bg-emerald-900/20 p-3 rounded-lg border border-emerald-900/30">
+                        <span class="text-xs font-semibold text-emerald-400 tracking-wide">Inscritos</span>
+                        <span class="text-xl font-extrabold text-emerald-400">3</span>
+                    </div>
+
+                    <div class="flex justify-between items-center bg-yellow-900/20 p-3 rounded-lg border border-yellow-900/30">
+                        <span class="text-xs font-semibold text-yellow-400 tracking-wide">Pendentes</span>
+                        <span class="text-lg font-extrabold text-yellow-400">14</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Barra de Progresso do Aproveitamento -->
+            <div class="mt-5">
+                <div class="flex justify-between mb-2">
+                    <span class="text-xs font-bold text-slate-400 tracking-wide">% Inscrições</span>
+                    <span class="text-xs font-extrabold text-yellow-400">17.6%</span>
+                </div>
+                <div class="w-full bg-brand-900/80 rounded-full h-2.5 overflow-hidden">
+                    <div class="bg-yellow-500 h-2.5 rounded-full transition-all duration-1000" style="width: 17.647058823529413%"></div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="bg-brand-800 rounded-2xl p-6 border border-brand-700 shadow-[0_10px_15px_-3px_rgba(0,0,0,0.5)] transform transition-transform duration-300 hover:-translate-y-1 hover:border-blue-500 hover:shadow-xl animate-fade-in-up flex flex-col justify-between" style="animation-delay: 1000ms;">
+            <div>
+                <h3 class="text-lg font-bold text-slate-100 mb-4">Pq. Do Lago</h3>
+                
+                <div class="flex flex-col gap-2">
+                    <div class="flex justify-between items-center bg-brand-900/60 p-3 rounded-lg border border-brand-700/50">
+                        <span class="text-xs font-semibold text-slate-400 tracking-wide">Previstos</span>
+                        <span class="text-lg font-bold text-slate-300">8</span>
+                    </div>
+                    
+                    <div class="flex justify-between items-center bg-emerald-900/20 p-3 rounded-lg border border-emerald-900/30">
+                        <span class="text-xs font-semibold text-emerald-400 tracking-wide">Inscritos</span>
+                        <span class="text-xl font-extrabold text-emerald-400">1</span>
+                    </div>
+
+                    <div class="flex justify-between items-center bg-yellow-900/20 p-3 rounded-lg border border-yellow-900/30">
+                        <span class="text-xs font-semibold text-yellow-400 tracking-wide">Pendentes</span>
+                        <span class="text-lg font-extrabold text-yellow-400">7</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Barra de Progresso do Aproveitamento -->
+            <div class="mt-5">
+                <div class="flex justify-between mb-2">
+                    <span class="text-xs font-bold text-slate-400 tracking-wide">% Inscrições</span>
+                    <span class="text-xs font-extrabold text-yellow-400">12.5%</span>
+                </div>
+                <div class="w-full bg-brand-900/80 rounded-full h-2.5 overflow-hidden">
+                    <div class="bg-yellow-500 h-2.5 rounded-full transition-all duration-1000" style="width: 12.5%"></div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="bg-brand-800 rounded-2xl p-6 border border-brand-700 shadow-[0_10px_15px_-3px_rgba(0,0,0,0.5)] transform transition-transform duration-300 hover:-translate-y-1 hover:border-blue-500 hover:shadow-xl animate-fade-in-up flex flex-col justify-between" style="animation-delay: 1000ms;">
+            <div>
+                <h3 class="text-lg font-bold text-slate-100 mb-4">Pq. Fernanda</h3>
+                
+                <div class="flex flex-col gap-2">
+                    <div class="flex justify-between items-center bg-brand-900/60 p-3 rounded-lg border border-brand-700/50">
+                        <span class="text-xs font-semibold text-slate-400 tracking-wide">Previstos</span>
+                        <span class="text-lg font-bold text-slate-300">15</span>
+                    </div>
+                    
+                    <div class="flex justify-between items-center bg-emerald-900/20 p-3 rounded-lg border border-emerald-900/30">
+                        <span class="text-xs font-semibold text-emerald-400 tracking-wide">Inscritos</span>
+                        <span class="text-xl font-extrabold text-emerald-400">7</span>
+                    </div>
+
+                    <div class="flex justify-between items-center bg-yellow-900/20 p-3 rounded-lg border border-yellow-900/30">
+                        <span class="text-xs font-semibold text-yellow-400 tracking-wide">Pendentes</span>
+                        <span class="text-lg font-extrabold text-yellow-400">8</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Barra de Progresso do Aproveitamento -->
+            <div class="mt-5">
+                <div class="flex justify-between mb-2">
+                    <span class="text-xs font-bold text-slate-400 tracking-wide">% Inscrições</span>
+                    <span class="text-xs font-extrabold text-yellow-400">46.7%</span>
+                </div>
+                <div class="w-full bg-brand-900/80 rounded-full h-2.5 overflow-hidden">
+                    <div class="bg-yellow-500 h-2.5 rounded-full transition-all duration-1000" style="width: 46.666666666666664%"></div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="bg-brand-800 rounded-2xl p-6 border border-brand-700 shadow-[0_10px_15px_-3px_rgba(0,0,0,0.5)] transform transition-transform duration-300 hover:-translate-y-1 hover:border-blue-500 hover:shadow-xl animate-fade-in-up flex flex-col justify-between" style="animation-delay: 1000ms;">
+            <div>
+                <h3 class="text-lg font-bold text-slate-100 mb-4">Pq. Maria Helena</h3>
+                
+                <div class="flex flex-col gap-2">
+                    <div class="flex justify-between items-center bg-brand-900/60 p-3 rounded-lg border border-brand-700/50">
+                        <span class="text-xs font-semibold text-slate-400 tracking-wide">Previstos</span>
+                        <span class="text-lg font-bold text-slate-300">22</span>
+                    </div>
+                    
+                    <div class="flex justify-between items-center bg-emerald-900/20 p-3 rounded-lg border border-emerald-900/30">
+                        <span class="text-xs font-semibold text-emerald-400 tracking-wide">Inscritos</span>
+                        <span class="text-xl font-extrabold text-emerald-400">10</span>
+                    </div>
+
+                    <div class="flex justify-between items-center bg-yellow-900/20 p-3 rounded-lg border border-yellow-900/30">
+                        <span class="text-xs font-semibold text-yellow-400 tracking-wide">Pendentes</span>
+                        <span class="text-lg font-extrabold text-yellow-400">12</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Barra de Progresso do Aproveitamento -->
+            <div class="mt-5">
+                <div class="flex justify-between mb-2">
+                    <span class="text-xs font-bold text-slate-400 tracking-wide">% Inscrições</span>
+                    <span class="text-xs font-extrabold text-yellow-400">45.5%</span>
+                </div>
+                <div class="w-full bg-brand-900/80 rounded-full h-2.5 overflow-hidden">
+                    <div class="bg-yellow-500 h-2.5 rounded-full transition-all duration-1000" style="width: 45.45454545454545%"></div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="bg-brand-800 rounded-2xl p-6 border border-brand-700 shadow-[0_10px_15px_-3px_rgba(0,0,0,0.5)] transform transition-transform duration-300 hover:-translate-y-1 hover:border-blue-500 hover:shadow-xl animate-fade-in-up flex flex-col justify-between" style="animation-delay: 1000ms;">
+            <div>
+                <h3 class="text-lg font-bold text-slate-100 mb-4">Pq. Santo Antônio</h3>
+                
+                <div class="flex flex-col gap-2">
+                    <div class="flex justify-between items-center bg-brand-900/60 p-3 rounded-lg border border-brand-700/50">
+                        <span class="text-xs font-semibold text-slate-400 tracking-wide">Previstos</span>
+                        <span class="text-lg font-bold text-slate-300">5</span>
+                    </div>
+                    
+                    <div class="flex justify-between items-center bg-emerald-900/20 p-3 rounded-lg border border-emerald-900/30">
+                        <span class="text-xs font-semibold text-emerald-400 tracking-wide">Inscritos</span>
+                        <span class="text-xl font-extrabold text-emerald-400">4</span>
+                    </div>
+
+                    <div class="flex justify-between items-center bg-yellow-900/20 p-3 rounded-lg border border-yellow-900/30">
+                        <span class="text-xs font-semibold text-yellow-400 tracking-wide">Pendentes</span>
+                        <span class="text-lg font-extrabold text-yellow-400">1</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Barra de Progresso do Aproveitamento -->
+            <div class="mt-5">
+                <div class="flex justify-between mb-2">
+                    <span class="text-xs font-bold text-slate-400 tracking-wide">% Inscrições</span>
+                    <span class="text-xs font-extrabold text-blue-400">80.0%</span>
+                </div>
+                <div class="w-full bg-brand-900/80 rounded-full h-2.5 overflow-hidden">
+                    <div class="bg-blue-500 h-2.5 rounded-full transition-all duration-1000" style="width: 80.0%"></div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="bg-brand-800 rounded-2xl p-6 border border-brand-700 shadow-[0_10px_15px_-3px_rgba(0,0,0,0.5)] transform transition-transform duration-300 hover:-translate-y-1 hover:border-blue-500 hover:shadow-xl animate-fade-in-up flex flex-col justify-between" style="animation-delay: 1000ms;">
+            <div>
+                <h3 class="text-lg font-bold text-slate-100 mb-4">Riviera Paulista</h3>
+                
+                <div class="flex flex-col gap-2">
+                    <div class="flex justify-between items-center bg-brand-900/60 p-3 rounded-lg border border-brand-700/50">
+                        <span class="text-xs font-semibold text-slate-400 tracking-wide">Previstos</span>
+                        <span class="text-lg font-bold text-slate-300">10</span>
+                    </div>
+                    
+                    <div class="flex justify-between items-center bg-emerald-900/20 p-3 rounded-lg border border-emerald-900/30">
+                        <span class="text-xs font-semibold text-emerald-400 tracking-wide">Inscritos</span>
+                        <span class="text-xl font-extrabold text-emerald-400">8</span>
+                    </div>
+
+                    <div class="flex justify-between items-center bg-yellow-900/20 p-3 rounded-lg border border-yellow-900/30">
+                        <span class="text-xs font-semibold text-yellow-400 tracking-wide">Pendentes</span>
+                        <span class="text-lg font-extrabold text-yellow-400">2</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Barra de Progresso do Aproveitamento -->
+            <div class="mt-5">
+                <div class="flex justify-between mb-2">
+                    <span class="text-xs font-bold text-slate-400 tracking-wide">% Inscrições</span>
+                    <span class="text-xs font-extrabold text-blue-400">80.0%</span>
+                </div>
+                <div class="w-full bg-brand-900/80 rounded-full h-2.5 overflow-hidden">
+                    <div class="bg-blue-500 h-2.5 rounded-full transition-all duration-1000" style="width: 80.0%"></div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="bg-brand-800 rounded-2xl p-6 border border-brand-700 shadow-[0_10px_15px_-3px_rgba(0,0,0,0.5)] transform transition-transform duration-300 hover:-translate-y-1 hover:border-blue-500 hover:shadow-xl animate-fade-in-up flex flex-col justify-between" style="animation-delay: 1000ms;">
+            <div>
+                <h3 class="text-lg font-bold text-slate-100 mb-4">Vila Remo</h3>
+                
+                <div class="flex flex-col gap-2">
+                    <div class="flex justify-between items-center bg-brand-900/60 p-3 rounded-lg border border-brand-700/50">
+                        <span class="text-xs font-semibold text-slate-400 tracking-wide">Previstos</span>
+                        <span class="text-lg font-bold text-slate-300">0</span>
+                    </div>
+                    
+                    <div class="flex justify-between items-center bg-emerald-900/20 p-3 rounded-lg border border-emerald-900/30">
+                        <span class="text-xs font-semibold text-emerald-400 tracking-wide">Inscritos</span>
+                        <span class="text-xl font-extrabold text-emerald-400">16</span>
+                    </div>
+
+                    <div class="flex justify-between items-center bg-yellow-900/20 p-3 rounded-lg border border-yellow-900/30">
+                        <span class="text-xs font-semibold text-yellow-400 tracking-wide">Pendentes</span>
+                        <span class="text-lg font-extrabold text-yellow-400">0</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Barra de Progresso do Aproveitamento -->
+            <div class="mt-5">
+                <div class="flex justify-between mb-2">
+                    <span class="text-xs font-bold text-slate-400 tracking-wide">% Inscrições</span>
+                    <span class="text-xs font-extrabold text-emerald-400">100.0%</span>
+                </div>
+                <div class="w-full bg-brand-900/80 rounded-full h-2.5 overflow-hidden">
+                    <div class="bg-emerald-500 h-2.5 rounded-full transition-all duration-1000" style="width: 100.0%"></div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="bg-brand-800 rounded-2xl p-6 border border-brand-700 shadow-[0_10px_15px_-3px_rgba(0,0,0,0.5)] transform transition-transform duration-300 hover:-translate-y-1 hover:border-blue-500 hover:shadow-xl animate-fade-in-up flex flex-col justify-between" style="animation-delay: 1000ms;">
+            <div>
+                <h3 class="text-lg font-bold text-slate-100 mb-4">Vila Santa Lúcia</h3>
+                
+                <div class="flex flex-col gap-2">
+                    <div class="flex justify-between items-center bg-brand-900/60 p-3 rounded-lg border border-brand-700/50">
+                        <span class="text-xs font-semibold text-slate-400 tracking-wide">Previstos</span>
+                        <span class="text-lg font-bold text-slate-300">23</span>
+                    </div>
+                    
+                    <div class="flex justify-between items-center bg-emerald-900/20 p-3 rounded-lg border border-emerald-900/30">
+                        <span class="text-xs font-semibold text-emerald-400 tracking-wide">Inscritos</span>
+                        <span class="text-xl font-extrabold text-emerald-400">25</span>
+                    </div>
+
+                    <div class="flex justify-between items-center bg-yellow-900/20 p-3 rounded-lg border border-yellow-900/30">
+                        <span class="text-xs font-semibold text-yellow-400 tracking-wide">Pendentes</span>
+                        <span class="text-lg font-extrabold text-yellow-400">0</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Barra de Progresso do Aproveitamento -->
+            <div class="mt-5">
+                <div class="flex justify-between mb-2">
+                    <span class="text-xs font-bold text-slate-400 tracking-wide">% Inscrições</span>
+                    <span class="text-xs font-extrabold text-emerald-400">108.7%</span>
+                </div>
+                <div class="w-full bg-brand-900/80 rounded-full h-2.5 overflow-hidden">
+                    <div class="bg-emerald-500 h-2.5 rounded-full transition-all duration-1000" style="width: 100.0%"></div>
+                </div>
+            </div>
+        </div>
+        
+            </div>
+        </div>
+
+        <!-- CONTEÚDO DA ABA DE DETALHES (LISTA) -->
+        <div id="view-detalhes" class="hidden animate-fade-in-up pb-12" style="animation-delay: 100ms;">
+            
+            <div class="bg-brand-800 rounded-2xl p-6 border border-brand-700 shadow-xl mb-6">
+                <label for="congregation-select" class="block text-sm font-bold text-slate-400 mb-2 tracking-wider">Filtre por Casa de Oração:</label>
+                <select id="congregation-select" class="w-full md:w-1/3 bg-brand-900 border border-brand-700 text-slate-100 text-base rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-3 shadow-inner cursor-pointer" onchange="renderDetails()">
+                    <option value="">-- Selecione uma opção --</option>
+                    <!-- Opções injetadas via JS -->
+                </select>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6" id="tables-container">
+                
+                <!-- Tabela Previstos -->
+                <div class="bg-brand-800 rounded-2xl border border-brand-700 shadow-xl overflow-hidden flex flex-col h-[600px]">
+                    <div class="p-6 border-b border-brand-700 bg-brand-800/80 backdrop-blur shrink-0">
+                        <h3 class="text-xl font-bold text-slate-200 flex items-center gap-3">
+                            <div class="w-3 h-3 rounded-full bg-blue-500 shadow-[0_0_10px_rgba(59,130,246,0.8)]"></div> 
+                            Previstos (<span id="count-esp" class="text-blue-400">0</span>)
+                        </h3>
+                    </div>
+                    <div class="overflow-y-auto grow p-0">
+                        <table class="w-full text-sm text-left text-slate-300">
+                            <thead class="text-xs text-slate-400 bg-brand-900/90 sticky top-0 z-10 backdrop-blur border-b border-brand-700">
+                                <tr>
+                                    <th scope="col" class="px-6 py-4">Nome</th>
+                                    <th scope="col" class="px-6 py-4 hidden sm:table-cell">Função na Congregação (Inf. Escrita Local)</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tbody-esp" class="divide-y divide-brand-700/50">
+                                <tr><td colspan="2" class="px-6 py-8 text-center text-slate-500 italic">Selecione uma Congregação</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Tabela Inscritos -->
+                <div class="bg-brand-800 rounded-2xl border border-brand-700 shadow-xl overflow-hidden flex flex-col h-[600px]">
+                    <div class="p-6 border-b border-brand-700 bg-brand-800/80 backdrop-blur shrink-0">
+                        <h3 class="text-xl font-bold text-slate-200 flex items-center gap-3">
+                            <div class="w-3 h-3 rounded-full bg-emerald-500 shadow-[0_0_10px_rgba(16,185,129,0.8)]"></div> 
+                            Inscritos (<span id="count-insc" class="text-emerald-400">0</span>)
+                        </h3>
+                    </div>
+                    <div class="overflow-y-auto grow p-0">
+                        <table class="w-full text-sm text-left text-slate-300">
+                            <thead class="text-xs text-slate-400 bg-brand-900/90 sticky top-0 z-10 backdrop-blur border-b border-brand-700">
+                                <tr>
+                                    <th scope="col" class="px-6 py-4">Nome</th>
+                                    <th scope="col" class="px-6 py-4 hidden sm:table-cell">Função na Congregação (Inf. na Inscrição)</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tbody-insc" class="divide-y divide-brand-700/50">
+                                <tr><td colspan="2" class="px-6 py-8 text-center text-slate-500 italic">Selecione uma Congregação</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+            </div>
+            
+        </div>
+
+    </div>
+
+    <script>
+        const dataDetalhes = {"Cidade Ipava": {"esperados": [{"Nome": "Antônia Carvalho De Oliveira ", "Funcao": "Limpeza "}, {"Nome": "Luezi Sousa Santos ", "Funcao": "Limpeza "}, {"Nome": "Luzia Maria De Siqueira ", "Funcao": "Limpeza "}, {"Nome": "Maria Amâncio Dos Santos Rocha ", "Funcao": "Limpeza "}, {"Nome": "Maria Elzidores L. Silva", "Funcao": "Limpeza "}, {"Nome": "Maria Luzia De Santana Silva", "Funcao": "Limpeza "}, {"Nome": "Ozaneide De Lima Sousa", "Funcao": "Limpeza "}, {"Nome": "Risemary Santos Da Silva ", "Funcao": "Limpeza "}, {"Nome": "Rizonilda Ferreira Dos Santos ", "Funcao": "Limpeza "}, {"Nome": "Rosangela Apareciada A Rodrigues ", "Funcao": "Limpeza "}, {"Nome": "Rosangela Apareciada Rodrigues Da Silva ", "Funcao": "Limpeza "}, {"Nome": "Tereza Azevedo Rocha ", "Funcao": "Limpeza "}, {"Nome": "Zilmar Souza Oliveira ", "Funcao": "Limpeza "}, {"Nome": "Elenice Barbosa Da Silva ", "Funcao": "Cozinha "}, {"Nome": "Maria Zita Ribeiro Santos ", "Funcao": "Cozinha "}, {"Nome": "Solange Santana De Almeida ", "Funcao": "Cozinha "}], "inscritos": [{"Nome": "Márcia Roberta Vidal Alves ", "Funcao": "Copa"}, {"Nome": "Hozana Lima Da Silva ", "Funcao": "Auxiliar Da Copa"}, {"Nome": "Solange Santana De Almeida ", "Funcao": "Cozinha"}, {"Nome": "Tereza Azeredo Rocha ", "Funcao": "Conservação "}, {"Nome": "Daniela Silva Santos ", "Funcao": "Conservação E Limpeza"}, {"Nome": "Jaqueline Simão De Araújo Sousa", "Funcao": "Conservação E Limpeza"}, {"Nome": "Dilma De Oliveira ", "Funcao": "Limpeza"}, {"Nome": "Taynara Souza Soares", "Funcao": "Cozinha E Conservação "}]}, "Jd. Amália": {"esperados": [{"Nome": "Aline Cardoso Da Silva ", "Funcao": "Auxiliar Da Limpeza "}, {"Nome": "Andrea Maria Barbosa Novais ", "Funcao": "Colaborador De Limpeza "}, {"Nome": "Beatriz Dias Dos Santos ", "Funcao": "Auxiliar Da Limpeza "}, {"Nome": "Cleidiane Silva Santos ", "Funcao": "Colaborador De Limpeza "}, {"Nome": "José Carlos Da Conceição Souza ", "Funcao": "Auxiliar Da Limpeza "}, {"Nome": "Josete Santos Da Silva ", "Funcao": "Auxiliar Da Limpeza "}, {"Nome": "Karina Maria De Jesus Morais ", "Funcao": "Auxiliar De Limpeza "}, {"Nome": "Maria Aparecida Silva Pereira ", "Funcao": "Auxiliar Da Limpeza "}, {"Nome": "Marlene Da Conceição Rezende Michaeli ", "Funcao": "Colaborador De Limpeza "}, {"Nome": "Roseli Cristina Marques Do Nascimento ", "Funcao": "Encarregada Da Limpeza "}, {"Nome": "Stefany Fernanda Santos ", "Funcao": "Colaborador De Limpeza "}, {"Nome": "Tania Brilho Dos Santos ", "Funcao": "Auxiliar Da Limpeza "}, {"Nome": "Valdivino Silva Leite ", "Funcao": "Auxiliar Da Limpeza "}, {"Nome": "Edvane Teixeira Da Silva ", "Funcao": "Colaborador Da Cozinha "}, {"Nome": "Gilda Pires Valentim ", "Funcao": "Colaborador Da Cozinha "}, {"Nome": "Márcia Cristina Caetano De Souza ", "Funcao": "Colaborador Da Cozinha "}, {"Nome": "Maria Aparecida Mendes De Roma ", "Funcao": "Colaborador Da Cozinha "}, {"Nome": "Maria Silvana Pacheco ", "Funcao": "Colaborador Da Cozinha "}, {"Nome": "Patrícia Silva Siqueira ", "Funcao": "Colaborador Da Cozinha "}, {"Nome": "Rachel Guimarães De Oliveira ", "Funcao": "Colaborador Da Cozinha "}, {"Nome": "Sandra Lolita De Sousa ", "Funcao": "Cozinheira "}, {"Nome": "Sirlei Braga Santana Da Silva ", "Funcao": "Colaborador Da Cozinha "}, {"Nome": "Vânia Ribeiro Tossini De Andrade ", "Funcao": "Colaborador Da Cozinha "}], "inscritos": [{"Nome": "Karina Maria De Jesus Morais ", "Funcao": "Ajudante De Limpeza "}, {"Nome": "Beatriz Dos  Dos Santos ", "Funcao": "Lipeza"}, {"Nome": "Sandra Lolita De Sousa ", "Funcao": "Cozinha"}, {"Nome": "Aline Cardoso Da Silva ", "Funcao": "Limpeza "}]}, "Jd. Aracati": {"esperados": [{"Nome": "Conceição Aparecida Fernandes", "Funcao": "Limpeza"}, {"Nome": "Ginalda De Jesus", "Funcao": "Limpeza"}, {"Nome": "Isabel Nunes Souza", "Funcao": "Limpeza"}, {"Nome": "Laudeci Jacinto Da Silva Paixão", "Funcao": "Limpeza"}, {"Nome": "Maria Eliana Martins", "Funcao": "Limpeza"}, {"Nome": "Maria Selma Da Conceição Dos Santos", "Funcao": "Limpeza"}, {"Nome": "Maricy Muniz Da Silva", "Funcao": "Limpeza"}, {"Nome": "Alessandra Ruth Souza De Morais", "Funcao": "Cozinha"}, {"Nome": "Eliaci De Cintra Santos", "Funcao": "Cozinha"}, {"Nome": "Jessica Souza De Morais", "Funcao": "Cozinha"}, {"Nome": "Rita De Cassia Nonato Santana", "Funcao": "Cozinha"}, {"Nome": "Roberta Caroline Goes Dantas De Morais", "Funcao": "Cozinha"}], "inscritos": [{"Nome": "Ediana Aparecida Silva De Jesus ", "Funcao": "Cozinha "}, {"Nome": "Isabel Nunes Dias Sousa ", "Funcao": "Limpeza / Auxiliar Da Porta"}, {"Nome": "Maria Eliana Martins Da Cruz ", "Funcao": "Porteira (Limpeza)"}, {"Nome": "Severina Santos De Menezes ", "Funcao": "Limpeza"}]}, "Jd. Capão Redondo": {"esperados": [{"Nome": "Ana Rocha De Almeida Pinto", "Funcao": "Colaborador De Limpeza"}, {"Nome": "Andrea Almeida Barbosa Dos Santos", "Funcao": "Colaborador De Limpeza"}, {"Nome": "Andrea Da Silva", "Funcao": "Colaborador De Limpeza"}, {"Nome": "Avani Lima Ferreira", "Funcao": "Colaborador De Limpeza"}, {"Nome": "Evanilza Rodrigues De Santana Leal", "Funcao": "Colaborador De Limpeza"}, {"Nome": "Luana Kelly Dos Santos Lima", "Funcao": "Colaborador De Limpeza"}, {"Nome": "Luiza Firmino Carano", "Funcao": "Colaborador De Limpeza"}, {"Nome": "Maria Isabel Souza Ribeiro", "Funcao": "Colaborador De Limpeza"}, {"Nome": "Maria Jose De Souza Ferreira", "Funcao": "Colaborador Responsável Pela Limpeza"}, {"Nome": "Mariene Ferreira Rocha", "Funcao": "Colaborador De Limpeza"}, {"Nome": "Nadir Alves Dos Anjos", "Funcao": "Colaborador Da Limpeza"}, {"Nome": "Shirlene Caputo De Oliveira", "Funcao": "Colaborador De Limpeza"}, {"Nome": "Simone Souza De Oliveira", "Funcao": "Colaborador De Limpeza"}, {"Nome": "Stephanie Amaral Massulo", "Funcao": "Colaborador De Limpeza"}, {"Nome": "Alaide Oliveira De Souza", "Funcao": "Colaborador Da Cozinha"}, {"Nome": "Fernanda Da Silva Santos", "Funcao": "Colaborador Da Cozinha"}, {"Nome": "Kamila De Souza Olegario Da Costa", "Funcao": "Colaborador Da Cozinha"}, {"Nome": "Katia Rodrigues Dos Anjos", "Funcao": "Cozinheiro"}, {"Nome": "Rosana Alves Cadenas Das Neves", "Funcao": "Colaborador Da Cozinha"}, {"Nome": "Vera Lucia Caetano Souza", "Funcao": "Colaborador Da Cozinha"}, {"Nome": "Verônica Biscario Xisto Oliveira", "Funcao": "Colaborador Da Cozinha"}], "inscritos": [{"Nome": "Kamila De Souza Olegario Da Costa ", "Funcao": "Auxiliar Da Porta, Monitora Do Espaço Biblico Infantil, Auxiliar De Cozinha"}, {"Nome": "Ana Flávia Domingues Medeiros ", "Funcao": "Auxiliar De Limpeza "}, {"Nome": "Denise Santos Da Silva Teixeira ", "Funcao": "Auxiliar De Limpeza "}, {"Nome": "Andréa Da Silva ", "Funcao": "Limpeza "}, {"Nome": "Mariene Ferreira Rocha ", "Funcao": "Limpeza "}, {"Nome": "Avanir De Lima Ferreira ", "Funcao": "Auxiliar De Limpeza "}, {"Nome": "Isabel Cristina Nunes De Mendonça ", "Funcao": "Auxiliar Das Portas E Da Limpeza "}, {"Nome": "Maria Isabel Souza Ribeiro ", "Funcao": "Limpeza "}, {"Nome": "Adriana Rodrigues Amorim Suguihara ", "Funcao": "Colaboradora Limpeza "}, {"Nome": "Nadir Alves Dos Anjos", "Funcao": "Auxiliar Da Porta, Auxiliar Da Limpeza"}, {"Nome": "Verônica Biscario Xisto Oliveira", "Funcao": "Auxiliar De Cozinha"}, {"Nome": "Fernanda Da Silva Santos ", "Funcao": "Ajudante Cozinha"}, {"Nome": "Kátia Rodrigues Dos Anjos ", "Funcao": "Encarregada Da Limpeza "}, {"Nome": "Elifalete Aquino Barbosa Vital", "Funcao": "Limpeza"}, {"Nome": "Ana Rocha De Almeida Pinto", "Funcao": "Linpeza"}, {"Nome": "Jane Cleide De Oliveira ", "Funcao": "Limpeza "}]}, "Jd. Célia": {"esperados": [{"Nome": "Adelicia Alves Ferreira ", "Funcao": "Encarregada Limpeza "}, {"Nome": "Alice Neves Santos ", "Funcao": "Ajudante Limpeza E Cozinha "}, {"Nome": "Edna Do Amparo Silva ", "Funcao": "Ajudante Limpeza E Cozinha "}, {"Nome": "Fabiana Cristina Cyrillo Menini Madeira ", "Funcao": "Ajudante Limpeza E Cozinha "}, {"Nome": "Jéssica Alves Da Anunciação ", "Funcao": "Ajudante Limpeza E Cozinha "}, {"Nome": "Joyce Amanda Ferreira De Lima ", "Funcao": "Ajudante Limpeza E Cozinha "}, {"Nome": "Loide Pereira De Camargo Koutroutsos", "Funcao": "Colaborador De Limpeza"}, {"Nome": "Maria Cristina Dias Gomes ", "Funcao": "Encarregada Limpeza "}, {"Nome": "Maria De Lourdes Alves Santos Silva", "Funcao": "Ajudante Limpeza "}, {"Nome": "Maria Isabel Santos Paulo ", "Funcao": "Ajudante Limpeza E Cozinha "}, {"Nome": "Mauricéia Maria Da Silva ", "Funcao": "Ajudante Limpeza E Cozinha "}, {"Nome": "Rosimeire Santos Cardoso ", "Funcao": "Ajudante Limpeza E Cozinha "}, {"Nome": "Sandra Maria Da Cunha ", "Funcao": "Ajudante Limpeza E Cozinha "}, {"Nome": "Sonia De Fátima Lopes ", "Funcao": "Ajudante Limpeza E Cozinha "}, {"Nome": "Terezinha Pereira De Souza Nogueira ", "Funcao": "Ajudante Limpeza E Cozinha "}, {"Nome": "Viviane Da Cunha Silva ", "Funcao": "Ajudante Limpeza E Cozinha "}, {"Nome": "Maria Aparecida Ribeiro De Abreu ", "Funcao": "Encarregada Da Cozinha "}], "inscritos": [{"Nome": "Adelicia Alves Ferreira ", "Funcao": "Encarregada De Limpeza "}, {"Nome": "Fabiana Cristina Cyrillo Menini Madeira ", "Funcao": "Auxiliar De Limpeza "}, {"Nome": "Alice Neves Santos ", "Funcao": "Auxiliar Da Cozinha "}, {"Nome": "23.667.318-×", "Funcao": "Auxiliar  De Cozinha, Auxiliar  Da Porta "}, {"Nome": "Jessica Alves Da Anunciação ", "Funcao": "Auxiliar Da Limpeza "}, {"Nome": "Maria Cristina Cano Dias Gomes ", "Funcao": "Encarregada Limpeza "}, {"Nome": "Maria Aparecida Ribeiro De Abreu", "Funcao": "Auxiliar De Porta / Encarregada Da Cozinha"}, {"Nome": "Rosimeire Santos Cardoso ", "Funcao": "Auxiliar De Limpeza "}, {"Nome": "Sandra Maria Da Cunha", "Funcao": "Auxiliar Da Limpeza "}, {"Nome": "Alice Benedita Da Silva Dinhane", "Funcao": "Auxiliar Da Limpeza "}, {"Nome": "Mauricéia Maria Da Silva", "Funcao": "Auxiliar De Limpeza "}, {"Nome": "Maria Isabel Santos Paulo ", "Funcao": "Auxiliar De Cozinha E Da Porta"}]}, "Jd. Das Flores": {"esperados": [{"Nome": "Ana Paula Lourenço Martins ", "Funcao": "Limpeza "}, {"Nome": "Antônia Íris Pereira De Brito ", "Funcao": "Limpeza "}, {"Nome": "Eliana Maria De Jesus Paixão ", "Funcao": "Limpeza "}, {"Nome": "Irani De Oliveira Silva Christo", "Funcao": "Limpeza (Cclimp)/Cozinha/Auxiliar Da Porta"}, {"Nome": "Ivanilde Dos Santos", "Funcao": "Limpeza"}, {"Nome": "Luzenilda De Jesus Araújo ", "Funcao": "Limpeza "}, {"Nome": "Andreza Da Silva Tavares", "Funcao": "Cozinha"}, {"Nome": "Juliana Pereira Oyakawa ", "Funcao": "Cozinha "}, {"Nome": "Maria Rivalda Teles Da Silva ", "Funcao": "Cozinha"}, {"Nome": "Quedna Da Silva Coelho ", "Funcao": "Cozinha "}], "inscritos": [{"Nome": "Eliana Maria De Jesus Paixão ", "Funcao": "Função "}, {"Nome": "Ana Paula Lorenço Martins", "Funcao": "Carregada Da Limpeza"}, {"Nome": "Irani De Oliveira Silva Christo", "Funcao": "Auxiliar Da Porta /Cozinha / Limpeza"}]}, "Jd. Guarujá": {"esperados": [{"Nome": "Ana Paula Macedo Da Costa", "Funcao": "Colaborador De Limpeza"}, {"Nome": "Claudia Maria Da Silva", "Funcao": "Colaborador De Limpeza"}, {"Nome": "Dalva Oliveira De Souza", "Funcao": "Colaborador Responsável Da Atividade De Limpeza"}, {"Nome": "Fernanda Brunholi Verutti", "Funcao": "Colaborador De Limpeza"}, {"Nome": "Joana Aparecida De Faria Sousa", "Funcao": "Colaborador De Limpeza"}, {"Nome": "Juscelina Maria Da Conceição Terra", "Funcao": "Colaborador De Limpeza"}, {"Nome": "Maria Adriana Batista Gonçalves", "Funcao": "Colaborador De Limpeza"}, {"Nome": "Maria Aparecida Aquiles Coutinho", "Funcao": "Colaborador De Limpeza"}, {"Nome": "Maria Da Conceicao Santos Souza Da Silva", "Funcao": "Colaborador De Limpeza"}, {"Nome": "Maria De Lourdes Oliveira Aparicio  Araujo", "Funcao": "Colaborador De Limpeza"}, {"Nome": "Maria Do Carmo De Oliveira Ferreira", "Funcao": "Colaborador De Limpeza"}, {"Nome": "Maria Madalena Da Silva Santos", "Funcao": "Colaborador De Limpeza"}, {"Nome": "Marinalva Oliveira Marques", "Funcao": "Colaborador Responsável Da Atividade De Limpeza"}, {"Nome": "Neuci Araujo Da Silva", "Funcao": "Colaborador De Limpeza"}, {"Nome": "Silvana Rodrigues Pardinho Dos Santos", "Funcao": "Colaborador De Limpeza"}, {"Nome": "Silvaneide Alves Sampaio Bastos", "Funcao": "Colaborador De Limpeza"}, {"Nome": "Zinete Angela De Araujo", "Funcao": " Colaborador De Limpeza"}, {"Nome": "Adriana Denise De Sena", "Funcao": "Colaborador De Cozinha"}, {"Nome": "Claudia Aparecida Esteves Grenfell", "Funcao": " Colaborador De Cozinha"}, {"Nome": "Cleudi De Almeida Martins", "Funcao": "Colaborador De Cozinha"}, {"Nome": "Maria Gonçalves Moreira Pereira", "Funcao": "Colaborador De Cozinha"}, {"Nome": "Maria Lindalva Torres Soares", "Funcao": " Colaborador De Cozinha"}, {"Nome": "Maria Lúcia De Jesus", "Funcao": " Colaborador De Cozinha"}, {"Nome": "Maria Luiza Gomes De Carvalho", "Funcao": "Colaborador De Cozinha"}, {"Nome": "Maria Madalena Sousa Marinho", "Funcao": "Colaborador De Cozinha"}, {"Nome": "Marlene Maria Da Silva ", "Funcao": " Colaborador De Cozinha"}, {"Nome": "Regina Celia Do Nascimento Silva", "Funcao": "Colaborador De Cozinha"}, {"Nome": "Roseli De Oliveira Pimenta", "Funcao": "Colaborador De Cozinha"}, {"Nome": "Vitoria Brunholi Augusto Diniz", "Funcao": "Colaborador De Cozinha"}], "inscritos": [{"Nome": "Claudia Maria Da Silva ", "Funcao": "Limpeza "}, {"Nome": "Maria Luiza Gomes De Carvalho ", "Funcao": "Auxiliar Da Porta"}, {"Nome": "Zinete Angela De Araújo ", "Funcao": "Limpeza "}, {"Nome": "Marinalva Oliveira Marques ", "Funcao": "Aux.Portas, Encarregada Limpeza"}, {"Nome": "Loide Pereira De Camargo Koutroutsos", "Funcao": "Auxiliar De Limpeza"}, {"Nome": "Maria Da Conceição Santos Souza Da Silva ", "Funcao": "Auxiliar De Limpeza "}, {"Nome": " Roseli De Oliveira Pimenta ", "Funcao": "Encarregada Da Cozinha"}, {"Nome": "Maryvone Nascimento Ferreira ", "Funcao": "Limpeza"}, {"Nome": "Silvana Rodrigues P Dos Santos", "Funcao": "Limpeza E Coordenadora E.B.I"}, {"Nome": "Maria Lúcia De Jesus ", "Funcao": "Copa"}, {"Nome": "Ana Paula Macedo Da Costa ", "Funcao": "Limpeza E Brigadista"}, {"Nome": "Dalva Oliveira De Sousa", "Funcao": "Porteira E Encarregada Da Limpeza "}, {"Nome": "Maria Lindalva Torres Soares ", "Funcao": "Cozinha"}, {"Nome": "Claudia Ap.Esteves G .Grenfell", "Funcao": "Auxiliar De Cozinha "}]}, "Jd. Ibirapuera": {"esperados": [{"Nome": "Alice Brandão Ferreira", "Funcao": "Auxiliar Da Limpeza"}, {"Nome": "Anisia Carvalho Da Silva", "Funcao": "Auxiliar Da Limpeza"}, {"Nome": "Edineia Gonçalves Franco Nunes", "Funcao": "Auxiliar Da Limpeza/Cozinha"}, {"Nome": "Flavia Aparecida De Almeida Carvalhaes", "Funcao": "Auxiliar Da Limpeza/Cozinha"}, {"Nome": "Iraci De Macena", "Funcao": "Auxiliar Da Limpeza"}, {"Nome": "Lidia Gonçalves", "Funcao": "Auxiliar Da Limpeza"}, {"Nome": "Maria Aparecida Da Silva", "Funcao": "Auxiliar Da Limpeza"}, {"Nome": "Maria Claudia Da Costa Araujo", "Funcao": "Auxiliar Da Limpeza"}, {"Nome": "Maria Hermenegilda De Santana Costa", "Funcao": "Auxiliar Da Limpeza"}, {"Nome": "Maria Jose Souza Bezerra", "Funcao": "Auxiliar Da Limpeza"}, {"Nome": "Maria Paula Da Costa Souza", "Funcao": "Encarregada Da Limpeza/Cozinha"}, {"Nome": "Neide Aparecida Godoi Ferreira Silva", "Funcao": "Encarregada Da Limpeza/Cozinha"}, {"Nome": "Nelza Barreto Brandão", "Funcao": "Auxiliar Da Limpeza"}, {"Nome": "Paula Aparecida De Freitas", "Funcao": "Auxiliar Da Limpeza/Cozinha"}, {"Nome": "Rosemilda Da Silva Soares ", "Funcao": "Auxiliar Da Limpeza"}, {"Nome": "Rosilva De Araujo Silva", "Funcao": "Auxiliar Da Limpeza"}, {"Nome": "Talita Da Costa Dias Ramos", "Funcao": "Auxiliar Da Limpeza"}, {"Nome": "Emily Bispo Do Nascimento", "Funcao": "Auxiliar Da Cozinha"}, {"Nome": "Evelyn Novaes Silva", "Funcao": "Auxiliar Da Cozinha"}, {"Nome": "Joiciele Antunes Dos Anjos", "Funcao": "Auxiliar Da Cozinha"}, {"Nome": "Rebeca Bispo Do Nascimento", "Funcao": "Auxiliar Da Cozinha"}, {"Nome": "Zelita Teixeira Caldeira Souza", "Funcao": "Auxiliar Da Cozinha"}], "inscritos": [{"Nome": "Cristina Ramos Costa Sena ", "Funcao": "Encarregada Na Limpeza "}, {"Nome": "Neide Aparecida De Godoi Ferreira Silva", "Funcao": "Encarregada Da Limpeza E Cozinha "}, {"Nome": "Paula Aparecida De Freitas ", "Funcao": "Auxiliar De Limpeza "}]}, "Jd. Ingá": {"esperados": [{"Nome": "Edinalra Cristina Xavier Sacramento ", "Funcao": "Limpeza / Cozinha"}, {"Nome": "Maria Carlita De Souza Campos ", "Funcao": "Encarrega Da Cozinha E Auxiliar Da Limpeza "}, {"Nome": "Maria Cristina Do Rosario ", "Funcao": "Limpeza / Cozinha"}, {"Nome": "Marisa Cruz Silva ", "Funcao": "Limpeza"}, {"Nome": "Mirian Souza  Da Silva  ", "Funcao": "Limpeza"}, {"Nome": "Nadir Lucia De Souza Albino", "Funcao": "Limpeza "}, {"Nome": "Vilma Macedo Oliveira", "Funcao": "Encarregada Da Cozinha"}, {"Nome": "Maria Aparecida Silva", "Funcao": "Limpeza"}, {"Nome": "Daniela Pereira França Silva", "Funcao": "Orientadora Cns Limpeza"}, {"Nome": "Sebastiana Aparecida Ferreira Silva", "Funcao": "Limpeza"}, {"Nome": "Roseli Maria De Souza", "Funcao": "Limpeza"}, {"Nome": "Rosilda Aparecida De Souza Da Silva", "Funcao": "Limpeza"}, {"Nome": "Maria Salete De Lima", "Funcao": "Limpeza"}, {"Nome": "Maria Lino Dos Reis Rodrigues", "Funcao": "Limpeza"}, {"Nome": "Regina Lúcia Cerqueira", "Funcao": "Limpeza"}, {"Nome": "Marisa Da Cruz M. Firmino", "Funcao": "Coordenadora Cns Limpeza"}, {"Nome": "Lúcia Helena Dos Santos Ribeiro", "Funcao": "Limpeza"}], "inscritos": [{"Nome": "Marisa Da Cruz Machado Firmino ", "Funcao": "Coordenadora Cns Limpeza "}, {"Nome": "Daniela Pereira França Silva", "Funcao": "Orientadora Cns"}, {"Nome": "Sebastiana Aparecida Teixeira Silva ", "Funcao": "Limpeza "}, {"Nome": "Maria Aparecida Dos Santos ", "Funcao": "Limpeza "}, {"Nome": "Maria Lino Dos Reis Rodrigues ", "Funcao": "Limpeza"}]}, "Jd. Leônidas Moreira": {"esperados": [{"Nome": "Carmem Lúcia Caetano", "Funcao": "Colaborador Limpeza"}, {"Nome": "Cleusa Livramento Corsi", "Funcao": "Limpeza Preventiva"}, {"Nome": "Ducine Vieira De Freitas", "Funcao": "Colaborador De Limpeza"}, {"Nome": "Edinalva Pires", "Funcao": "Colaborador Responsável Da  Atividade De Limpeza"}, {"Nome": "Elda Mares De Oliveira Moraes Lopes", "Funcao": "Colaborador Da Limpeza"}, {"Nome": "Eliene Sousa Santos", "Funcao": "Colaborador De Limpeza"}, {"Nome": "Irani Rosa De Novaes", "Funcao": "Colaborador De Limpeza"}, {"Nome": "Maria Dalva Bonfim", "Funcao": "Colaborador De Limpeza"}, {"Nome": "Marizete Alves Ferreira Dos Santos", "Funcao": "Colaborador De Limpeza"}, {"Nome": "Sebastião Gomes De Sá", "Funcao": "Colaborador Da Limpeza"}, {"Nome": "Selma Maria Dos Santos", "Funcao": "Colaborador Da Limpeza"}, {"Nome": "Valdenor Pereira Dos Santos", "Funcao": "Colaborador De Limpeza"}, {"Nome": "Zunilda Izilda Do Nascimento", "Funcao": "Colaborador Da Limpeza"}, {"Nome": "Arlete Mendes Da Silveira", "Funcao": "Colaborador Da Cozinha"}, {"Nome": "Elenice De Oliveira Santana", "Funcao": "Colaborador Cozinha"}, {"Nome": "Isabel Da Conceição Dos Santos", "Funcao": "Colaborador Cozinha"}, {"Nome": "Lucimar Francisco Dos Santos De Oliveira", "Funcao": "Colaborador Cozinha"}, {"Nome": "Maria Do Socorro Gomes Da Silva", "Funcao": "Colaborador Da Cozinha"}, {"Nome": "Marinalva Da Silva Miranda", "Funcao": "Colaborador Cozinha"}, {"Nome": "Maura Lopes Santana", "Funcao": "Colaborador Da Cozinha"}, {"Nome": "Natália Reis Da Silva", "Funcao": "Colaborador Da Cozinha"}, {"Nome": "Regiane Reis", "Funcao": "Colaborador De Cozinha"}, {"Nome": "Rosângela Alves Longhim", "Funcao": "Colaborador Cozinha"}, {"Nome": "Sara Mendes Ferreira ", "Funcao": "Colaborador Da Cozinha"}, {"Nome": "Sheila Pereira De Souza", "Funcao": "Colaborador Cozinha"}], "inscritos": [{"Nome": "Natalya Reis Da Silva ", "Funcao": "Cozinha E Auxiliar "}, {"Nome": "Edinalva Pires", "Funcao": "Encarregada Da Limpeza"}, {"Nome": "Sara Mendes Ferreira ", "Funcao": "Aux De Cozinha "}, {"Nome": "Regiane Reis ", "Funcao": "Cozinha"}, {"Nome": "Sheila Pereira De Souza ", "Funcao": "Auxiliar De Cozinha "}, {"Nome": "Marinalva Da Silva Miranda ", "Funcao": "Cozinha "}]}, "Jd. Lídia": {"esperados": [], "inscritos": [{"Nome": "Zenaide Pereira Dias ", "Funcao": "Encarregada Limpeza "}, {"Nome": "Ana Claudia Da Silva ", "Funcao": "Orientadora Cns Limpeza "}, {"Nome": "Rute Cristina Ambrósio De Camargo ", "Funcao": "Encarregado Da Limpeza "}, {"Nome": "Maria José Silva ", "Funcao": "Limpeza E Cozinha "}, {"Nome": "Maria Rodrigues Da Silva ", "Funcao": "Auxiliar De Limpeza "}]}, "Jd. Nakamura": {"esperados": [{"Nome": "Ana Maria Xavier De Souza", "Funcao": "Aux De Limpeza "}, {"Nome": "Angelita De Queiroz Marques ", "Funcao": "Aux De Limpeza "}, {"Nome": "Cleudiane Maria Da Conceição ", "Funcao": "Encarrega De Limpeza "}, {"Nome": "Eliane Gonçalves Dos Santos ", "Funcao": "Auxiliar De Limpeza "}, {"Nome": "Elierge Da Silva ", "Funcao": "Aux De Limpeza "}, {"Nome": "Janete Pereira Dos Santos ", "Funcao": "Aux De Limpeza "}, {"Nome": "Marcia De Oliveira ", "Funcao": "Aux De Limpeza "}, {"Nome": "Maria Francisca De Oliveira Silva", "Funcao": "Aux De Limpeza "}, {"Nome": "Maria Luiza De Oliveira ", "Funcao": "Aux De Limpeza "}, {"Nome": "Patricia Da Silva Conceição ", "Funcao": "Aux Limpeza "}, {"Nome": "Silvana Alves Do Espírito Santo Freschi", "Funcao": "Aux Limpeza "}, {"Nome": "Ana Kessia Santana Araujo", "Funcao": "Aux De Cozinha "}, {"Nome": "Dulcelea Dias De Souza ", "Funcao": "Aux De Cozinha "}, {"Nome": "Fabiana Borges De Sousa Galdino", "Funcao": "Aux De Cozinha "}, {"Nome": "Francisca Cleia Carvalho Mourão ", "Funcao": "Aux De Cozinha "}, {"Nome": "Maria Cristina De Souza Freitas ", "Funcao": "Aux De Cozinha "}, {"Nome": "Maria Ivaneide Pereira Da Silva ", "Funcao": "Aux De Cozinha "}], "inscritos": [{"Nome": "María Ivaneide Pereira Da Silva ", "Funcao": "Encarregada Dá Cozinha "}, {"Nome": "Cleudiane Maria Da Conceição ", "Funcao": "Limpeza "}, {"Nome": "Janete Pereira Dos Santos Rodrigues ", "Funcao": "Limpeza "}, {"Nome": "Ana Maria Xavier De Souza ", "Funcao": "Limpeza "}, {"Nome": "Elierge Da Silva ", "Funcao": "Limpeza "}, {"Nome": "Silvana Alves Do Espírito Santo Freschi ", "Funcao": "Limpeza"}, {"Nome": "Antonia Rosa De Jesus Rocha ", "Funcao": "Limpeza/Cozinha "}, {"Nome": "Maria Cristina De Souza Freitas", "Funcao": "Cozinha "}, {"Nome": "Fabiana Borges De Sousa Galdino ", "Funcao": "Cozinha,Ebi E Organista "}, {"Nome": "Eliane Gonçalves Dos Santos ", "Funcao": "Porteira É Auxiliar De Limpeza"}, {"Nome": "Bernadete Maria Dos Reis Santos ", "Funcao": "Encarregada De Limpeza"}, {"Nome": "Clélia Aparecida De Souza Matins ", "Funcao": "Cozinha E Limpeza "}, {"Nome": "Elierge Deda Silva", "Funcao": "Limpeza "}, {"Nome": "María Francisca De Oliveira Silva ", "Funcao": "Limpeza \\ Cozinha "}, {"Nome": "Roseli Alves Do Espírito S.S", "Funcao": "Limpeza "}, {"Nome": "Dulcilea Dias De Souza ", "Funcao": "Cozinha E Ebi"}, {"Nome": "Francisca Cleia Carvalho Mourão ", "Funcao": "Auxiliar De Cozinha "}]}, "Jd. Novo Oriente": {"esperados": [{"Nome": "Emanuelle Caetano Da Silva", "Funcao": "Limpeza"}, {"Nome": "Gilvanice Brandão Pereira", "Funcao": "Limpeza"}, {"Nome": "Ines Tenorio Da Silva", "Funcao": "Limpeza"}, {"Nome": "Janice Nascimento Da Silveira", "Funcao": "Limpeza"}, {"Nome": "Josiane Gomes Reis Alves", "Funcao": "Limpeza"}, {"Nome": "Jucelia Brandao Pereira Gois", "Funcao": "Limpeza"}, {"Nome": "Keli Cristina Mendes De Oliveira", "Funcao": "Limpeza"}, {"Nome": "Maria Aparecida Patez Dos Santos", "Funcao": "Limpeza"}, {"Nome": "Nilzete Marques Leal Silva", "Funcao": "Limpeza"}, {"Nome": "Priscila Rodrigues Santos Bastos", "Funcao": "Limpeza"}, {"Nome": "Valdenice Aparecida Lima De Oliveira", "Funcao": "Limpeza"}, {"Nome": "Vera Lucia Ribeiro Dos Santos", "Funcao": "Limpeza"}, {"Nome": "Alessandra Vanessa Silva", "Funcao": "Cozinha"}, {"Nome": "Edna Vieira Padula", "Funcao": "Cozinha"}, {"Nome": "Elaine Rodrigues Machado Batista", "Funcao": "Cozinha"}, {"Nome": "Erica Almeida Gama Oliveira", "Funcao": "Cozinha"}, {"Nome": "Jacira Ribeiro Fonseca", "Funcao": "Cozinha"}, {"Nome": "Maria Das Dores Ferreira Da Silva Esteves", "Funcao": "Cozinha"}, {"Nome": "Maria Geralda Rodrigues Da Cruz", "Funcao": "Cozinha"}, {"Nome": "Maria José Reis Dos Santos", "Funcao": "Cozinha"}, {"Nome": "Raimunda Jose Dos Santos E Santos", "Funcao": "Cozinha"}, {"Nome": "Rosilda Rosa Almeida ", "Funcao": "Cozinha "}, {"Nome": "Sandra Cristina Greco", "Funcao": "Cozinha"}], "inscritos": [{"Nome": "Alessandra Vanessa Silva ", "Funcao": "Auxiliar  De Limpeza  E Auxiliar  De Cozinha "}, {"Nome": "Simone Ramos Coelho ", "Funcao": "Cooperadora Da Limpeza "}, {"Nome": "Maria Das Dores Ferreira Da Silva ", "Funcao": "Voluntário  "}, {"Nome": "Érica A G Oliveira ", "Funcao": "Limpeza & Cozinha "}, {"Nome": "Maria Geralda Rodrigues Da Cruz  ", "Funcao": "Limpeza E Cozinha "}, {"Nome": "Elaine Rodrigues Machado ", "Funcao": " Auxiliar De Limpeza  E Cozinha "}, {"Nome": "Jacira Ribeiro Fonseca", "Funcao": "Cozinha"}, {"Nome": "Valdenice Aparecida Lima De Oliveira ", "Funcao": "Voluntária Limpeza "}]}, "Jd. Piracuama": {"esperados": [], "inscritos": [{"Nome": "Silvia Helena Ramos De Souza ", "Funcao": "Auxiliar Da Cozinha E Limpeza "}, {"Nome": "Aparecida Ferreira Sampaio", "Funcao": "Limpeza"}, {"Nome": "Maria Faristone De Oliveira ", "Funcao": "Encarregada Limpeza "}]}, "Jd. Sete Lagos": {"esperados": [{"Nome": "Cleide Antônia Guerra Chagas ", "Funcao": "Encarregada De Limpeza "}, {"Nome": "Edna Andrade Felix", "Funcao": "Auxiliar De Limpeza "}, {"Nome": "Eliene Cristina De Paula ", "Funcao": "Auxiliar De Limpeza "}, {"Nome": "Francisca Rodrigues De Souza Oliveira ", "Funcao": "Auxiliar De Limpeza "}, {"Nome": "Joana Candido De Sá ", "Funcao": "Auxiliar De Limpeza "}, {"Nome": "Maria Gracinete B Miranda", "Funcao": "Auxiliar De Limpeza "}, {"Nome": "Marizete Alves Dos Santos ", "Funcao": "Auxiliar De Limpeza "}, {"Nome": "Norma Maria Teixeira ", "Funcao": "Auxiliar De Limpeza "}, {"Nome": "Stela Dias Dos Santos ", "Funcao": "Auxiliar De Limpeza "}, {"Nome": "Terezinha Ferreira  Mesquita De Paiva ", "Funcao": "Auxiliar De Limpeza "}, {"Nome": "Ana Maria Dos Santos De Oliveira ", "Funcao": "Encarregada De Cozinha "}, {"Nome": "Elcia Maria De Jesus ", "Funcao": "Encarregada De Cozinha "}, {"Nome": "Eliana Marques Crespin", "Funcao": "Auxiliar De Cozinha "}, {"Nome": "Joseane Ferreira De Sena", "Funcao": "Auxiliar De Cozinha "}, {"Nome": "Josefa Alves Da Silva ", "Funcao": "Auxiliar De Cozinha "}, {"Nome": "Lucinete Saraiva De Carvalho ", "Funcao": "Auxiliar De Cozinha "}, {"Nome": "Maria Dias De Carvalho ", "Funcao": "Auxiliar De Cozinha "}, {"Nome": "Sheila Dos Santos Fonseca ", "Funcao": "Auxiliar De Cozinha "}, {"Nome": "Sidnéia Oliveira Dos Santos ", "Funcao": "Auxiliar De Cozinha "}, {"Nome": "Solange Rosa David Dos Santos", "Funcao": "Auxiliar De Cozinha "}], "inscritos": [{"Nome": "Cleuza Livramento Corsi", "Funcao": "Encarregada Da Limpeza "}, {"Nome": "Keller De Jesus Ferreira ", "Funcao": "Auxiliar De Cozinha "}, {"Nome": "Josefa Alves Da Silva Santos ", "Funcao": "Encarregada"}, {"Nome": "Cleide Antonia Guerra Chagas ", "Funcao": "Encarregada  Limpeza "}, {"Nome": "Edna Andrade Felix ", "Funcao": "Limpeza "}, {"Nome": "Eliene Cristina De Paula Rosario ", "Funcao": "Limpeza"}, {"Nome": "Maria Dias De Carvalho ", "Funcao": "Cozinha"}, {"Nome": "Gisely Lira Andrade De Lima Silva ", "Funcao": "Ajudante Cozinha "}, {"Nome": "Solange Rosa David Dos Santos ", "Funcao": "Cozinha "}, {"Nome": "Marizete Alves  Dos Santos", "Funcao": "Limpeza"}]}, "Jd. São Francisco": {"esperados": [{"Nome": "Angela Maria Aparecida Da Silva Martins", "Funcao": "Limpeza"}, {"Nome": "Araci Lugnes De Oliveira Pereira", "Funcao": "Enc Limpeza"}, {"Nome": "Barbara De Souza Honorato Santana", "Funcao": "Limpeza"}, {"Nome": "Catarina Ferreira Da Silva", "Funcao": "Limpeza"}, {"Nome": "Cristiane Pereira Carvalho De Lima Mota", "Funcao": "Limpeza"}, {"Nome": "Elaine Souza Gama Ramolla", "Funcao": "Enc Limpeza"}, {"Nome": "Elizabete Maria Ciolfi", "Funcao": "Limpeza"}, {"Nome": "Fabiana De Jesus Demetrio", "Funcao": "Limpeza"}, {"Nome": "Juçara Gomes Nacimento", "Funcao": "Limpeza"}, {"Nome": "Juçara Gomes Nascimento", "Funcao": "Colaborador De Limpeza"}, {"Nome": "Lucia Barbosa De Noronha", "Funcao": "Limpeza"}, {"Nome": "Maria De Fátima Aparecida Dos Santos ", "Funcao": "Colaborador De Limpeza"}, {"Nome": "Patricia Rezende", "Funcao": "Limpeza"}, {"Nome": "Priscila Caroline Rezende", "Funcao": "Limpeza"}, {"Nome": "Rosangela França Da Silva", "Funcao": "Enc Limpeza"}, {"Nome": "Silma Mateus Andrade Feliciano", "Funcao": "Limpeza"}, {"Nome": "Sueli Aparecida De Oliveira", "Funcao": "Limpeza"}, {"Nome": "Gerlane Faustino Eduardo", "Funcao": "Cozinha"}, {"Nome": "Katia Dos Santos Ribeiro Melo", "Funcao": "Cozinha"}, {"Nome": "Leandra Gonçalves Dos Santos Silva", "Funcao": "Enc Cozinha"}, {"Nome": "Maria Aparecida De Lima", "Funcao": "Colaborador De Cozinha"}], "inscritos": [{"Nome": "43677799X", "Funcao": "Limpeza - Colaboradora Dos Livros "}, {"Nome": "Cristiane Pereira Carvalho De Lima Mota ", "Funcao": "Limpeza "}, {"Nome": "Araci Lugnes De Oliveira Pereira ", "Funcao": "Limpeza "}, {"Nome": "Rosangela França Da Silva ", "Funcao": "Encarregada"}, {"Nome": "Leandra G Dos Santos Silva ", "Funcao": "Cozinha "}, {"Nome": "Maria Aparecida De Lima ", "Funcao": "Cozinha "}, {"Nome": "Lucia Barbosa De  Noronha ", "Funcao": "Limpeza"}, {"Nome": "Jucara Da Silva Gomes ", "Funcao": "Limpeza "}]}, "Jd. São Lourenço": {"esperados": [{"Nome": "Ednalva Francisca De Oliveira ", "Funcao": "Limpeza E Cozinha"}, {"Nome": "Renata De Andrade  Pereira Sousa", "Funcao": "Colaboradora Responsável Da Cozinha E  Limpeza "}, {"Nome": "Berenice Maria Do Couto Alves", "Funcao": "Limpeza"}, {"Nome": "Carmelita De Andrade Pereira", "Funcao": "Limpeza "}, {"Nome": "Cecília Da Silva Reis Ferreira", "Funcao": "Limpeza "}, {"Nome": "Espedita Inacio De Queiroz Nascimento", "Funcao": " Limpeza "}, {"Nome": "Genilda Silva Bezerra", "Funcao": "Limpeza"}, {"Nome": "Glaucia Da Conceição De Oliveira", "Funcao": "Limpeza "}, {"Nome": "Izabel Silva Reis", "Funcao": "Limpeza "}, {"Nome": "Kezia De Souza Santos Maia", "Funcao": "Limpeza"}, {"Nome": "Maria Alves Do Rego", "Funcao": "Limpeza"}, {"Nome": "Maria Do Socorro Rodrigues De Oliveira", "Funcao": "Limpeza E Cozinha"}, {"Nome": "Maria Evanilda Gomes Dos Santos", "Funcao": "Limpeza"}, {"Nome": "Maria Sonia Pereira Nascimento", "Funcao": "Limpeza E Cozinha"}, {"Nome": "Marluce Trajano Dos Santos", "Funcao": "Limpeza E Cozinha"}, {"Nome": "Monica De Oliveira", "Funcao": "Limpeza E Cozinha"}, {"Nome": "Natalia Pereira Moraes Monteiro", "Funcao": "Colaboradora Responsável Da Cozinha E  Limpeza "}, {"Nome": "Rosemeire Nery Dos Santos Braga", "Funcao": "Limpeza E Cozinha"}, {"Nome": "Valdinete Maria Alves Felizardo", "Funcao": "Limpeza"}, {"Nome": " Ednalva Francisca De Oliveira ", "Funcao": "Limpeza E Cozinha"}, {"Nome": " Renata De Andrade  Pereira Sousa", "Funcao": "Colaboradora Responsável Da Cozinha E  Limpeza "}, {"Nome": "Aline Honório Da Silva", "Funcao": "Cozinha"}, {"Nome": "Claudia Honório Da Silva Santos", "Funcao": "Cozinha"}, {"Nome": "Edna Brito Santos Souza", "Funcao": "Cozinha"}, {"Nome": "Eliane Alves Porto Brambila", "Funcao": "Cozinha"}, {"Nome": "Maria Aparecida Ramos De Sa Landim", "Funcao": "Cozinha"}, {"Nome": "Sandra Maria Dos Santos Cunha", "Funcao": "Cozinha"}, {"Nome": "Sara Cristina Alves Cestari Rios", "Funcao": "Cozinha"}, {"Nome": "Shirlei Monteiro Queiroz", "Funcao": "Cozinha"}], "inscritos": [{"Nome": "Monica De Oliveira ", "Funcao": "Limpeza "}, {"Nome": "24.874.039-8", "Funcao": "Auxiliar De Porta E Limpeza"}, {"Nome": "Renata De Andrade Pereira ", "Funcao": "Encarregada Da Limpeza."}, {"Nome": "Maria Do Socorro R De Oliveira ", "Funcao": "Auxiliar De Limpeza E Cns Limpeza "}, {"Nome": "Maria Alves", "Funcao": "Limpeza"}, {"Nome": "Marluce Trajano Dos Santos ", "Funcao": "Limpeza "}, {"Nome": "Kezia De Souza Santos Maia", "Funcao": "Orientadora Cns Limpeza "}, {"Nome": "Espedita Inácio Queiroz Do Nascimento ", "Funcao": "Limpeza "}, {"Nome": "Maria Sônia Pereira Nascimento ", "Funcao": "Cozinha E Limpeza "}, {"Nome": "Rosemeire Nery Dos Santos Braga ", "Funcao": "Limpeza "}]}, "Jd. São Luiz": {"esperados": [{"Nome": "Luzeni Pinheiro Araújo", "Funcao": "Colaborador De Limpeza"}, {"Nome": "Isabel Cristina De Lima Tertulino", "Funcao": "Colaborador De Limpeza"}, {"Nome": "Eliana Vieira Da Silva", "Funcao": "Colaborador De Limpeza"}, {"Nome": "Vanessa De Lima Da Silva Soares", "Funcao": "Colaborador De Limpeza"}, {"Nome": "Clecia Aparecida De Sousa Gomes", "Funcao": "Colaborador De Limpeza"}, {"Nome": "Maria Ramos Ribeiro", "Funcao": "Colaborador De Limpeza"}, {"Nome": "Maria José Lacerda Rodrigues", "Funcao": "Colaborador De Limpeza"}, {"Nome": "Marilene Dos Santos Souza Da Silva", "Funcao": "Colaborador De Limpeza"}, {"Nome": "Eulina Alves De Mendonca", "Funcao": "Colaborador De Limpeza"}, {"Nome": "Nilda Fonseca Araujo", "Funcao": "Colaborador De Limpeza"}, {"Nome": "Marta Gomes Dos Santos Tomaz", "Funcao": "Colaborador De Limpeza"}, {"Nome": "Isanyldes Alves Nascimento", "Funcao": "Colaborador De Limpeza"}, {"Nome": "Ana Maria Souza Costa Santos", "Funcao": "Colaborador De Limpeza"}, {"Nome": "Ana Cleide Gomes Dos Santos", "Funcao": "Colaborador De Limpeza"}], "inscritos": [{"Nome": "Eliana Vieira Da Silva ", "Funcao": "Limpeza "}, {"Nome": "Renata Lopes Rodrigues Silva ", "Funcao": "Orientadora Cns Limpeza"}, {"Nome": "Clecia Aparecida De Sousa ", "Funcao": "Limpeza / Cozinha "}, {"Nome": "Sumaia Da Silva Nascimento ", "Funcao": "Limpeza "}, {"Nome": "541158910", "Funcao": "Limpeza E Cozinha"}, {"Nome": "Edina Braga Da Silva Santos ", "Funcao": "Cozinha"}, {"Nome": "Bernadete Andrade Cruz ", "Funcao": "Limpeza "}, {"Nome": "Nilda Fonseca Araújo ", "Funcao": "Auxiliar  De  Limpeza  E  Cozinha "}, {"Nome": "Isanyldes Alves Nascimento ", "Funcao": "Limpeza "}, {"Nome": "Sileide Maria Pio De Jesus Lemos ", "Funcao": "Cozinha"}, {"Nome": "Sandra Maria Pio De Jesus ", "Funcao": "Limpeza E Cozinha"}, {"Nome": "Luzeni Pinheiro Araújo ", "Funcao": "Limpeza "}, {"Nome": "Julieth Cunha Teixeira Lira ", "Funcao": "Auxiliar Da Porta , Cozinha ."}, {"Nome": "Isabel Cristina De Lima Tertulino ", "Funcao": "Limpeza "}]}, "Jd. Umarizal": {"esperados": [{"Nome": "Ana Cristina Paterno Hilário", "Funcao": "Auxiliar Da Limpeza"}, {"Nome": "Ana Rosa Amâncio Cordeiro", "Funcao": "Auxiliar Da Limpeza"}, {"Nome": "Daiana Janiele Almeida Vieira", "Funcao": "Auxiliar Da Limpeza"}, {"Nome": "Edilma Maria Oliveira Moitinho", "Funcao": "Encarregada Da Limpeza"}, {"Nome": "Elieuza Pereira De Araujo ", "Funcao": "Auxiliar De Limpeza"}, {"Nome": "Elis Maria Da Silva Pinheiro ", "Funcao": "Auxiliar De Limpeza"}, {"Nome": "Elizete Nunes Ferreira", "Funcao": "Auxiliar Da Limpeza"}, {"Nome": "Eunice Theodoro Dos Santos", "Funcao": "Auxiliar De Limpeza"}, {"Nome": "Francisca Barbosa De Souza", "Funcao": "Encarregada Limpeza"}, {"Nome": "Ilmar Pereira De Aguiar Cordeiro", "Funcao": "Auxiliar Da Limpeza"}, {"Nome": "Joelma Aparecida Da Conceição Araújo", "Funcao": "Auxiliar Da Limpeza"}, {"Nome": "Lindaura Francisca Lopes", "Funcao": "Auxiliar De Limpeza "}, {"Nome": "Maria Isabel Santana", "Funcao": "Auxiliar Da Limpeza"}, {"Nome": "Sandra Aparecida Santos De Souza", "Funcao": "Auxiliar Da Limpeza"}, {"Nome": "Simone De Cunha Souza", "Funcao": "Auxiliar De Limpeza"}, {"Nome": "Eunice Nogueira De Souza", "Funcao": "Encarregada Da Cozinha"}, {"Nome": "Mariana Da Costa Morais Dantas", "Funcao": "Auxiliar De Cozinha"}], "inscritos": [{"Nome": "Lindaura F Lopes ", "Funcao": "Colaboradoura Da Limpeza "}, {"Nome": "Ilmar Pereira De Aguiar Cordeiro", "Funcao": "Limpeza"}, {"Nome": "Edilma Maria Oliveira Moitinho ", "Funcao": "Limpeza "}, {"Nome": "Eunice Theodoro Dos Santos", "Funcao": "Limpeza"}, {"Nome": "Ana Cristina Paterno Hilario", "Funcao": "Aux Limpeza"}, {"Nome": "Maria Izabel De Santana ", "Funcao": "Limpeza "}, {"Nome": "Francisca Barbosa De Souza ", "Funcao": "Encarregada Da Limpeza "}, {"Nome": "Vima Pereira De Camargo Simi", "Funcao": "Limpeza/ Banheiro"}, {"Nome": "Ana Rosa Amancio Cordeiro ", "Funcao": "Limpeza E Cozinha "}, {"Nome": "Mariana Da Costa Moraes Dantas", "Funcao": "Auxiliar De Cozinha"}]}, "Jd. Vera Cruz": {"esperados": [{"Nome": "Edimilce Araújo De Souza ", "Funcao": "Limpeza "}, {"Nome": "Eliana Aparecida Da Silva Mattos ", "Funcao": "Limpeza "}, {"Nome": "Elizabete Josefa Salvina Dos Santos ", "Funcao": "Limpeza "}, {"Nome": "Joelita Amaral Da Silva ", "Funcao": "Limpeza "}, {"Nome": "Maria Efigênia De Brito", "Funcao": "Encarregada Da Limpeza "}, {"Nome": "Eliane Moura Da Silva ", "Funcao": "Cozinha"}, {"Nome": "Mailda Vicência Carneiro Santos ", "Funcao": "Cozinha "}, {"Nome": "Rosenilda De Jesus Santos ", "Funcao": "Ajudante De Cozinha "}], "inscritos": [{"Nome": "Eliane Moura Da Silva ", "Funcao": "Cozinha"}, {"Nome": "Rosenilda De Jesus Santos ", "Funcao": "O Ciliar De Cozinha "}, {"Nome": "Mailda Vicencia Carneiro Santos ", "Funcao": "Cozinha "}, {"Nome": "Janaina Durvalina Da Silva", "Funcao": "Limpeza/ Cozinha "}]}, "Jd. Ângela": {"esperados": [{"Nome": "Alaide Araújo Santos De Jesus", "Funcao": "Limpeza. "}, {"Nome": "Cássia De Jesus Freitas ", "Funcao": "Aux.Limpeza "}, {"Nome": "Creuza Cardoso ", "Funcao": "Aux Limpeza "}, {"Nome": "Daniela Alves De Lima ", "Funcao": "Aux Limpeza "}, {"Nome": "Djandira Otacilha Dos Santos ", "Funcao": "Aux Limpeza "}, {"Nome": "Eunice Pereira Silva", "Funcao": "Encarregada/Limpeza "}, {"Nome": "Genilde Sousa De Oliveira ", "Funcao": "Encarregada Limpeza "}, {"Nome": "Glauciene Vianna Dos Santos", "Funcao": "Aux Limpeza. "}, {"Nome": "Josiane Lopes Soares", "Funcao": "Aux Limpeza "}, {"Nome": "Lucilene Teixeira Sá Rocha", "Funcao": "Aux Limpeza/Cozinha."}, {"Nome": "Maria Aparecida Ana Dos Santos Lima", "Funcao": "Aux Limpeza/Cozinha. "}, {"Nome": "Maria Dedilza De Souza França Spindola ", "Funcao": "Aux Limpeza "}, {"Nome": "Maria Edilene Batista De Sousa", "Funcao": "Encarregada/Limpeza "}, {"Nome": "Maria Laci De Souza ", "Funcao": "Aux Limpeza/Cozinha "}, {"Nome": "Neuza Do Nascimento Firmino ", "Funcao": "Aux Limpeza "}, {"Nome": "Perla Nascimento Vieira", "Funcao": "Aux Limpeza/Cozinha. "}, {"Nome": "Rosana Nogueira Dias Silva", "Funcao": "Aux Limpeza "}, {"Nome": "Rosângela Campos ", "Funcao": "Aux Limpeza "}, {"Nome": "Roseane Maria Veríssimo Bezerra ", "Funcao": "Aux Limpeza "}, {"Nome": "Rozeli Rodrigues Da Silva ", "Funcao": "Aux Limpeza "}, {"Nome": "Sandra Helena Nascimento De Araújo ", "Funcao": "Aux.Cozinha/Limpeza"}, {"Nome": "Sueli Silva Ferreira De Barros ", "Funcao": "Limpeza. "}, {"Nome": "Telma Conceição Silva ", "Funcao": "Aux Limpeza/Cozinha"}, {"Nome": "Terezinha Elizabeth De Faria ", "Funcao": "Aux Limpeza "}, {"Nome": "Alzira Oliveira Gomes ", "Funcao": "Cozinheira "}, {"Nome": "Amanda Vitória Nascimentor Souza ", "Funcao": "Aux.Cozinha "}, {"Nome": "Ana Paula Fernandes Dultra Santos ", "Funcao": "Encarregada/Cozinha "}, {"Nome": "Brenda Barbosa Dos Santos ", "Funcao": "Aux. Cozinha "}, {"Nome": "Cleide Francisca Da Cruz ", "Funcao": "Aux.Cozinha "}, {"Nome": "Dalva Rocha Soares ", "Funcao": "Encarregada Coziinha."}, {"Nome": "Daniela Pires De Souza ", "Funcao": "Aux.Cozinha "}, {"Nome": "Edinalva Da Silva Andrade ", "Funcao": "Cozinheira "}, {"Nome": "Edvani Souza De Jesus Rocha ", "Funcao": "Cozinheira "}, {"Nome": "Evanete Souza Do Sacramento ", "Funcao": "Aux. Cozinha "}, {"Nome": "Isabel Conceição Da Silva ", "Funcao": "Encarregada/Cozinha"}, {"Nome": "Jenilda Barbosa Da Silva", "Funcao": "Aux Cozinha "}, {"Nome": "Larissa Guedes Oliveira ", "Funcao": "Aux . Cozinha "}, {"Nome": "Luana De Oliveira ", "Funcao": "Aux.Cozinha "}, {"Nome": "Maria Aparecida Da Silva Maragoni", "Funcao": "Aux.Cozinha "}, {"Nome": "Maria Leila Santos De Jesus ", "Funcao": "Cozinheira "}, {"Nome": "Marildes Maria Da Silva Mendonça ", "Funcao": "Cozinheira "}, {"Nome": "Maura Pereira Do Carmo Silva ", "Funcao": "Aux . Cozinha "}, {"Nome": "Pamela Soares Sala", "Funcao": "Aux.Cozinha "}, {"Nome": "Raquel Rodrigues Garcia Nunes", "Funcao": "Aux . Cozinha "}, {"Nome": "Salete Pereira  Da Silva Valdoski", "Funcao": "Aux Cozinha "}, {"Nome": "Vanessa Barbosa Santos ", "Funcao": "Aux. Cozinha "}], "inscritos": [{"Nome": "Neuza Firmino Do Nascimento ", "Funcao": "Porteira  ( Limpeza)"}, {"Nome": "Rosana Nogueira Dias Silva ", "Funcao": "Limpeza "}, {"Nome": "289232880", "Funcao": "Encarregada Da Limpeza "}, {"Nome": "Cássia De Jesus Freitas ", "Funcao": "Limpeza "}, {"Nome": "María Zileide Soares Da Silva ", "Funcao": "Limpeza "}, {"Nome": "Ana Morais Dos Santos ", "Funcao": "Limpeza "}, {"Nome": "Josiane Lages Soares ", "Funcao": "Auxiliar Da Limpeza "}]}, "M'Boi Mirim": {"esperados": [{"Nome": "Cíntia Silva Prado", "Funcao": "Auxiliar De Limpeza "}, {"Nome": "Maria De Sousa Fernandes ", "Funcao": "Auxiliar De Limpeza "}, {"Nome": "Maria Do Socorro De Souza Ferreira ", "Funcao": "Auxiliar De Limpeza "}, {"Nome": "Maria Lídia Almeida", "Funcao": "Encarregada De Limpeza"}, {"Nome": "Marisa Gallo Marques ", "Funcao": "Auxiliar De Limpeza"}, {"Nome": "Nicole Souza Soares", "Funcao": "Auxiliar De Limpeza"}, {"Nome": "Priscila De Carvalho Gomes", "Funcao": "Auxiliar De Limpeza"}, {"Nome": "Ruth Vieira Cruz", "Funcao": "Auxiliar De Limpeza "}, {"Nome": "Sônia Maria Pereira Cândido", "Funcao": "Auxiliar De Limpeza "}, {"Nome": "Valdineide Da Silva Santos", "Funcao": "Auxiliar De Limpeza"}, {"Nome": "Lea Alzira De Oliveira Martins", "Funcao": "Auxiliar Na Cozinha"}, {"Nome": "Loraine Fernandes Dos Reis Oliveira ", "Funcao": "Colaborador De Cozinha"}, {"Nome": "Maria Celia Oliveira Da Silva", "Funcao": "Colaborador De Cozinha"}, {"Nome": "Marilene Alecrim Dos Santos Sousa", "Funcao": "Colaborador De Cozinha"}, {"Nome": "Sebastiana Rodrigues De Jesus Vasconcelos ", "Funcao": "Encarregada De Cozinha"}, {"Nome": "Tatiana Salma De Paula", "Funcao": "Colaborador De Cozinha"}], "inscritos": [{"Nome": "Priscila De Carvalho Gomes ", "Funcao": "Auxiliar De Limpeza E Cozinha "}, {"Nome": "Nicole Souza Soares", "Funcao": "Limpeza "}, {"Nome": "Sonia Maria Pereira Candido ", "Funcao": "Auxiliar Limpeza "}, {"Nome": "Maria Lídia Tiburcio Almeida ", "Funcao": "Encarregada Limpeza "}, {"Nome": "Inacia Ferreira Da Silva ", "Funcao": "Auxiliar Limpeza "}, {"Nome": "Valdineide Da Silva ", "Funcao": "Auxiliar De Limpeza "}, {"Nome": "Maria Aparecida De Oliveira ", "Funcao": "Auxiliar  De Limpeza"}, {"Nome": "Marisa G Marques Da Silva ", "Funcao": "Auxiliar De Limpeza "}, {"Nome": "Maria Célia Oliveira Da Silva ", "Funcao": "Auxiliar De Cozinha"}, {"Nome": "Marilene Alecrin Dos Santos Sousa Nascimento ", "Funcao": "Auxiliar De Cpzinha "}, {"Nome": "Ruth Vieira Cruz ", "Funcao": "Limpeza"}, {"Nome": "Lea Alzira De Oliveira Martins ", "Funcao": "Auxiliar  De Cozinha "}]}, "Piraporinha": {"esperados": [{"Nome": "Armelinda Dos Santos", "Funcao": "Colaboradr Responsável Limpeza"}, {"Nome": "Dilza De Queiroz Fiuza Lima", "Funcao": "Colaborador Limpeza"}, {"Nome": "Doralice Dias De Queiroz Cunha", "Funcao": "Colaborador Limpeza"}, {"Nome": "Edvania Rita Da Silva", "Funcao": "Colaborador Limpeza"}, {"Nome": "Ivone Santos De Oliveira", "Funcao": "Colaborador De Limpeza"}, {"Nome": "Juceli De Jesus Costa Barreto", "Funcao": "Colaborador Limpeza"}, {"Nome": "Kelly Cristina Moreira Da Silva", "Funcao": "Colaborador Limpeza"}, {"Nome": "Maria Do Carmo Cruz Silva", "Funcao": "Colaborador Limpeza"}, {"Nome": "Maria Rocha Ribas", "Funcao": "Colaborador De Limpeza"}, {"Nome": "Marilene Barbosa Gomes", "Funcao": "Colaborador Limpeza"}, {"Nome": "Valdelice Da Conceição Ferreira De Brito", "Funcao": "Colaborador Limpeza"}, {"Nome": "Valeria Campos Maia", "Funcao": "Colaborador Limpeza"}, {"Nome": "Maria Lucia Da Silva", "Funcao": "Colaborador Cozinha"}, {"Nome": "Maria Ridna De Almeida Alves", "Funcao": "Colaborador De Cozinha"}, {"Nome": "Maryanna Oliveira Santos", "Funcao": "Colaborador Cozinha"}, {"Nome": "Sonia Maria Feliciano Guerra Da Silva", "Funcao": "Colaborador De Cozinha"}, {"Nome": "Tania Rita De Cassia Simoes Henrique", "Funcao": "Colaborador Cozinha"}], "inscritos": [{"Nome": "Lucimara Da Silva Gomes ", "Funcao": "Limpeza "}, {"Nome": "Armelinda Dos Santos ", "Funcao": "Encarregada Limpeza"}, {"Nome": "Maria Lúcia Da Silva ", "Funcao": "Limpeza "}]}, "Pq. Do Lago": {"esperados": [{"Nome": "Iranilda Maria Dos Santos ", "Funcao": "Colaboradora Da Limpeza "}, {"Nome": "Márcia Cristina De Oliveira ", "Funcao": "Encarregada Da Limpeza "}, {"Nome": "Silvana Ferreira De Oliveira ", "Funcao": "Coloboradora Da Limpeza "}, {"Nome": "Thays De Oliveira Gelo Silva ", "Funcao": "Coloboradora Da Limpeza "}, {"Nome": "Caroline Vicente Souza Santos ", "Funcao": "Ajudante De Cozinha "}, {"Nome": "Karina Da Silva Salá Nascimento ", "Funcao": "Responsável Pela Cozinha "}, {"Nome": "Nadia Gomes Sarrão ", "Funcao": "Ajudante De Cozinha "}, {"Nome": "Nilsa Gomes De Freitas Lopes ", "Funcao": "Ajudante De Cozinha "}], "inscritos": [{"Nome": "Marcia Cristina De Oliveira ", "Funcao": "Encarregada De Limpeza "}]}, "Pq. Fernanda": {"esperados": [{"Nome": "Odete Vicente Do N. De Assunção", "Funcao": "Cozinha"}, {"Nome": "Noemi Marques P. De Santana", "Funcao": "Cozinha"}, {"Nome": "Rosa Valentim Da Silva", "Funcao": "Cozinha"}, {"Nome": "Maria Selia Rezende Da Silva", "Funcao": "Cozinha"}, {"Nome": "Almir Ribeiro", "Funcao": "Cozinha"}, {"Nome": "Adriana Alves Gomes Dos Santos", "Funcao": "Limpeza"}, {"Nome": "Maria Aparecida Da Silva", "Funcao": "Limpeza"}, {"Nome": "Inês Da Cruz R. Carvalho", "Funcao": "Limpeza"}, {"Nome": "Doralice De O. Rodrigues", "Funcao": "Limpeza"}, {"Nome": "Maria Do Carmo P. Dos Santos", "Funcao": "Limpeza"}, {"Nome": "Elza Joana Da Silva Souza", "Funcao": "Limpeza"}, {"Nome": "Aidê De Oliveira", "Funcao": "Limpeza"}, {"Nome": "Francisca Valentim Da Silva", "Funcao": "Limpeza"}, {"Nome": "Valéria De Souza Paes Germano", "Funcao": "Limpeza"}, {"Nome": "Hosana Lúcia Adão Da Silva", "Funcao": "Limpeza"}], "inscritos": [{"Nome": "Odete Vicente Do Nascimento De Assunção ", "Funcao": "Encarregada Cozinha"}, {"Nome": "Maspc", "Funcao": "Limpeza Geral"}, {"Nome": "Adriana Alves Gomes Dos Santos ", "Funcao": "Encarregada "}, {"Nome": "Elza Joana Da Silva Souza ", "Funcao": "Limpeza "}, {"Nome": "Ana Célia Souza Guimarães ", "Funcao": "Limpeza Orientadora"}, {"Nome": "Aide De Oliveira Correia Da Silva ", "Funcao": "Limpeza"}, {"Nome": "Maria Aparecida Da Silva ", "Funcao": "Cozinha "}]}, "Pq. Maria Helena": {"esperados": [{"Nome": "Adriana Anunciação Dos Reis Silva", "Funcao": "Colaboradora Limpeza"}, {"Nome": "Alaide Marques Da Silva Farias", "Funcao": "Colaboradora Limpeza E Cozinha"}, {"Nome": "Antonia Ferreira Machado", "Funcao": "Colaboradora Limpeza"}, {"Nome": "Ines Sebastiana De Lima Sirqueira", "Funcao": "Colaboradora Limpeza E Cozinha"}, {"Nome": "Isanyldes Alves Do Nascimento", "Funcao": "Colaboradora Limpeza"}, {"Nome": "Jassonita Lima De Araujo", "Funcao": "Colaboradora Limpeza"}, {"Nome": "Maria Aparecida De Carvalho", "Funcao": "Colaboradora Limpeza"}, {"Nome": "Maria De Lourdes Lima Da Mota Costa", "Funcao": "Colaboradora Limpeza"}, {"Nome": "Maria Dos Santos", "Funcao": "Colaboradora Limpeza"}, {"Nome": "Maria Rosimar De Almeida", "Funcao": "Encarregada Limpeza"}, {"Nome": "Marlene Maria Da Silva", "Funcao": "Colaboradora Limpeza"}, {"Nome": "Marta Souza Aguiar Carneiro", "Funcao": "Colaboradora Limpeza E Cozinha"}, {"Nome": "Neli Alves Benedicto", "Funcao": "Colaboradora Limpeza"}, {"Nome": "Sebastiana Ribeiro Pinto", "Funcao": "Colaboradora Limpeza"}, {"Nome": "Alexandra Berto Soares", "Funcao": "Colaboradora Da Cozinha"}, {"Nome": "Ana Angelica Alves Das Virgens De Brito", "Funcao": "Colaboradora Da Cozinha"}, {"Nome": "Andrea Cristina Da Silva Leme Santos", "Funcao": "Colaboradora Da Cozinha"}, {"Nome": "Aparecida Leite Dos Santos", "Funcao": "Colaboradora Da Cozinha"}, {"Nome": "Ellen De Oliveira Machado Souza", "Funcao": "Colaboradora Da Cozinha"}, {"Nome": "Giane Vieira Campos", "Funcao": "Colaboradora Da Cozinha"}, {"Nome": "Renata Camargo Jardim", "Funcao": "Colaboradora Da Cozinha"}, {"Nome": "Sandra Vieira Da Silva", "Funcao": "Colaboradora Da Cozinha"}], "inscritos": [{"Nome": "Renata Camargo Jardim ", "Funcao": "Auxiliar De Cozinha "}, {"Nome": "Luciane María Souza Paes ", "Funcao": "Cozinha "}, {"Nome": "Marta Souza Aguiar Carneiro ", "Funcao": "Cozinha "}, {"Nome": "Sandra Vieira Da Silva", "Funcao": "Cozinha "}, {"Nome": "Ellen De Oliveira Machado Souza ", "Funcao": "Cozinha"}, {"Nome": "Aparecida Leite Dos Santos", "Funcao": "Cozinha"}, {"Nome": "Maria Rosimar De Almeida ", "Funcao": "Encarregada "}, {"Nome": "Sebastiana Ribeiro Pinto ", "Funcao": "Limpeza "}, {"Nome": "Marlene Maria Da Silva", "Funcao": "Limpeza "}, {"Nome": "Antônia Ferreira Machado ", "Funcao": "Limpeza"}]}, "Pq. Santo Antônio": {"esperados": [{"Nome": "Maria Kelle Da Silva ", "Funcao": "Limpeza "}, {"Nome": "Maria Lúcia Santos Batista ", "Funcao": "Limpeza"}, {"Nome": "Maria Rosa Soares Da Silva ", "Funcao": "Limpeza"}, {"Nome": "Maria Vilma Alves Ferreira ", "Funcao": "Limpeza "}, {"Nome": "Paula Cristina Cintra Lourenço ", "Funcao": "Limpeza "}], "inscritos": [{"Nome": "Maria Kelle Da Silva ", "Funcao": "Voluntário Na Limpeza "}, {"Nome": "Roseli Dangela ", "Funcao": "Ax Limpeza"}, {"Nome": "Maria De Fátima Da Silva", "Funcao": "Encarregada Da Limpeza"}, {"Nome": "Ana Lucia Rubim Silva ", "Funcao": "Limpeza"}]}, "Riviera Paulista": {"esperados": [{"Nome": "Aline Cristina Rodrigues Da Silva ", "Funcao": "Auxiliar De Limpeza "}, {"Nome": "Débora Cordeiro Dias ", "Funcao": "Auxiliar De Limpeza "}, {"Nome": "Maria De Fátima De Assis Rodrigues ", "Funcao": "Auxiliar De Limpeza "}, {"Nome": "Neide De Souza Jesus Siqueira ", "Funcao": "Encarregada Da Limpeza "}, {"Nome": "Norma Cristina Da Silva ", "Funcao": "Auxiliar De Limpeza "}, {"Nome": "Silvana Jesus De Assis ", "Funcao": "Auxiliar De Limpeza "}, {"Nome": "Lindimar Vieira Da Silva ", "Funcao": "Auxiliar De Cozinha "}, {"Nome": "Lindimar Vieira De Souza Silva ", "Funcao": "Auxiliar De Cozinha "}, {"Nome": "Maria De Lourdes Vieira De Sousa ", "Funcao": "Auxiliar De Cozinha "}, {"Nome": "María De Lourdes Vieira De Souza ", "Funcao": "Auxiliar De Cozinha "}], "inscritos": [{"Nome": "Neide De Souza Jesus Siqueira ", "Funcao": "Limpeza"}, {"Nome": "Lindimar Vieira Da Silva ", "Funcao": "Responsavel Da Cozinha "}, {"Nome": "Maria Rivania Teles Mendes ", "Funcao": "Auxiliar Da Porta/Aux Da Cozinha "}, {"Nome": "Maria De Lourdes Vieira Sousa (07702344881", "Funcao": "Aux Da Da Cozinha "}, {"Nome": "Silvana  Jesus  De  Assis ", "Funcao": " Limpeza "}, {"Nome": "María De Fátima De Assis Rodrigues ", "Funcao": " Área Da Limpeza "}, {"Nome": "Aline Cristina Rodrigues Da Silva ", "Funcao": "Area Da Limpeza"}, {"Nome": "Norma Cristina Da Silva Vieira ", "Funcao": "Limpeza "}]}, "Vila Remo": {"esperados": [], "inscritos": [{"Nome": "Simone Nery Da Cruz ", "Funcao": "Limpeza "}, {"Nome": "Maria Leopoldina Rocha Carvalho /11.405.750", "Funcao": "Encarregada"}, {"Nome": "Maria Leopoldina Rocha Carvalho ", "Funcao": "Encarregada "}, {"Nome": "Angela Maria Da Silva Turatti", "Funcao": "Limpeza"}, {"Nome": "Adilia Ferreira De Morais ", "Funcao": "Limpeza"}, {"Nome": "19.738.038-4", "Funcao": "Auxiliar Da Porta E Limpeza "}, {"Nome": "Maria Nilza Miranda De Souza Monteiro ", "Funcao": "Auxiliar Da Porta E Auxiliar Da Limpeza "}, {"Nome": "Marta Elaine Oliveira De Souza ", "Funcao": "Limpeza E Auxiliar E Espaço Infantil "}, {"Nome": "Vera Lúcia Nascimento Alves ", "Funcao": "Limpeza "}, {"Nome": "Maria Olimpia Da Silva Argemi", "Funcao": "Limpeza"}, {"Nome": "Maria Paixão De Jesus Santos ", "Funcao": "Cozinha"}, {"Nome": "Elaine  Oliveira Dos Santos ", "Funcao": "Limpeza "}, {"Nome": "Gilma Rosa Da Silva ", "Funcao": "Limpeza "}, {"Nome": "Elizete De Jesus Gonçalves ", "Funcao": "Encarregada De Limpeza "}, {"Nome": "Francisca Das Chagas Do Nascimento Rodrigues ", "Funcao": "Auxiliar De Limpeza "}, {"Nome": "Ilma O Porto Lima Guedes ", "Funcao": "Ajudar As Irmãs Na Portaria "}]}, "Vila Santa Lúcia": {"esperados": [{"Nome": "Ana Batista De Souza", "Funcao": "Colaborador De Limpeza"}, {"Nome": "Andreia De Souza Nascimento", "Funcao": "Colaborador De Limpeza"}, {"Nome": "Dolores Galdino Da Silva Cardoso", "Funcao": "Colaboradora Responsável Pela Atividade De Limpeza"}, {"Nome": "Eliane Coelho Ferreira", "Funcao": "Colaborador De Limpeza"}, {"Nome": "Elizeth Severino De Souza Santos Da Silva", "Funcao": "Colaborador De Limpeza"}, {"Nome": "Ilda Felismina Dos Santos", "Funcao": "Colaborador De Limpeza"}, {"Nome": "Jacira  Dias Paes", "Funcao": "Colaborador De Limpeza"}, {"Nome": "Maria José Ramos Dutra", "Funcao": "Colaborador De Limpeza"}, {"Nome": "Nilza Helena De Sousa Soares", "Funcao": "Colaborador Responsável Pela Atividade De Limpeza"}, {"Nome": "Vera Lúcia Dos Santos Sodré Almeida", "Funcao": "Colaborador De Limpeza"}, {"Nome": "Ana Lúcia Pereira Anunciação", "Funcao": "Colaborador De Cozinha"}, {"Nome": "Elaine Cristina Ramos Paes", "Funcao": "Colaborador De Cozinha"}, {"Nome": "Eliana Coelho Ferreira", "Funcao": "Colaborador De Cozinha"}, {"Nome": "Eliana Pereira Dos Santos", "Funcao": "Colaborador De Cozinha"}, {"Nome": "Elizete Ferreira Da Silva", "Funcao": "Colaborador De Cozinha"}, {"Nome": "Erica Ferreira Da Silva Santos", "Funcao": "Colaborador De Cozinha"}, {"Nome": "Iraci Borges De Oliveira Caetano", "Funcao": "Colaborador De Cozinha"}, {"Nome": "Joelma Verissimo Nascimento", "Funcao": "Colaborador De Cozinha"}, {"Nome": "Luiza Aparecida Dos Santos Figueiredo", "Funcao": "Colaborador De Cozinha"}, {"Nome": "Maria Selma Marcolino Honorato", "Funcao": "Colaborador De Cozinha"}, {"Nome": "Renata Silva Oliveira", "Funcao": "Colaborador De Cozinha"}, {"Nome": "Soraia Leal Soares", "Funcao": "Colaborador De Cozinha"}, {"Nome": "Timotia Martins Conceição Dos Santos", "Funcao": "Colaborador De Cozinha"}], "inscritos": [{"Nome": "Dolores Galdino Da Silva Cardoso", "Funcao": "Voluntário Responsável Ativ. Limpeza"}, {"Nome": "Nilza Helena De Sousa Soares", "Funcao": "Voluntário Responsável Ativ. Limpeza"}, {"Nome": "Vera Lúcia Dos Santos Sodré Almeida", "Funcao": "Colaborador De Limpeza"}, {"Nome": "Jacira  Dias Paes", "Funcao": "Colaborador De Limpeza"}, {"Nome": "Maria José Ramos Dutra", "Funcao": "Colaborador De Limpeza"}, {"Nome": "Eliane Coelho Ferreira", "Funcao": "Colaborador De Limpeza"}, {"Nome": "Ilda Felismina Dos Santos", "Funcao": "Colaborador De Limpeza"}, {"Nome": "Andreia De Souza Nascimento", "Funcao": "Colaborador De Limpeza"}, {"Nome": "Ana Batista De Souza", "Funcao": "Colaborador De Limpeza"}, {"Nome": "Elizeth Severino De Souza Santos Da Silva", "Funcao": "Colaborador De Limpeza"}, {"Nome": "Elaine Cristina Ramos Paes", "Funcao": "Ajudante De Cozinha"}, {"Nome": "Iraci Borges De Oliveira Caetano", "Funcao": "Ajudante De Cozinha"}, {"Nome": "Joelma Verissimo Nascimento", "Funcao": "Colaboradora De Cozinha"}, {"Nome": "Maria Selma Marcolino Honorato", "Funcao": "Colaboradora De Cozinha"}, {"Nome": "Soraia Leal Soares", "Funcao": "Colaboradora De Cozinha"}, {"Nome": "Elizete Ferreira Da Silva", "Funcao": "Colaboradora De Cozinha"}, {"Nome": "Ana Lúcia Pereira Anunciação", "Funcao": "Colaboradora De Cozinha"}, {"Nome": "Timotia Martins Conceição Dos Santos", "Funcao": "Colaboradora De Cozinha"}, {"Nome": "Renata Silva Oliveira", "Funcao": "Colaboradora De Cozinha"}, {"Nome": "Erica Ferreira Da Silva Santos", "Funcao": "Colaboradora De Cozinha"}, {"Nome": "Eliana Pereira Dos Santos", "Funcao": "Colaboradora De Cozinha"}, {"Nome": "Luiza Aparecida Dos Santos Figueiredo", "Funcao": "Colaboradora De Cozinha"}, {"Nome": "Ivanilda Nunes Neris De Oliveira", "Funcao": "Colaboradora De Cozinha"}, {"Nome": "Maria Das Mercês Urbano De Araujo", "Funcao": "Colaboradora De Cozinha"}, {"Nome": "Ilana Beatriz Oliveira Caetano", "Funcao": "Colaboradora De Cozinha"}]}};
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const select = document.getElementById('congregation-select');
+            const congs = Object.keys(dataDetalhes).sort();
+            congs.forEach(cong => {
+                const opt = document.createElement('option');
+                opt.value = cong;
+                opt.textContent = cong;
+                select.appendChild(opt);
+            });
+        });
+
+        function switchTab(tabId) {
+            const btnResumo = document.getElementById('tab-resumo');
+            const btnDetalhes = document.getElementById('tab-detalhes');
+            const viewResumo = document.getElementById('view-resumo');
+            const viewDetalhes = document.getElementById('view-detalhes');
+
+            if (tabId === 'resumo') {
+                btnResumo.className = "pb-3 text-blue-400 border-b-2 border-blue-500 font-semibold focus:outline-none transition-colors text-lg";
+                btnDetalhes.className = "pb-3 text-slate-400 border-b-2 border-transparent hover:text-slate-200 hover:border-slate-500 font-semibold focus:outline-none transition-colors text-lg";
+                viewResumo.classList.remove('hidden');
+                viewDetalhes.classList.add('hidden');
+            } else {
+                btnResumo.className = "pb-3 text-slate-400 border-b-2 border-transparent hover:text-slate-200 hover:border-slate-500 font-semibold focus:outline-none transition-colors text-lg";
+                btnDetalhes.className = "pb-3 text-blue-400 border-b-2 border-blue-500 font-semibold focus:outline-none transition-colors text-lg";
+                viewResumo.classList.add('hidden');
+                viewDetalhes.classList.remove('hidden');
+            }
+        }
+
+        function renderDetails() {
+            const select = document.getElementById('congregation-select');
+            const cong = select.value;
+            const tbodyEsp = document.getElementById('tbody-esp');
+            const tbodyInsc = document.getElementById('tbody-insc');
+            
+            const countEsp = document.getElementById('count-esp');
+            const countInsc = document.getElementById('count-insc');
+
+            if (!cong) {
+                const emptyState = `<tr><td colspan="2" class="px-6 py-8 text-center text-slate-500 italic">Selecione uma Congregação</td></tr>`;
+                tbodyEsp.innerHTML = emptyState;
+                tbodyInsc.innerHTML = emptyState;
+                countEsp.textContent = '0';
+                countInsc.textContent = '0';
+                return;
+            }
+
+            const esperados = dataDetalhes[cong] && dataDetalhes[cong].esperados ? dataDetalhes[cong].esperados : [];
+            const inscritos = dataDetalhes[cong] && dataDetalhes[cong].inscritos ? dataDetalhes[cong].inscritos : [];
+
+            esperados.sort((a, b) => a.Nome.localeCompare(b.Nome));
+            inscritos.sort((a, b) => a.Nome.localeCompare(b.Nome));
+
+            countEsp.textContent = esperados.length;
+            countInsc.textContent = inscritos.length;
+
+            const generateRows = (items, colorClass) => {
+                if (items.length === 0) return `<tr><td colspan="2" class="px-6 py-8 text-center text-slate-500 italic">Nenhum registro encontrado</td></tr>`;
+                return items.map(item => `
+                    <tr class="hover:bg-brand-700/50 transition-colors group">
+                        <td class="px-6 py-3 font-medium text-slate-200 group-hover:text-${colorClass}-300 transition-colors">${item.Nome}</td>
+                        <td class="px-6 py-3 text-slate-400 hidden sm:table-cell text-xs">${item.Funcao}</td>
+                    </tr>
+                `).join('');
+            };
+
+            tbodyEsp.innerHTML = generateRows(esperados, 'blue');
+            tbodyInsc.innerHTML = generateRows(inscritos, 'emerald');
+        }
+    </script>
+</body>
+</html>
